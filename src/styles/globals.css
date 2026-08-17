@@ -1,0 +1,26 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color: #141210; background: #FAFAFA; font-synthesis: none; text-rendering: optimizeLegibility; }
+/* Height of the fixed chrome above <main> (sticky header + dismissible utility bar).
+   App.tsx re-measures this at runtime (and on resize / bar dismissal) and updates the
+   variable, so first-viewport sections can size as calc(100svh - var(--chrome)). */
+:root { --chrome: 103px; }
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-width: 320px; min-height: 100vh; font-family: "Instrument Sans", Poppins, system-ui, Arial, sans-serif; background: #FAFAFA; }
+::selection { background: #551B24; color: #fff; }
+button, a, input, textarea, select { -webkit-tap-highlight-color: transparent; }
+button, a { outline-offset: 4px; }
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 1px solid currentColor; }
+img { color: transparent; }
+
+/* Refined range control (tailwind.config.js defines the bounce-soft keyframe) */
+input[type="range"] { appearance: none; height: 1px; background: rgba(20,18,16,.25); }
+input[type="range"]::-webkit-slider-thumb { appearance: none; width: 12px; height: 12px; border-radius: 50%; background: #141210; cursor: pointer; }
+input[type="range"]::-moz-range-thumb { width: 12px; height: 12px; border: 0; border-radius: 50%; background: #141210; cursor: pointer; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
