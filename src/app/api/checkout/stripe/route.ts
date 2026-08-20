@@ -26,6 +26,7 @@ interface StripeCheckoutRequest {
   }
   shippingMethod: string
   paymentMethod: string
+  paymentIntentId?: string
 }
 
 export async function POST(request: NextRequest) {
@@ -104,11 +105,15 @@ export async function POST(request: NextRequest) {
       console.error('Order items error:', itemsError)
     }
 
-    // In production: create Stripe Checkout Session and redirect
-    // For now, mark as paid and redirect to success
+    // Mark as paid and store the PaymentIntent ID
+    // In production, the webhook handles this — but for the mock flow
+    // (and in-page confirmation), we mark it here.
     await supabase
       .from('orders')
-      .update({ status: 'paid', stripe_session_id: `mock_${order.id}` })
+      .update({
+        status: 'paid',
+        stripe_session_id: body.paymentIntentId || `mock_${order.id}`,
+      })
       .eq('id', order.id)
 
     // Send order confirmation email

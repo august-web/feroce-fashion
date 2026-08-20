@@ -1,10 +1,10 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import { useStripe, useElements, PaymentElement } from '@stripe/react-stripe-js'
 import { useCartStore } from '@/store/cart'
 import { formatPrice } from '@/lib/types'
-
-type StripeMethod = 'card' | 'cashapp' | 'bank_transfer'
+import { StripeProvider } from './StripeProvider'
 
 interface PaymentSectionProps {
   total: number
@@ -23,30 +23,85 @@ interface PaymentSectionProps {
   onSuccess: (orderId: string) => void
 }
 
-export function PaymentSection({ total, email, shippingAddress, shippingMethod, onSuccess }: PaymentSectionProps) {
-  const [stripeMethod, setStripeMethod] = useState<StripeMethod>('card')
+function PaymentForm({
+  total,
+  email,
+  shippingAddress,
+  shippingMethod,
+  onSuccess,
+}: PaymentSectionProps) {
+  const stripe = useStripe()
+  const elements = useElements()
   const [processing, setProcessing] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const { items, clearCart } = useCartStore()
 
-  const handleCheckout = async () => {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!stripe || !elements) {
+      return
+    }
+
     setProcessing(true)
     setError(null)
+
     try {
+      // Confirm the payment with Stripe
+      const { error: stripeError } = await stripe.confirmPayment({
+        elements,
+        confirmParams: {
+          return_url: `${window.location.origin}/checkout/success`,
+          payment_method_data: {
+            billing_details: {
+              name: shippingAddress.name,
+              email,
+              phone: shippingAddress.phone || undefined,
+              address: {
+                line1: shippingAddress.address,
+                line2: shippingAddress.apartment || undefined,
+                city: shippingAddress.city,
+                state: shippingAddress.state,
+                postal_code: shippingAddress.zip,
+                country: 'US',
+              },
+            },
+          },
+        },
+        redirect: 'if_required',
+      })
+
+      if (stripeError) {
+        setError(stripeError.message || 'Payment failed. Please try again.')
+        setProcessing(false)
+        return
+      }
+
+      // If we get here without redirect, payment succeeded in-page
+      // Now create the order in our database
       const res = await fetch('/api/checkout/stripe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          items: items.map((i) => ({ productId: i.productId, name: i.name, price: i.price, quantity: i.quantity, image: i.image, color: i.color })),
+          items: items.map((i) => ({
+            productId: i.productId,
+            name: i.name,
+            price: i.price,
+            quantity: i.quantity,
+            image: i.image,
+            color: i.color,
+          })),
           email,
           shippingAddress,
           shippingMethod,
-          paymentMethod: stripeMethod,
+          paymentMethod: 'card',
         }),
       })
+
       const data = await res.json()
-      if (data.url) {
-        window.location.href = data.url
+      if (data.orderId) {
+        clearCart()
+        onSuccess(data.orderId)
       } else if (data.error) {
         setError(data.error)
         setProcessing(false)
@@ -57,100 +112,20 @@ export function PaymentSection({ total, email, shippingAddress, shippingMethod, 
     }
   }
 
-  const inputClass = "w-full border border-line bg-white px-4 py-3 text-[16px] font-sans text-navy placeholder:text-navy/40 focus:outline-none focus:border-navy/30 min-h-[44px]"
-  const labelClass = "block text-[11px] font-sans uppercase tracking-luxury text-navy/60 mb-1.5"
-
   return (
-    <div className="space-y-4">
-      {/* Payment method selection */}
-      <div className="space-y-2.5">
-        {/* Stripe: Card / Apple Pay / Google Pay */}
-        <label
-          className={`flex items-center gap-3 p-4 border cursor-pointer transition-all min-h-[52px] ${
-            stripeMethod === 'card' ? 'border-navy' : 'border-line hover:border-navy/30'
-          }`}
-        >
-          <input
-            type="radio"
-            name="stripeMethod"
-            checked={stripeMethod === 'card'}
-            onChange={() => setStripeMethod('card')}
-            className="h-4 w-4 accent-navy"
-          />
-          <div className="flex-1">
-            <p className="text-sm font-medium text-navy">Card / Apple Pay / Google Pay</p>
-            <p className="text-[10px] text-navy/40 mt-0.5">Powered by Stripe</p>
-          </div>
-          {/* Card icons */}
-          <div className="flex gap-1.5">
-            <span className="text-[9px] font-bold text-navy/60 border border-line px-1.5 py-0.5">VISA</span>
-            <span className="text-[9px] font-bold text-navy/60 border border-line px-1.5 py-0.5">MC</span>
-            <span className="text-[9px] font-bold text-navy/60 border border-line px-1.5 py-0.5">AMEX</span>
-          </div>
-        </label>
-
-        {/* Stripe: Cash App Pay */}
-        <label
-          className={`flex items-center gap-3 p-4 border cursor-pointer transition-all min-h-[52px] ${
-            stripeMethod === 'cashapp' ? 'border-navy' : 'border-line hover:border-navy/30'
-          }`}
-        >
-          <input
-            type="radio"
-            name="stripeMethod"
-            checked={stripeMethod === 'cashapp'}
-            onChange={() => setStripeMethod('cashapp')}
-            className="h-4 w-4 accent-navy"
-          />
-          <div>
-            <p className="text-sm font-medium text-navy">Cash App Pay</p>
-            <p className="text-[10px] text-navy/40 mt-0.5">Pay with Cash App</p>
-          </div>
-        </label>
-
-        {/* Stripe: Bank Transfer */}
-        <label
-          className={`flex items-center gap-3 p-4 border cursor-pointer transition-all min-h-[52px] ${
-            stripeMethod === 'bank_transfer' ? 'border-navy' : 'border-line hover:border-navy/30'
-          }`}
-        >
-          <input
-            type="radio"
-            name="stripeMethod"
-            checked={stripeMethod === 'bank_transfer'}
-            onChange={() => setStripeMethod('bank_transfer')}
-            className="h-4 w-4 accent-navy"
-          />
-          <div>
-            <p className="text-sm font-medium text-navy">Bank Transfer (ACH)</p>
-            <p className="text-[10px] text-navy/40 mt-0.5">Direct bank payment</p>
-          </div>
-        </label>
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {/* Stripe Payment Element */}
+      <div className="border border-line p-4 bg-white">
+        <PaymentElement
+          options={{
+            layout: 'tabs',
+            wallets: {
+              applePay: 'auto',
+              googlePay: 'auto',
+            },
+          }}
+        />
       </div>
-
-      {/* Stripe card details (simplified — in production, use Stripe Payment Element) */}
-      {stripeMethod === 'card' && (
-        <div className="space-y-4 pt-2">
-          <div>
-            <label className={labelClass}>Card Number</label>
-            <input type="text" placeholder="1234 5678 9012 3456" className={inputClass} maxLength={19} />
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className={labelClass}>Expiry</label>
-              <input type="text" placeholder="MM / YY" className={inputClass} maxLength={7} />
-            </div>
-            <div>
-              <label className={labelClass}>CVC</label>
-              <input type="text" placeholder="123" className={inputClass} maxLength={4} />
-            </div>
-          </div>
-          <div>
-            <label className={labelClass}>Name on Card</label>
-            <input type="text" placeholder="Full name" className={inputClass} />
-          </div>
-        </div>
-      )}
 
       {/* Error */}
       {error && (
@@ -161,8 +136,8 @@ export function PaymentSection({ total, email, shippingAddress, shippingMethod, 
 
       {/* Submit button */}
       <button
-        onClick={handleCheckout}
-        disabled={processing}
+        type="submit"
+        disabled={!stripe || !elements || processing}
         className="mt-4 w-full btn-primary py-4 min-h-[48px] text-center disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {processing ? (
@@ -182,6 +157,92 @@ export function PaymentSection({ total, email, shippingAddress, shippingMethod, 
       <p className="text-center text-[10px] text-navy/40 mt-3">
         Your payment info is encrypted and secure. We never store your card details.
       </p>
-    </div>
+    </form>
+  )
+}
+
+/**
+ * PaymentSection — wraps the Stripe Payment Element in a provider.
+ * Creates a PaymentIntent on mount and renders the real Stripe form.
+ */
+export function PaymentSection(props: PaymentSectionProps) {
+  const [clientSecret, setClientSecret] = useState<string | null>(null)
+  const [intentError, setIntentError] = useState<string | null>(null)
+  const { items } = useCartStore()
+
+  useEffect(() => {
+    // Calculate the total to send to the server
+    const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    const shipping = subtotal >= 20000 ? 0 : (props.shippingMethod === 'express' ? 1800 : 1500)
+    const tax = Math.round(subtotal * 0.0825)
+    const total = subtotal + shipping + tax
+
+    // Create PaymentIntent
+    fetch('/api/checkout/stripe/create-payment-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        amount: total,
+        email: props.email,
+        items: items.map((i) => ({
+          productId: i.productId,
+          name: i.name,
+          price: i.price,
+          quantity: i.quantity,
+          color: i.color,
+        })),
+        shippingAddress: props.shippingAddress,
+        shippingMethod: props.shippingMethod,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.clientSecret) {
+          setClientSecret(data.clientSecret)
+        } else if (data.error) {
+          setIntentError(data.error)
+        }
+      })
+      .catch(() => {
+        setIntentError('Failed to initialize payment. Please try again.')
+      })
+  }, [props.email, props.shippingAddress, props.shippingMethod, items])
+
+  if (intentError) {
+    return (
+      <div className="space-y-4">
+        <div className="bg-red-50 border border-red-200 p-4 text-sm text-red-700">
+          <p className="font-medium mb-1">Payment unavailable</p>
+          <p className="text-xs">{intentError}</p>
+        </div>
+        <p className="text-center text-[10px] text-navy/40">
+          Please check your payment details or try a different browser.
+        </p>
+      </div>
+    )
+  }
+
+  if (!clientSecret) {
+    return (
+      <div className="space-y-4">
+        {/* Loading skeleton for payment form */}
+        <div className="border border-line p-4 bg-white space-y-3">
+          <div className="h-10 bg-cream animate-pulse rounded" />
+          <div className="h-10 bg-cream animate-pulse rounded" />
+          <div className="grid grid-cols-2 gap-3">
+            <div className="h-10 bg-cream animate-pulse rounded" />
+            <div className="h-10 bg-cream animate-pulse rounded" />
+          </div>
+        </div>
+        <div className="h-12 bg-navy/10 animate-pulse rounded" />
+        <p className="text-center text-[10px] text-navy/30">Loading secure payment form…</p>
+      </div>
+    )
+  }
+
+  return (
+    <StripeProvider clientSecret={clientSecret}>
+      <PaymentForm {...props} />
+    </StripeProvider>
   )
 }

@@ -9,15 +9,28 @@ import { useCartStore } from '@/store/cart'
 function SuccessContent() {
   const searchParams = useSearchParams()
   const orderId = searchParams.get('order')
+  const redirectStatus = searchParams.get('redirect_status')
+  const paymentIntent = searchParams.get('payment_intent')
   const { clearCart } = useCartStore()
   const [cleared, setCleared] = useState(false)
+  const [displayOrderId, setDisplayOrderId] = useState(orderId)
 
   useEffect(() => {
     if (!cleared) {
       clearCart()
       setCleared(true)
     }
-  }, [cleared, clearCart])
+
+    // If redirected from Stripe, fetch the order by payment_intent ID
+    if (!orderId && paymentIntent && redirectStatus === 'succeeded') {
+      fetch(`/api/checkout/stripe/order-by-intent?payment_intent=${paymentIntent}`)
+        .then((r) => r.json())
+        .then((data) => {
+          if (data.orderId) setDisplayOrderId(data.orderId)
+        })
+        .catch(() => {}) // Order may not exist yet — webhook creates it
+    }
+  }, [cleared, clearCart, orderId, paymentIntent, redirectStatus])
 
   return (
     <section className="bg-cream min-h-[70svh] flex items-center">
@@ -40,9 +53,9 @@ function SuccessContent() {
           Your order has been placed successfully.
         </p>
 
-        {orderId && (
+        {displayOrderId && (
           <p className="text-xs text-navy/40 mb-1">
-            Order #{orderId}
+            Order #{displayOrderId.slice(0, 8).toUpperCase()}
           </p>
         )}
 
