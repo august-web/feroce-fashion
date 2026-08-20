@@ -171,6 +171,9 @@ export function PaymentSection(props: PaymentSectionProps) {
   const { items } = useCartStore()
 
   useEffect(() => {
+    // Don't create PaymentIntent until we have a valid email
+    if (!props.email) return
+
     // Calculate the total to send to the server
     const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
     const shipping = subtotal >= 20000 ? 0 : (props.shippingMethod === 'express' ? 1800 : 1500)
@@ -223,6 +226,16 @@ export function PaymentSection(props: PaymentSectionProps) {
   }
 
   if (!clientSecret) {
+    if (!props.email) {
+      return (
+        <div className="space-y-4">
+          <div className="border border-dashed border-line p-6 bg-white text-center">
+            <p className="text-sm text-navy/40">Enter your email above to continue to payment.</p>
+          </div>
+        </div>
+      )
+    }
+
     return (
       <div className="space-y-4">
         {/* Loading skeleton for payment form */}

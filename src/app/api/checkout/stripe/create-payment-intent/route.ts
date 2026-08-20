@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
       amount,
       currency: 'usd',
       automatic_payment_methods: { enabled: true },
-      receipt_email: email,
+      ...(email ? { receipt_email: email } : {}),
       metadata: {
         email,
         shipping_name: shippingAddress.name,
