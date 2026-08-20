@@ -1,8 +1,6 @@
 import { Resend } from 'resend'
 import { formatPrice } from './types'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-
 const FROM_EMAIL = 'Féroce <orders@feroce-fashion.com>'
 
 interface OrderEmailData {
@@ -143,6 +141,7 @@ export async function sendOrderConfirmation(data: OrderEmailData) {
   }
 
   try {
+    const resend = new Resend(process.env.RESEND_API_KEY)
     const html = buildOrderConfirmationHtml(data)
 
     const { error } = await resend.emails.send({
