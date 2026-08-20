@@ -1,8 +1,9 @@
 'use client'
 
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
+import { createClient } from '@/lib/supabase/client'
 
 const NAV_ITEMS = [
   {
@@ -45,7 +46,15 @@ const NAV_ITEMS = [
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
+  const router = useRouter()
   const [menuOpen, setMenuOpen] = useState(false)
+
+  async function handleSignOut() {
+    const supabase = createClient()
+    await supabase.auth.signOut()
+    router.push('/login')
+    router.refresh()
+  }
 
   return (
     <div className="flex min-h-screen bg-[#f5f5f5]">
@@ -85,10 +94,18 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </nav>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-line">
-          <Link href="/" className="text-[10px] font-sans uppercase tracking-luxury text-navy/40 hover:text-navy transition-colors">
-            ← Back to Store
+        <div className="px-6 py-4 border-t border-line space-y-2">
+          <Link href="/" className="flex items-center gap-2 text-[10px] font-sans uppercase tracking-luxury text-navy/40 hover:text-navy transition-colors">
+            <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+            Back to Store
           </Link>
+          <button
+            onClick={handleSignOut}
+            className="flex items-center gap-2 text-[10px] font-sans uppercase tracking-luxury text-navy/40 hover:text-red-600 transition-colors w-full"
+          >
+            <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" /></svg>
+            Sign Out
+          </button>
         </div>
       </aside>
 
@@ -135,12 +152,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 </Link>
               )
             })}
+            <button
+              onClick={handleSignOut}
+              className="flex items-center gap-3 px-4 py-3 text-[13px] font-sans w-full text-left text-navy/60 hover:text-red-600 min-h-[44px]"
+            >
+              <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9" /></svg>
+              Sign Out
+            </button>
           </div>
         )}
       </div>
 
       {/* ── Mobile Bottom Tab Bar ── */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-line flex">
+      <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-line flex" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
         {NAV_ITEMS.map((item) => {
           const isActive = item.href === '/admin'
             ? pathname === '/admin'
