@@ -8,12 +8,10 @@ import { useCartStore } from '@/store/cart'
 
 function SuccessContent() {
   const searchParams = useSearchParams()
-  const orderId = searchParams.get('order')
-  const redirectStatus = searchParams.get('redirect_status')
-  const paymentIntent = searchParams.get('payment_intent')
+  const sessionId = searchParams.get('session_id')
   const { clearCart } = useCartStore()
   const [cleared, setCleared] = useState(false)
-  const [displayOrderId, setDisplayOrderId] = useState(orderId)
+  const [orderNumber, setOrderNumber] = useState<string | null>(null)
 
   useEffect(() => {
     if (!cleared) {
@@ -21,16 +19,16 @@ function SuccessContent() {
       setCleared(true)
     }
 
-    // If redirected from Stripe, fetch the order by payment_intent ID
-    if (!orderId && paymentIntent && redirectStatus === 'succeeded') {
-      fetch(`/api/checkout/stripe/order-by-intent?payment_intent=${paymentIntent}`)
+    // If we have a Stripe session ID, try to fetch order details
+    if (sessionId) {
+      fetch(`/api/checkout/stripe/session-status?session_id=${sessionId}`)
         .then((r) => r.json())
         .then((data) => {
-          if (data.orderId) setDisplayOrderId(data.orderId)
+          if (data.orderId) setOrderNumber(data.orderId)
         })
-        .catch(() => {}) // Order may not exist yet — webhook creates it
+        .catch(() => {})
     }
-  }, [cleared, clearCart, orderId, paymentIntent, redirectStatus])
+  }, [cleared, clearCart, sessionId])
 
   return (
     <section className="bg-cream min-h-[70svh] flex items-center">
@@ -53,9 +51,9 @@ function SuccessContent() {
           Your order has been placed successfully.
         </p>
 
-        {displayOrderId && (
+        {orderNumber && (
           <p className="text-xs text-navy/40 mb-1">
-            Order #{displayOrderId.slice(0, 8).toUpperCase()}
+            Order #{orderNumber.slice(0, 8).toUpperCase()}
           </p>
         )}
 
