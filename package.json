@@ -9,8 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@paypal/paypal-server-sdk": "^0.7.0",
-    "@paypal/react-paypal-js": "^8.8.0",
     "@stripe/stripe-js": "^6.0.0",
     "@supabase/ssr": "^0.6.0",
     "@supabase/supabase-js": "^2.49.0",

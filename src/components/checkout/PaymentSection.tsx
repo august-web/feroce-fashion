@@ -1,10 +1,9 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useCartStore } from '@/store/cart'
 import { formatPrice } from '@/lib/types'
 
-type PaymentProvider = 'stripe' | 'paypal'
 type StripeMethod = 'card' | 'cashapp' | 'bank_transfer'
 
 interface PaymentSectionProps {
@@ -25,13 +24,12 @@ interface PaymentSectionProps {
 }
 
 export function PaymentSection({ total, email, shippingAddress, shippingMethod, onSuccess }: PaymentSectionProps) {
-  const [provider, setProvider] = useState<PaymentProvider>('stripe')
   const [stripeMethod, setStripeMethod] = useState<StripeMethod>('card')
   const [processing, setProcessing] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const { items, clearCart } = useCartStore()
 
-  const handleStripeCheckout = async () => {
+  const handleCheckout = async () => {
     setProcessing(true)
     setError(null)
     try {
@@ -59,33 +57,6 @@ export function PaymentSection({ total, email, shippingAddress, shippingMethod, 
     }
   }
 
-  const handlePayPalCheckout = async () => {
-    setProcessing(true)
-    setError(null)
-    try {
-      const res = await fetch('/api/checkout/paypal', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          items: items.map((i) => ({ productId: i.productId, name: i.name, price: i.price, quantity: i.quantity, image: i.image, color: i.color })),
-          email,
-          shippingAddress,
-          shippingMethod,
-        }),
-      })
-      const data = await res.json()
-      if (data.approvalUrl) {
-        window.location.href = data.approvalUrl
-      } else if (data.error) {
-        setError(data.error)
-        setProcessing(false)
-      }
-    } catch {
-      setError('Something went wrong. Please try again.')
-      setProcessing(false)
-    }
-  }
-
   const inputClass = "w-full border border-line bg-white px-4 py-3 text-[16px] font-sans text-navy placeholder:text-navy/40 focus:outline-none focus:border-navy/30 min-h-[44px]"
   const labelClass = "block text-[11px] font-sans uppercase tracking-luxury text-navy/60 mb-1.5"
 
@@ -96,14 +67,14 @@ export function PaymentSection({ total, email, shippingAddress, shippingMethod, 
         {/* Stripe: Card / Apple Pay / Google Pay */}
         <label
           className={`flex items-center gap-3 p-4 border cursor-pointer transition-all min-h-[52px] ${
-            provider === 'stripe' ? 'border-navy' : 'border-line hover:border-navy/30'
+            stripeMethod === 'card' ? 'border-navy' : 'border-line hover:border-navy/30'
           }`}
         >
           <input
             type="radio"
-            name="provider"
-            checked={provider === 'stripe'}
-            onChange={() => setProvider('stripe')}
+            name="stripeMethod"
+            checked={stripeMethod === 'card'}
+            onChange={() => setStripeMethod('card')}
             className="h-4 w-4 accent-navy"
           />
           <div className="flex-1">
@@ -121,14 +92,14 @@ export function PaymentSection({ total, email, shippingAddress, shippingMethod, 
         {/* Stripe: Cash App Pay */}
         <label
           className={`flex items-center gap-3 p-4 border cursor-pointer transition-all min-h-[52px] ${
-            provider === 'stripe' && stripeMethod === 'cashapp' ? 'border-navy' : 'border-line hover:border-navy/30'
+            stripeMethod === 'cashapp' ? 'border-navy' : 'border-line hover:border-navy/30'
           }`}
         >
           <input
             type="radio"
-            name="provider"
-            checked={provider === 'stripe' && stripeMethod === 'cashapp'}
-            onChange={() => { setProvider('stripe'); setStripeMethod('cashapp') }}
+            name="stripeMethod"
+            checked={stripeMethod === 'cashapp'}
+            onChange={() => setStripeMethod('cashapp')}
             className="h-4 w-4 accent-navy"
           />
           <div>
@@ -140,14 +111,14 @@ export function PaymentSection({ total, email, shippingAddress, shippingMethod, 
         {/* Stripe: Bank Transfer */}
         <label
           className={`flex items-center gap-3 p-4 border cursor-pointer transition-all min-h-[52px] ${
-            provider === 'stripe' && stripeMethod === 'bank_transfer' ? 'border-navy' : 'border-line hover:border-navy/30'
+            stripeMethod === 'bank_transfer' ? 'border-navy' : 'border-line hover:border-navy/30'
           }`}
         >
           <input
             type="radio"
-            name="provider"
-            checked={provider === 'stripe' && stripeMethod === 'bank_transfer'}
-            onChange={() => { setProvider('stripe'); setStripeMethod('bank_transfer') }}
+            name="stripeMethod"
+            checked={stripeMethod === 'bank_transfer'}
+            onChange={() => setStripeMethod('bank_transfer')}
             className="h-4 w-4 accent-navy"
           />
           <div>
@@ -155,30 +126,10 @@ export function PaymentSection({ total, email, shippingAddress, shippingMethod, 
             <p className="text-[10px] text-navy/40 mt-0.5">Direct bank payment</p>
           </div>
         </label>
-
-        {/* PayPal */}
-        <label
-          className={`flex items-center gap-3 p-4 border cursor-pointer transition-all min-h-[52px] ${
-            provider === 'paypal' ? 'border-navy' : 'border-line hover:border-navy/30'
-          }`}
-        >
-          <input
-            type="radio"
-            name="provider"
-            checked={provider === 'paypal'}
-            onChange={() => setProvider('paypal')}
-            className="h-4 w-4 accent-navy"
-          />
-          <div>
-            <p className="text-sm font-medium text-navy">PayPal</p>
-            <p className="text-[10px] text-navy/40 mt-0.5">Pay with your PayPal account</p>
-          </div>
-          <span className="ml-auto font-bold text-sm text-[#003087]">PayPal</span>
-        </label>
       </div>
 
       {/* Stripe card details (simplified — in production, use Stripe Payment Element) */}
-      {provider === 'stripe' && stripeMethod === 'card' && (
+      {stripeMethod === 'card' && (
         <div className="space-y-4 pt-2">
           <div>
             <label className={labelClass}>Card Number</label>
@@ -210,7 +161,7 @@ export function PaymentSection({ total, email, shippingAddress, shippingMethod, 
 
       {/* Submit button */}
       <button
-        onClick={provider === 'paypal' ? handlePayPalCheckout : handleStripeCheckout}
+        onClick={handleCheckout}
         disabled={processing}
         className="mt-4 w-full btn-primary py-4 min-h-[48px] text-center disabled:opacity-50 disabled:cursor-not-allowed"
       >

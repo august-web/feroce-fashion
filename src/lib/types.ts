@@ -22,9 +22,8 @@ export type PaymentMethod =
   | 'google_pay'
   | 'cashapp'
   | 'bank_transfer'
-  | 'paypal'
 
-export type PaymentProvider = 'stripe' | 'paypal'
+export type PaymentProvider = 'stripe'
 
 export type OrderStatus = 'pending' | 'paid' | 'shipped' | 'cancelled'
 
@@ -50,7 +49,6 @@ export interface Order {
   id: string
   user_id: string | null
   stripe_session_id: string | null
-  paypal_order_id: string | null
   payment_method: PaymentMethod
   payment_provider: PaymentProvider
   /** Total in cents */

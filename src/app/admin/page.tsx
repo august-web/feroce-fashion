@@ -136,8 +136,7 @@ export default async function AdminDashboard() {
                       {(order.shipping_address as Record<string, string>)?.name || 'Guest'}
                     </td>
                     <td className="px-5 py-3 text-navy/60 text-xs">
-                      {order.payment_method === 'paypal' ? 'PayPal' :
-                       order.payment_method === 'card' ? 'Card' :
+                      {order.payment_method === 'card' ? 'Card' :
                        order.payment_method === 'apple_pay' ? 'Apple Pay' :
                        order.payment_method === 'google_pay' ? 'Google Pay' :
                        order.payment_method === 'cashapp' ? 'Cash App' :

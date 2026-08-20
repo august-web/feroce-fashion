@@ -127,10 +127,6 @@ export function Footer() {
             <div className="flex h-6 items-center rounded border border-[#d1cec7] bg-white px-1.5">
               <span className="text-[7px] font-bold text-[#006fcf]">AMEX</span>
             </div>
-            {/* PayPal */}
-            <div className="flex h-6 items-center rounded border border-[#d1cec7] bg-white px-1.5">
-              <span className="text-[8px] font-bold text-[#003087]">PayPal</span>
-            </div>
           </div>
         </div>
       </div>

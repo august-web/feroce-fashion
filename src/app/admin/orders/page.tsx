@@ -65,8 +65,7 @@ export default async function AdminOrdersPage() {
                     <td className="px-5 py-3 text-navy/60">—</td>
                     <td className="px-5 py-3 font-medium text-navy">{formatPrice(order.total)}</td>
                     <td className="px-5 py-3 text-navy/60 text-xs">
-                      {order.payment_method === 'paypal' ? 'PayPal' :
-                       order.payment_method === 'card' ? 'Card' :
+                      {order.payment_method === 'card' ? 'Card' :
                        order.payment_method === 'apple_pay' ? 'Apple Pay' :
                        order.payment_method === 'google_pay' ? 'Google Pay' :
                        order.payment_method === 'cashapp' ? 'Cash App' :

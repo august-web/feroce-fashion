@@ -103,8 +103,7 @@ export default async function AccountPage() {
                     </div>
                   </div>
                   <div className="text-[10px] text-navy/40">
-                    {order.payment_method === 'paypal' ? 'PayPal' : 
-                     order.payment_method === 'card' ? 'Card' :
+                    {order.payment_method === 'card' ? 'Card' :
                      order.payment_method === 'apple_pay' ? 'Apple Pay' :
                      order.payment_method === 'google_pay' ? 'Google Pay' :
                      order.payment_method === 'cashapp' ? 'Cash App' :
