@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { sendOrderConfirmation } from '@/lib/email'
 
 interface CheckoutItem {
   productId: string
@@ -109,6 +110,33 @@ export async function POST(request: NextRequest) {
       .from('orders')
       .update({ status: 'paid', stripe_session_id: `mock_${order.id}` })
       .eq('id', order.id)
+
+    // Send order confirmation email
+    sendOrderConfirmation({
+      orderId: order.id,
+      email,
+      customerName: shippingAddress.name,
+      items: items.map((item) => ({
+        name: item.name,
+        color: item.color,
+        price: item.price,
+        quantity: item.quantity,
+      })),
+      subtotal,
+      shipping,
+      tax,
+      total,
+      shippingAddress: {
+        name: shippingAddress.name,
+        address: shippingAddress.address,
+        apartment: shippingAddress.apartment,
+        city: shippingAddress.city,
+        state: shippingAddress.state,
+        zip: shippingAddress.zip,
+        country: shippingAddress.country,
+      },
+      shippingMethod,
+    }).catch((err) => console.error('Failed to send confirmation email:', err))
 
     return NextResponse.json({
       url: `/checkout/success?order=${order.id}`,
