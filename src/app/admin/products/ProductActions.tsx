@@ -44,25 +44,27 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
     if (!files?.length) return
 
     setUploading(true)
-    const supabase = createClient()
-    const newUrls: string[] = []
-
-    for (const file of Array.from(files)) {
-      const fileExt = file.name.split('.').pop()
-      const fileName = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${fileExt}`
-      const filePath = `products/${fileName}`
-
-      const { error } = await supabase.storage
-        .from('products')
-        .upload(filePath, file)
-
-      if (!error) {
-        const { data } = supabase.storage.from('products').getPublicUrl(filePath)
-        if (data?.publicUrl) newUrls.push(data.publicUrl)
+    try {
+      const formData = new FormData()
+      for (const file of Array.from(files)) {
+        formData.append('files', file)
       }
+
+      const res = await fetch('/api/admin/upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      const data = await res.json()
+      if (data.urls?.length) {
+        setImageUrls((prev) => [...prev, ...data.urls])
+      } else if (data.error) {
+        alert(data.error)
+      }
+    } catch {
+      alert('Upload failed. Please try again.')
     }
 
-    setImageUrls((prev) => [...prev, ...newUrls])
     setUploading(false)
     if (fileInputRef.current) fileInputRef.current.value = ''
   }
