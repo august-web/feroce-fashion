@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import type { ExtendedProduct } from '@/data/seed'
+import type { ShopProduct } from '@/lib/shop-data'
 import { formatPrice } from '@/lib/types'
 import { useCartStore } from '@/store/cart'
 import { useToastStore } from '@/components/Toast'
@@ -13,7 +13,7 @@ import { QuantitySelector } from '@/components/product/QuantitySelector'
 import { Accordions } from '@/components/product/Accordions'
 
 interface ProductDetailsClientProps {
-  product: ExtendedProduct
+  product: ShopProduct
   selectedColor: string
   onColorChange: (color: string) => void
 }

@@ -8,6 +8,9 @@ import { EmptyState } from '@/components/shop/EmptyState'
 import { ProductCard } from '@/components/home/ProductCard'
 import { ScrollReveal } from '@/components/ScrollReveal'
 
+export const dynamic = 'force-dynamic'
+
+
 export const metadata: Metadata = {
   title: 'Shop All — FÉROCE',
   description: 'Browse the full Féroce collection. Handcrafted luxury bags and accessories.',

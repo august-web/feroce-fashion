@@ -1,12 +1,12 @@
 'use client'
 
 import { useState } from 'react'
-import type { ExtendedProduct } from '@/data/seed'
+import type { ShopProduct } from '@/lib/shop-data'
 import { ImageGallery } from '@/components/product/ImageGallery'
 import { ProductDetailsClient } from './ProductDetailsClient'
 
 interface ProductPageClientProps {
-  product: ExtendedProduct
+  product: ShopProduct
 }
 
 export function ProductPageClient({ product }: ProductPageClientProps) {

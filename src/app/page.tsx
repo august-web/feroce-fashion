@@ -6,6 +6,9 @@ import { EditSection } from '@/components/home/EditSection'
 import { LifestyleStrip } from '@/components/home/LifestyleStrip'
 import { MemberBanner } from '@/components/home/MemberBanner'
 
+export const dynamic = 'force-dynamic'
+
+
 // ── Product counts per category ──
 
 async function getProductCounts(categories: { id: string; slug: string }[]): Promise<Record<string, number>> {

@@ -6,6 +6,9 @@ import { ProductPageClient } from './ProductPageClient'
 import { ProductCard } from '@/components/home/ProductCard'
 import { ScrollReveal } from '@/components/ScrollReveal'
 
+export const dynamic = 'force-dynamic'
+
+
 interface ProductPageProps {
   params: Promise<{ slug: string }>
 }
