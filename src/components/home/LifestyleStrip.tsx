@@ -5,22 +5,22 @@ import Link from 'next/link'
 
 const STRIP_IMAGES = [
   {
-    src: '/images/products/navy-structured/model/lifestyle-1.jpg',
-    alt: 'Féroce navy satchel — street style',
+    src: '/images/products/Denim De Ville Collection/Blue & Gold/Preserve_the_EXACT_F_ROCE_hand_2.jpg',
+    alt: 'Féroce Denim De Ville — street style',
     label: 'Street Style',
-    href: '/product/feroce-navy-satchel',
+    href: '/product/denim-de-ville',
   },
   {
-    src: '/images/products/quilted-cream/product-1.jpg',
-    alt: 'Féroce cream quilted mini — craftsmanship',
+    src: '/images/products/Naji Collection/Gold Fur Bag/Main-Preview.jpg',
+    alt: 'Féroce Naji — craftsmanship',
     label: 'Craftsmanship',
-    href: '/product/feroce-cream-quilted-mini',
+    href: '/product/naji',
   },
   {
-    src: '/images/products/denim-satchel/product-1.jpg',
-    alt: "Féroce men's denim collection — details",
+    src: '/images/products/Denim De Ville Collection/Cream & Gold/Preview 1.jpg',
+    alt: 'Féroce Denim De Ville Cream — details',
     label: 'Details',
-    href: '/product/feroce-denim-satchel',
+    href: '/product/denim-de-ville',
   },
 ]
 
@@ -49,13 +49,24 @@ export function LifestyleStrip() {
                   className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                   loading="lazy"
                 />
-                {/* Overlay — always visible on mobile (no hover), fades in on desktop hover */}
-                <div className="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent md:opacity-0 md:transition-opacity md:duration-500 md:group-hover:opacity-100" />
 
-                {/* Label */}
+                {/* Stronger scrim — always visible on mobile, fades in on desktop hover */}
+                <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/20 to-transparent md:opacity-0 md:transition-opacity md:duration-500 md:group-hover:opacity-100" />
+
+                {/* Label — textShadow ensures legibility over any photo */}
                 <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-6 md:translate-y-4 md:opacity-0 md:transition-all md:duration-500 md:group-hover:translate-y-0 md:group-hover:opacity-100 translate-y-0 opacity-100">
-                  <p className="text-[10px] font-sans uppercase tracking-[0.3em] text-white/90">{img.label}</p>
-                  <p className="mt-1 font-serif text-sm text-white">Explore →</p>
+                  <p
+                    className="text-[10px] font-sans uppercase tracking-[0.3em] text-white/95"
+                    style={{ textShadow: '0 1px 4px rgba(0,0,0,0.6)' }}
+                  >
+                    {img.label}
+                  </p>
+                  <p
+                    className="mt-1 font-serif text-sm text-white"
+                    style={{ textShadow: '0 1px 4px rgba(0,0,0,0.5)' }}
+                  >
+                    Explore →
+                  </p>
                 </div>
               </Link>
             </ScrollReveal>

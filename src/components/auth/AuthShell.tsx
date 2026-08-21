@@ -19,9 +19,15 @@ export function AuthShell({ children }: AuthShellProps) {
             alt=""
             className="h-full w-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
-          <div className="absolute bottom-4 left-6">
-            <span className="font-serif text-2xl font-bold tracking-tight text-gold drop-shadow-lg">FÉROCE</span>
+          {/* Strong scrim for legibility over busy editorial photo */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
+          <div className="absolute bottom-4 left-6 z-10">
+            <span
+              className="font-serif text-2xl font-bold tracking-tight text-gold"
+              style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}
+            >
+              FÉROCE
+            </span>
           </div>
         </div>
       </div>
@@ -35,9 +41,13 @@ export function AuthShell({ children }: AuthShellProps) {
             alt=""
             className="absolute inset-0 h-full w-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/15 to-transparent" />
+          {/* Strong gradient scrim — bottom-heavy for wordmark, full coverage */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/20" />
           <div className="absolute bottom-10 left-10 z-10">
-            <span className="font-serif text-4xl font-bold tracking-tight text-gold drop-shadow-lg">
+            <span
+              className="font-serif text-4xl font-bold tracking-tight text-gold"
+              style={{ textShadow: '0 2px 12px rgba(0,0,0,0.7)' }}
+            >
               FÉROCE
             </span>
           </div>
