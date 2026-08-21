@@ -2,6 +2,8 @@ import type { Metadata } from 'next'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { formatPrice } from '@/lib/types'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Admin Dashboard — FÉROCE',
   description: 'Féroce store admin dashboard.',

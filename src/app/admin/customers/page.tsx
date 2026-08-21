@@ -1,6 +1,8 @@
 import type { Metadata } from 'next'
 import { createAdminClient } from '@/lib/supabase/admin'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Customers — FÉROCE Admin',
   description: 'View your Féroce customer accounts.',

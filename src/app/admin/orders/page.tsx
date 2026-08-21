@@ -3,6 +3,8 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { formatPrice } from '@/lib/types'
 import { OrderStatusDropdown } from './OrderStatusDropdown'
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'Orders — FÉROCE Admin',
   description: 'Manage your Féroce orders.',
