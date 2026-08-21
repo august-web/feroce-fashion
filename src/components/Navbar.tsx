@@ -89,9 +89,7 @@ export function Navbar() {
 
           {/* Center — Logo */}
           <Link href="/" className="absolute left-1/2 -translate-x-1/2 z-10">
-            <span className="font-serif text-lg sm:text-xl font-semibold tracking-tight text-navy">
-              FÉROCE
-            </span>
+            <img src="/logo.png" alt="FÉROCE" className="h-5 sm:h-6 w-auto" />
           </Link>
 
           {/* Right — Icons */}
@@ -164,9 +162,7 @@ export function Navbar() {
       >
         {/* Drawer header */}
         <div className="flex items-center justify-between border-b border-line px-6 h-14">
-          <span className="font-serif text-lg font-semibold tracking-tight text-navy">
-            FÉROCE
-          </span>
+          <img src="/logo.png" alt="FÉROCE" className="h-5 w-auto" />
           <button
             aria-label="Close menu"
             onClick={() => setMenuOpen(false)}
