@@ -12,6 +12,7 @@ import { ColorSwatches } from '@/components/product/ColorSwatches'
 import { SizeSelector } from '@/components/product/SizeSelector'
 import { QuantitySelector } from '@/components/product/QuantitySelector'
 import { Accordions } from '@/components/product/Accordions'
+import { ShareButton } from '@/components/product/ShareButton'
 
 interface ProductDetailsClientProps {
   product: ShopProduct
@@ -31,13 +32,11 @@ export function ProductDetailsClient({ product, selectedColor, onColorChange }: 
   const activeVariant = product.variants.find((v) => v.color === selectedColor) || product.variants[0]
 
   const handleAddToCart = () => {
-    // Gate behind auth
     if (!loading && !isAuthenticated) {
       setShowAuthPrompt(true)
       return
     }
 
-    // Add to local cart
     for (let i = 0; i < quantity; i++) {
       addItem({
         productId: product.id,
@@ -107,6 +106,11 @@ export function ProductDetailsClient({ product, selectedColor, onColorChange }: 
           <span className="text-[11px] text-navy/50">Free returns within 30 days</span>
         </div>
       </div>
+
+      <div className="border-t border-[#E2DFD8] pt-3">
+        <ShareButton name={product.name} slug={product.slug} />
+      </div>
+
       <Accordions items={accordionItems} />
     </>
   )

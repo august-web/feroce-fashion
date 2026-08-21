@@ -1,6 +1,8 @@
 'use client'
 
 import Link from 'next/link'
+import { useState } from 'react'
+import { Share2, Copy, Check, X } from 'lucide-react'
 import type { Product } from '@/lib/types'
 import { formatPrice } from '@/lib/types'
 
@@ -9,11 +11,44 @@ interface ProductCardProps {
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  // Model/lifestyle image shown on hover
+  const [showShare, setShowShare] = useState(false)
+  const [copied, setCopied] = useState(false)
+
   const modelImage =
     product.model_image_urls && product.model_image_urls.length > 0
       ? product.model_image_urls[0]
       : null
+
+  const productUrl = `https://feroce-fashion.vercel.app/product/${product.slug}`
+  const shareText = `Check out the ${product.name} from FÉROCE — luxury handbags designed in Dallas.`
+
+  const handleShare = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setShowShare(!showShare)
+  }
+
+  const copyLink = (e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    navigator.clipboard.writeText(productUrl).then(() => {
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
+  }
+
+  const shareTo = (platform: string, e: React.MouseEvent) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setShowShare(false)
+    const urls: Record<string, string> = {
+      whatsapp: `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + productUrl)}`,
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(productUrl)}`,
+      twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(productUrl)}`,
+      pinterest: `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(productUrl)}&description=${encodeURIComponent(shareText)}`,
+    }
+    if (urls[platform]) window.open(urls[platform], '_blank', 'width=600,height=400')
+  }
 
   return (
     <Link
@@ -22,7 +57,6 @@ export function ProductCard({ product }: ProductCardProps) {
     >
       {/* Image container */}
       <div className="relative aspect-[4/5] overflow-hidden border border-line bg-white">
-        {/* Product-only image — always visible */}
         <img
           src={product.image_urls[0] || '/images/products/Denim De Ville Collection/Blue & Gold/Denim De Ville Collection --Blue & Gold.jpg'}
           alt={product.name}
@@ -30,7 +64,6 @@ export function ProductCard({ product }: ProductCardProps) {
           loading="lazy"
         />
 
-        {/* Model/lifestyle image — fades in on hover only (desktop + mobile tap) */}
         {modelImage && (
           <img
             src={modelImage}
@@ -40,14 +73,68 @@ export function ProductCard({ product }: ProductCardProps) {
           />
         )}
 
-        {/* NEW badge */}
         {product.is_new && (
           <span className="absolute left-2.5 top-2.5 sm:left-3 sm:top-3 bg-gold px-2.5 py-1 sm:px-3 sm:py-1.5 text-[8px] sm:text-[9px] font-bold uppercase tracking-wider text-navy z-10">
             New
           </span>
         )}
 
-        {/* Quick view bar — always visible on mobile (touch), hover on desktop */}
+        {/* Share icon — top right */}
+        <button
+          onClick={handleShare}
+          className="absolute right-2.5 top-2.5 sm:right-3 sm:top-3 z-20 w-8 h-8 flex items-center justify-center bg-white/90 backdrop-blur-sm text-navy/60 hover:text-navy hover:bg-white transition-all duration-150"
+          aria-label={`Share ${product.name}`}
+        >
+          <Share2 size={14} strokeWidth={1.5} />
+        </button>
+
+        {/* Share dropdown */}
+        {showShare && (
+          <div
+            className="absolute right-2.5 top-12 sm:right-3 sm:top-12 z-30 w-48 bg-white border border-[#E2DFD8] shadow-lg"
+            onClick={(e) => { e.preventDefault(); e.stopPropagation() }}
+          >
+            <div className="flex items-center justify-between px-3 py-2 border-b border-[#E2DFD8]">
+              <span className="text-[9px] uppercase tracking-[0.2em] text-navy/60 font-medium">Share</span>
+              <button onClick={(e) => { e.preventDefault(); setShowShare(false) }} className="text-navy/40 hover:text-navy">
+                <X size={12} />
+              </button>
+            </div>
+            <div className="py-1">
+              {[
+                { name: 'WhatsApp', key: 'whatsapp' },
+                { name: 'Facebook', key: 'facebook' },
+                { name: 'Twitter / X', key: 'twitter' },
+                { name: 'Pinterest', key: 'pinterest' },
+              ].map((opt) => (
+                <button
+                  key={opt.key}
+                  onClick={(e) => shareTo(opt.key, e)}
+                  className="w-full text-left px-3 py-2 text-[11px] text-navy/70 hover:bg-cream hover:text-navy transition-colors"
+                >
+                  {opt.name}
+                </button>
+              ))}
+            </div>
+            <div className="border-t border-[#E2DFD8] px-3 py-2">
+              <button onClick={copyLink} className="flex items-center gap-1.5 w-full text-[11px] text-navy/70 hover:text-navy transition-colors">
+                {copied ? (
+                  <>
+                    <Check size={12} className="text-green-600" />
+                    <span className="text-green-600 uppercase tracking-wider">Copied!</span>
+                  </>
+                ) : (
+                  <>
+                    <Copy size={12} strokeWidth={1.5} />
+                    <span className="uppercase tracking-[0.15em]">Copy link</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Quick view bar */}
         <div className="absolute inset-x-0 bottom-0 bg-navy/90 md:translate-y-full md:transition-transform md:duration-400 md:group-hover:translate-y-0">
           <p className="py-2.5 sm:py-3 text-center text-[9px] sm:text-[10px] font-sans uppercase tracking-[0.2em] text-white">
             {modelImage ? 'View' : 'Quick View'}
