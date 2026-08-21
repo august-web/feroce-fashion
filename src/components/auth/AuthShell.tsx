@@ -10,62 +10,30 @@ const AUTH_IMAGE = "/images/products/Denim De Ville Collection/Cream & Gold/Prev
 
 export function AuthShell({ children }: AuthShellProps) {
   return (
-    <div className="bg-cream">
-      {/* ── Mobile (<768px): form only, no image ── */}
-
-      {/* ── Tablet banner (768px–1023px) ── */}
-      <div className="hidden md:block lg:hidden">
-        <div className="relative h-[200px] w-full overflow-hidden">
-          <img
-            src={AUTH_IMAGE}
-            alt="Féroce Denim De Ville Cream & Gold"
-            className="h-full w-full object-cover object-center"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
-          <div className="absolute bottom-4 left-6 z-10">
-            <span
-              className="font-serif text-2xl font-bold tracking-tight text-gold"
-              style={{ textShadow: '0 2px 8px rgba(0,0,0,0.6)' }}
-            >
-              FÉROCE
-            </span>
-          </div>
-        </div>
+    <div className="relative min-h-screen">
+      {/* ── Full-page background image — all viewports ── */}
+      <div className="absolute inset-0">
+        <img
+          src={AUTH_IMAGE}
+          alt=""
+          className="h-full w-full object-cover object-center"
+        />
+        {/* Soft scrim for card legibility */}
+        <div className="absolute inset-0 bg-navy/30" />
       </div>
 
-      {/* ── Desktop split layout ── */}
-      <div className="lg:relative lg:grid lg:grid-cols-[45fr_55fr] lg:min-h-[80svh]">
-        {/* Left panel — editorial image */}
-        <div className="hidden lg:block lg:sticky lg:top-0 lg:h-screen lg:overflow-hidden">
-          <img
-            src={AUTH_IMAGE}
-            alt="Féroce Denim De Ville Cream & Gold"
-            className="absolute inset-0 h-full w-full object-cover object-center"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/20" />
-          <div className="absolute bottom-10 left-10 z-10">
-            <span
-              className="font-serif text-4xl font-bold tracking-tight text-gold"
-              style={{ textShadow: '0 2px 12px rgba(0,0,0,0.7)' }}
-            >
-              FÉROCE
-            </span>
-          </div>
-        </div>
-
-        {/* Right panel — form */}
-        <div className="flex items-center justify-center px-5 py-12 sm:px-8 md:py-14 lg:px-20 lg:py-0">
-          <div className="w-full max-w-[440px]">
-            {children}
-          </div>
+      {/* ── Centered auth card ── */}
+      <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-16">
+        <div className="w-full max-w-[440px] bg-white/95 backdrop-blur-sm border border-white/60 px-8 py-10 sm:px-10 sm:py-12">
+          {children}
         </div>
       </div>
 
       {/* ── Back to FÉROCE link ── */}
-      <div className="border-t border-line py-6 text-center">
+      <div className="relative z-10 border-t border-white/20 py-6 text-center">
         <Link
           href="/"
-          className="inline-flex items-center min-h-[44px] px-4 text-[10px] font-sans uppercase tracking-[0.15em] text-[#6b6b6b] hover:text-navy transition-colors"
+          className="inline-flex items-center min-h-[44px] px-4 text-[10px] font-sans uppercase tracking-[0.15em] text-white/70 hover:text-white transition-colors"
         >
           ← Back to Féroce
         </Link>
