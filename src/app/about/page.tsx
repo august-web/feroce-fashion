@@ -94,7 +94,7 @@ export default function AboutPage() {
           <ScrollReveal>
             <div className="grid md:grid-cols-[1fr_2fr] gap-10 md:gap-16 items-center">
               <div className="relative aspect-[3/4] overflow-hidden border border-line">
-                <img src="/images/products/Naji Collection/Gold Fur Bag/Preview 2.jpg" alt="Feroce founder" className="h-full w-full object-cover" loading="lazy" />
+                <img src="/images/founder.jpg" alt="Feroce founder" className="h-full w-full object-cover" loading="lazy" />
               </div>
               <div>
                 <p className="label mb-4 text-gold">From the Founder</p>
