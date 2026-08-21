@@ -12,8 +12,9 @@ export function HeroSection() {
 
   return (
     <section className='relative flex min-h-[85vh] min-h-[540px] sm:min-h-[600px] md:min-h-[82vh] items-end overflow-hidden'>
-      {/* Background image — same on all breakpoints */}
+      {/* Background image */}
       <picture className='absolute inset-0'>
+        {/* Mobile: crop higher so the F emblem sits above the visible area */}
         <source media='(max-width: 767px)' srcSet='/images/hero-home.jpg' />
         <source media='(min-width: 768px)' srcSet='/images/hero-home.jpg' />
         <img
@@ -21,7 +22,9 @@ export function HeroSection() {
           alt='FEROCE handbag collection'
           fetchPriority='high'
           className='absolute inset-0 h-full w-full object-cover'
-          style={{ objectPosition: '50% 30%' }}
+          /* Mobile: push image DOWN so the F emblem moves up/out of view.
+             Desktop: keep centered so the full row of bags shows. */
+          style={{ objectPosition: '50% 60%' }}
         />
       </picture>
 
@@ -42,16 +45,17 @@ export function HeroSection() {
             'linear-gradient(to top, rgba(10,17,40,0.75) 0%, rgba(10,17,40,0.35) 30%, transparent 55%)',
         }}
       />
-      {/* Mobile: strong bottom-to-top scrim (darker for legibility) */}
+      {/* Mobile: full-coverage dark scrim — covers upper half to mask the F emblem,
+         stronger bottom-to-top gradient for text legibility */}
       <div
         className='absolute inset-0 md:hidden'
         style={{
           background:
-            'linear-gradient(to top, rgba(10,17,40,0.92) 0%, rgba(10,17,40,0.6) 25%, rgba(10,17,40,0.25) 50%, transparent 75%)',
+            'linear-gradient(to top, rgba(10,17,40,0.92) 0%, rgba(10,17,40,0.65) 20%, rgba(10,17,40,0.4) 40%, rgba(10,17,40,0.25) 60%, transparent 80%)',
         }}
       />
 
-      {/* ── Desktop F emblem (hidden on mobile — nav already shows FEROCE) ── */}
+      {/* ── Desktop F emblem — CSS overlay, hidden on mobile ── */}
       <div
         className='absolute top-1/4 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-3 z-10'
         style={{
@@ -66,12 +70,14 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* ── Content overlay (bottom-left) ── */}
-      <div className='relative z-10 w-full px-5 pb-28 pt-16 sm:px-6 sm:pb-32 md:px-12 md:pb-28 lg:px-16'>
+      {/* ── Content overlay (bottom-left) ──
+          Mobile: reduced density — eyebrow hidden, body hidden,
+          headline → CTA only. Desktop: full layout. */}
+      <div className='relative z-20 w-full px-5 pb-24 pt-12 sm:px-6 sm:pb-28 md:px-12 md:pb-24 lg:px-16'>
         <div className='mx-auto max-w-7xl'>
-          {/* Eyebrow — slightly smaller on mobile, clear of emblem */}
+          {/* Eyebrow — hidden on mobile to reduce density */}
           <p
-            className='label mb-4 md:mb-5 text-[10px] md:text-[11px]'
+            className='label mb-3 md:mb-5 text-[10px] md:text-[11px] hidden sm:block'
             style={{
               color: '#D4AF37',
               opacity: loaded ? 1 : 0,
@@ -83,24 +89,24 @@ export function HeroSection() {
             The New Standard
           </p>
 
-          {/* Headline */}
+          {/* Headline — tighter on mobile */}
           <h1
-            className='max-w-lg font-serif text-[28px] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold leading-[1.08] tracking-tight text-white'
+            className='max-w-lg font-serif text-[26px] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold leading-[1.08] tracking-tight text-white'
             style={{
               opacity: loaded ? 1 : 0,
               transform: loaded ? 'translateY(0)' : 'translateY(16px)',
               transition: 'all 0.9s',
               transitionDelay: '400ms',
-              textShadow: '0 2px 10px rgba(0,0,0,0.5), 0 1px 3px rgba(0,0,0,0.4)',
+              textShadow: '0 2px 12px rgba(0,0,0,0.6), 0 1px 3px rgba(0,0,0,0.5)',
             }}
           >
             Fierce elegance,{' '}
             <span className='italic text-gold'>structured</span> utility.
           </h1>
 
-          {/* Body copy — trimmed on mobile */}
+          {/* Body copy — hidden on mobile, visible sm+ */}
           <p
-            className='mt-4 sm:mt-5 max-w-md text-[13px] sm:text-sm leading-relaxed font-light'
+            className='mt-3 sm:mt-5 max-w-md text-[13px] sm:text-sm leading-relaxed font-light hidden sm:block'
             style={{
               color: '#e0e0e0',
               opacity: loaded ? 1 : 0,
@@ -110,18 +116,13 @@ export function HeroSection() {
               textShadow: '0 1px 4px rgba(0,0,0,0.4)',
             }}
           >
-            <span className='hidden sm:inline'>
-              Designed in Dallas. Handcrafted for those who refuse to blend in.
-              Every stitch, every clasp — deliberate.
-            </span>
-            <span className='sm:hidden'>
-              Handcrafted in Dallas for those who refuse to blend in.
-            </span>
+            Designed in Dallas. Handcrafted for those who refuse to blend in.
+            Every stitch, every clasp — deliberate.
           </p>
 
           {/* CTA row — with clear gap below so scroll indicator has room */}
           <div
-            className='mt-7 sm:mt-8 flex flex-wrap items-center gap-5 sm:gap-8'
+            className='mt-5 sm:mt-8 flex flex-wrap items-center gap-5 sm:gap-8'
             style={{
               opacity: loaded ? 1 : 0,
               transform: loaded ? 'translateY(0)' : 'translateY(12px)',
@@ -155,7 +156,7 @@ export function HeroSection() {
 
       {/* ── Scroll indicator — pinned to absolute bottom, well below CTAs ── */}
       <div
-        className='absolute bottom-5 md:bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 z-10'
+        className='absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 z-20'
         style={{
           opacity: loaded ? 0.8 : 0,
           transition: 'opacity 0.7s',
