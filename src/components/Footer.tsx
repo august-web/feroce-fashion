@@ -4,8 +4,8 @@ const FOOTER_LINKS = {
   Shop: [
     { label: "Women's", href: '/shop/womens' },
     { label: "Men's", href: '/shop/mens' },
-    { label: 'Denim De Ville', href: '/product/denim-de-ville' },
-    { label: 'Naji', href: '/product/naji' },
+    { label: 'Denim De Ville', href: '/product/denim-de-ville-blue-gold' },
+    { label: 'Naji', href: '/product/naji-gold-fur' },
   ],
   Company: [
     { label: 'About', href: '/about' },
@@ -75,7 +75,7 @@ export function Footer() {
           ))}
         </div>
 
-        {/* ── Divider (darker) ── */}
+        {/* ── Divider ── */}
         <div className="mt-8 sm:mt-10 h-px bg-[#c8c5be]" />
 
         {/* ── Bottom bar ── */}
@@ -83,10 +83,15 @@ export function Footer() {
           {/* Left — Logo + social icons */}
           <div className="flex items-center gap-5">
             <span className="font-serif text-sm font-semibold text-navy tracking-tight">FÉROCE</span>
-            {/* Social icons */}
             <div className="flex items-center gap-3">
               {/* Instagram */}
-              <a href="#" aria-label="Instagram" className="text-[#6b6b6b] hover:text-gold transition-colors">
+              <a
+                href="https://www.instagram.com/ferocefashion_ff?igsi=ZDNlZDc0MzIxNw=="
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                className="text-[#6b6b6b] hover:text-gold transition-colors"
+              >
                 <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                   <rect x="2" y="2" width="20" height="20" rx="5" />
                   <circle cx="12" cy="12" r="5" />
@@ -94,15 +99,15 @@ export function Footer() {
                 </svg>
               </a>
               {/* TikTok */}
-              <a href="#" aria-label="TikTok" className="text-[#6b6b6b] hover:text-gold transition-colors">
+              <a
+                href="https://www.tiktok.com/@ferocefashion_ff"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="TikTok"
+                className="text-[#6b6b6b] hover:text-gold transition-colors"
+              >
                 <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
                   <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.48V13.2a8.19 8.19 0 005.58 2.17V12a4.85 4.85 0 01-5.58-2.71V6.69h5.58z" />
-                </svg>
-              </a>
-              {/* Facebook */}
-              <a href="#" aria-label="Facebook" className="text-[#6b6b6b] hover:text-gold transition-colors">
-                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                 </svg>
               </a>
             </div>
@@ -115,15 +120,12 @@ export function Footer() {
 
           {/* Right — Payment icons */}
           <div className="flex items-center gap-2">
-            {/* Visa */}
             <div className="flex h-6 items-center rounded border border-[#d1cec7] bg-white px-1.5">
               <span className="text-[8px] font-bold italic text-[#1a1f71]">VISA</span>
             </div>
-            {/* Mastercard */}
             <div className="flex h-6 items-center rounded border border-[#d1cec7] bg-white px-1.5">
               <span className="text-[8px] font-bold text-[#eb001b]">MC</span>
             </div>
-            {/* Amex */}
             <div className="flex h-6 items-center rounded border border-[#d1cec7] bg-white px-1.5">
               <span className="text-[7px] font-bold text-[#006fcf]">AMEX</span>
             </div>
