@@ -73,7 +73,7 @@ export function Navbar() {
   return (
     <>
       <nav className="sticky top-0 z-50 border-b border-line bg-white">
-        <div className="mx-auto flex h-14 sm:h-16 max-w-7xl items-center justify-between px-4 sm:px-6 md:px-8">
+        <div className="mx-auto flex h-12 sm:h-14 md:h-16 max-w-7xl items-center justify-between px-2.5 sm:px-4 md:px-8">
           {/* Left — Desktop nav links */}
           <div className="hidden items-center gap-8 md:flex">
             {NAV_LINKS.map((link) => (
@@ -93,32 +93,32 @@ export function Navbar() {
           </Link>
 
           {/* Right — Icons */}
-          <div className="flex items-center gap-1 sm:gap-3 md:gap-5">
+          <div className="flex items-center gap-0.5 sm:gap-2 md:gap-5">
             {/* Search — always visible, 48px touch target */}
             <button
               aria-label="Search"
-              className="flex h-12 w-12 items-center justify-center text-navy hover:text-gold transition-colors -mr-2 sm:mr-0"
+              className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center text-navy hover:text-gold transition-colors -mr-1 sm:mr-0"
             >
-              <Search size={18} strokeWidth={1.5} />
+              <Search size={16} strokeWidth={1.5} />
             </button>
 
             {/* Wishlist — desktop only */}
             <button
               aria-label="Wishlist"
-              className="hidden h-12 w-12 items-center justify-center text-navy hover:text-gold transition-colors md:flex"
+              className="hidden h-10 w-10 sm:h-12 sm:w-12 items-center justify-center text-navy hover:text-gold transition-colors md:flex"
             >
-              <Heart size={18} strokeWidth={1.5} />
+              <Heart size={16} strokeWidth={1.5} />
             </button>
 
             {/* Bag with count */}
             <Link
               href="/bag"
               aria-label={`Shopping bag, ${displayCount} items`}
-              className="relative flex h-12 w-12 items-center justify-center text-navy hover:text-gold transition-colors -ml-2 sm:ml-0"
+              className="relative flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center text-navy hover:text-gold transition-colors -ml-1 sm:ml-0"
             >
-              <ShoppingBag size={18} strokeWidth={1.5} />
+              <ShoppingBag size={16} strokeWidth={1.5} />
               {displayCount > 0 && (
-                <span className="absolute right-1.5 top-1.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-gold px-1 text-[8px] font-bold text-navy">
+                <span className="absolute right-0.5 top-0.5 sm:right-1.5 sm:top-1.5 flex h-3.5 min-w-3.5 sm:h-4 sm:min-w-4 items-center justify-center rounded-full bg-gold px-1 text-[8px] font-bold text-navy">
                   {displayCount}
                 </span>
               )}
@@ -128,18 +128,18 @@ export function Navbar() {
             <Link
               href={accountHref}
               aria-label="Account"
-              className="hidden h-12 w-12 items-center justify-center text-navy hover:text-gold transition-colors md:flex"
+              className="hidden h-10 w-10 sm:h-12 sm:w-12 items-center justify-center text-navy hover:text-gold transition-colors md:flex"
             >
-              <User size={18} strokeWidth={1.5} />
+              <User size={16} strokeWidth={1.5} />
             </Link>
 
             {/* Hamburger — mobile only, 48px touch target */}
             <button
               aria-label="Open menu"
               onClick={() => setMenuOpen(true)}
-              className="flex h-12 w-12 items-center justify-center text-navy md:hidden -mr-2"
+              className="flex h-10 w-10 sm:h-12 sm:w-12 items-center justify-center text-navy md:hidden -mr-1"
             >
-              <Menu size={22} strokeWidth={1.5} />
+              <Menu size={18} strokeWidth={1.5} />
             </button>
           </div>
         </div>
