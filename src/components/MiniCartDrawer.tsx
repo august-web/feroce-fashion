@@ -14,7 +14,7 @@ export function MiniCartDrawer({ open, onClose }: MiniCartDrawerProps) {
   const { items, subtotal, updateQuantity, removeItem } = useCartStore()
   const drawerRef = useRef<HTMLDivElement>(null)
 
-  // Close on escape
+  // Close on escape + lock body scroll
   useEffect(() => {
     function handleKey(e: KeyboardEvent) {
       if (e.key === 'Escape') onClose()
@@ -33,20 +33,38 @@ export function MiniCartDrawer({ open, onClose }: MiniCartDrawerProps) {
 
   return (
     <>
-      {/* Backdrop */}
+      {/* Backdrop — inline style for guaranteed rendering */}
       <div
-        className={`fixed inset-0 z-[80] bg-navy/40 backdrop-blur-sm transition-opacity duration-300 ${
-          open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
+        style={{
+          position: 'fixed',
+          inset: 0,
+          zIndex: 9998,
+          backgroundColor: 'rgba(10, 17, 40, 0.5)',
+          backdropFilter: 'blur(4px)',
+          transition: 'opacity 300ms ease',
+          opacity: open ? 1 : 0,
+          pointerEvents: open ? 'auto' : 'none',
+        }}
         onClick={onClose}
+        aria-hidden="true"
       />
 
       {/* Drawer */}
       <div
         ref={drawerRef}
-        className={`fixed top-0 right-0 z-[90] h-full w-full max-w-sm bg-white shadow-2xl transition-transform duration-300 ease-out ${
-          open ? 'translate-x-0' : 'translate-x-full'
-        }`}
+        style={{
+          position: 'fixed',
+          top: 0,
+          right: 0,
+          zIndex: 9999,
+          height: '100%',
+          width: '100%',
+          maxWidth: '24rem',
+          backgroundColor: '#fff',
+          boxShadow: open ? '-4px 0 24px rgba(0,0,0,0.15)' : 'none',
+          transform: open ? 'translateX(0)' : 'translateX(100%)',
+          transition: 'transform 300ms cubic-bezier(0.16, 1, 0.3, 1)',
+        }}
       >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-line px-5 py-4">
