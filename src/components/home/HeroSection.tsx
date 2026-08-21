@@ -14,7 +14,6 @@ export function HeroSection() {
     <section className='relative flex min-h-[85vh] min-h-[540px] sm:min-h-[600px] md:min-h-[82vh] items-end overflow-hidden'>
       {/* Background image */}
       <picture className='absolute inset-0'>
-        {/* Mobile: crop higher so the F emblem sits above the visible area */}
         <source media='(max-width: 767px)' srcSet='/images/hero-home.jpg' />
         <source media='(min-width: 768px)' srcSet='/images/hero-home.jpg' />
         <img
@@ -22,14 +21,11 @@ export function HeroSection() {
           alt='FEROCE handbag collection'
           fetchPriority='high'
           className='absolute inset-0 h-full w-full object-cover'
-          /* Mobile: push image DOWN so the F emblem moves up/out of view.
-             Desktop: keep centered so the full row of bags shows. */
           style={{ objectPosition: '50% 60%' }}
         />
       </picture>
 
       {/* ── Scrims ── */}
-      {/* Desktop: left-to-right dark scrim */}
       <div
         className='absolute inset-0 hidden md:block'
         style={{
@@ -37,7 +33,6 @@ export function HeroSection() {
             'linear-gradient(to right, rgba(10,17,40,0.88) 0%, rgba(10,17,40,0.7) 30%, rgba(10,17,40,0.3) 55%, transparent 80%)',
         }}
       />
-      {/* Desktop: bottom-to-top dark scrim */}
       <div
         className='absolute inset-0 hidden md:block'
         style={{
@@ -45,8 +40,6 @@ export function HeroSection() {
             'linear-gradient(to top, rgba(10,17,40,0.75) 0%, rgba(10,17,40,0.35) 30%, transparent 55%)',
         }}
       />
-      {/* Mobile: full-coverage dark scrim — covers upper half to mask the F emblem,
-         stronger bottom-to-top gradient for text legibility */}
       <div
         className='absolute inset-0 md:hidden'
         style={{
@@ -70,9 +63,7 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* ── Content overlay (bottom-left) ──
-          Mobile: reduced density — eyebrow hidden, body hidden,
-          headline → CTA only. Desktop: full layout. */}
+      {/* ── Content overlay (bottom-left) ── */}
       <div className='relative z-20 w-full px-5 pb-24 pt-12 sm:px-6 sm:pb-28 md:px-12 md:pb-24 lg:px-16'>
         <div className='mx-auto max-w-7xl'>
           {/* Eyebrow — hidden on mobile to reduce density */}
@@ -89,7 +80,7 @@ export function HeroSection() {
             The New Standard
           </p>
 
-          {/* Headline — tighter on mobile */}
+          {/* Headline */}
           <h1
             className='max-w-lg font-serif text-[26px] sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-semibold leading-[1.08] tracking-tight text-white'
             style={{
@@ -104,7 +95,7 @@ export function HeroSection() {
             <span className='italic text-gold'>structured</span> utility.
           </h1>
 
-          {/* Body copy — hidden on mobile, visible sm+ */}
+          {/* Body copy — hidden on mobile */}
           <p
             className='mt-3 sm:mt-5 max-w-md text-[13px] sm:text-sm leading-relaxed font-light hidden sm:block'
             style={{
@@ -120,7 +111,7 @@ export function HeroSection() {
             Every stitch, every clasp — deliberate.
           </p>
 
-          {/* CTA row — with clear gap below so scroll indicator has room */}
+          {/* CTA row */}
           <div
             className='mt-5 sm:mt-8 flex flex-wrap items-center gap-5 sm:gap-8'
             style={{
@@ -132,10 +123,11 @@ export function HeroSection() {
           >
             <Link
               href='/shop'
-              className='btn-primary group relative overflow-hidden min-h-[48px] !bg-navy !text-white'
+              className='hero-cta group relative overflow-hidden min-h-[48px] inline-flex items-center bg-navy text-white uppercase font-sans font-medium text-[11px] px-9 py-4 transition-all duration-300 hover:bg-navy hover:text-white hover:shadow-none'
+              style={{ letterSpacing: '0.2em' }}
             >
               <span className='relative z-10'>Shop the Collection</span>
-              <div className='absolute inset-0 bg-gold/20 translate-y-full transition-transform duration-300 group-hover:translate-y-0' />
+              <div className='absolute inset-0 bg-white/10 translate-y-full transition-transform duration-300 group-hover:translate-y-0' />
             </Link>
             <div className='hidden sm:block h-5 w-px bg-white/30' />
             <Link
@@ -154,7 +146,7 @@ export function HeroSection() {
         </div>
       </div>
 
-      {/* ── Scroll indicator — pinned to absolute bottom, well below CTAs ── */}
+      {/* ── Scroll indicator ── */}
       <div
         className='absolute bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 z-20'
         style={{
