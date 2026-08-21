@@ -48,21 +48,6 @@ export function HeroSection() {
         }}
       />
 
-      {/* ── Desktop F emblem — CSS overlay, hidden on mobile ── */}
-      <div
-        className='absolute top-1/4 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-3 z-10'
-        style={{
-          opacity: loaded ? 1 : 0,
-          transform: loaded ? 'translate(-50%, -50%)' : 'translate(-50%, -40%)',
-          transition: 'all 1.2s cubic-bezier(0.16,1,0.3,1)',
-          transitionDelay: '300ms',
-        }}
-      >
-        <div className='w-28 h-28 lg:w-36 lg:h-36 rounded-full border-2 border-gold/60 flex items-center justify-center bg-navy/20 backdrop-blur-sm'>
-          <span className='font-serif text-5xl lg:text-6xl font-bold text-gold/90'>F</span>
-        </div>
-      </div>
-
       {/* ── Content overlay (bottom-left) ── */}
       <div className='relative z-20 w-full px-5 pb-24 pt-12 sm:px-6 sm:pb-28 md:px-12 md:pb-24 lg:px-16'>
         <div className='mx-auto max-w-7xl'>
@@ -123,7 +108,7 @@ export function HeroSection() {
           >
             <Link
               href='/shop'
-              className='hero-cta group relative overflow-hidden min-h-[48px] inline-flex items-center bg-navy text-white uppercase font-sans font-medium text-[11px] px-9 py-4 transition-all duration-300 hover:bg-navy hover:text-white hover:shadow-none'
+              className='group relative overflow-hidden min-h-[48px] inline-flex items-center bg-navy text-white uppercase font-sans font-medium text-[11px] px-9 py-4 transition-all duration-300 hover:bg-navy hover:text-white hover:shadow-none'
               style={{ letterSpacing: '0.2em' }}
             >
               <span className='relative z-10'>Shop the Collection</span>
