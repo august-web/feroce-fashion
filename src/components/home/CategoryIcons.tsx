@@ -6,7 +6,7 @@ import { ScrollReveal } from '@/components/ScrollReveal'
 
 const CATEGORY_IMAGES: Record<string, string> = {
   womens: '/images/products/Denim De Ville Collection/Blue & Gold/Denim De Ville Collection --Blue & Gold.jpg',
-  mens: '/images/products/Naji Collection/Gold Fur Bag/Naji Collection -- Golden Fur.jpg',
+  mens: '/images/mens-silhouette.jpg',
 }
 
 interface CategoryIconsProps {
