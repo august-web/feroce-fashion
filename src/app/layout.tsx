@@ -79,9 +79,6 @@ export const metadata: Metadata = {
   alternates: {
     canonical: SITE_URL,
   },
-  verification: {
-    google: 'google-site-verification=PLACEHOLDER',
-  },
 }
 
 export default function RootLayout({
