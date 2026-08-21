@@ -14,14 +14,14 @@ export function AnnouncementBar() {
         <span className="sm:hidden">Free Shipping Over $200</span>
         <span className="mx-2 text-navy/40 hidden sm:inline">|</span>
         <span className="hidden sm:inline">
-          <button className="underline underline-offset-2">English</button>
+          <button className="underline underline-offset-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-navy/40 rounded-sm">English</button>
           <span className="mx-1">/</span>
-          <button className="underline underline-offset-2">USD</button>
+          <button className="underline underline-offset-2 focus:outline-none focus-visible:ring-2 focus-visible:ring-navy/40 rounded-sm">USD</button>
         </span>
       </p>
       <button
         onClick={() => setVisible(false)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-navy/60 hover:text-navy text-sm w-8 h-8 flex items-center justify-center"
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-navy/60 hover:text-navy text-sm w-8 h-8 flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-navy/40 rounded-sm"
         aria-label="Close announcement bar"
       >
         ✕

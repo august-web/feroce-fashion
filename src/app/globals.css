@@ -121,3 +121,17 @@ img {
     padding-bottom: calc(1rem + env(safe-area-inset-bottom));
   }
 }
+
+/* ── Focus management — prevent persistent outlines after click ── */
+button:focus:not(:focus-visible),
+a:focus:not(:focus-visible),
+input:focus:not(:focus-visible) {
+  outline: none;
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
