@@ -8,8 +8,6 @@ export function OrderSummary() {
   const { items, subtotal } = useCartStore()
   const [promoCode, setPromoCode] = useState('')
   const [promoApplied, setPromoApplied] = useState(false)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
 
   const subtotalCents = subtotal()
   const shippingCents = subtotalCents >= 20000 ? 0 : 1500
@@ -22,28 +20,17 @@ export function OrderSummary() {
     }
   }
 
-  const handleCheckout = async () => {
+  const handleCheckout = () => {
     if (!items.length) return
-    setLoading(true)
-    setError(null)
 
-    try {
-      const res = await fetch('/api/checkout/stripe/session', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items }),
-      })
-      const data = await res.json()
+    // Find the first item with a Stripe checkout URL
+    const checkoutItem = items.find((item) => item.stripe_checkout_url)
 
-      if (data.url) {
-        window.location.href = data.url
-      } else if (data.error) {
-        setError(data.error)
-        setLoading(false)
-      }
-    } catch {
-      setError('Failed to start checkout. Please try again.')
-      setLoading(false)
+    if (checkoutItem?.stripe_checkout_url) {
+      window.location.href = checkoutItem.stripe_checkout_url
+    } else {
+      // Fallback: no checkout URL available
+      alert('Checkout is not available for this item yet.')
     }
   }
 
@@ -102,33 +89,14 @@ export function OrderSummary() {
         )}
       </div>
 
-      {/* Error */}
-      {error && (
-        <div className="mt-4 bg-red-50 border border-red-200 p-3 text-xs text-red-700">
-          {error}
-        </div>
-      )}
-
-      {/* Checkout CTA — redirects to Stripe Checkout */}
+      {/* Checkout CTA — redirects to Stripe Payment Link */}
       <button
         onClick={handleCheckout}
-        disabled={loading || !items.length}
+        disabled={!items.length}
         className="mt-6 block w-full btn-primary py-4 text-center min-h-[48px] group relative overflow-hidden text-center disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        {loading ? (
-          <span className="flex items-center justify-center gap-2">
-            <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-            </svg>
-            Redirecting to checkout…
-          </span>
-        ) : (
-          <>
-            <span className="relative z-10">Proceed to Checkout</span>
-            <div className="absolute inset-0 bg-gold/20 translate-y-full transition-transform duration-300 group-hover:translate-y-0" />
-          </>
-        )}
+        <span className="relative z-10">PROCEED TO CHECKOUT</span>
+        <div className="absolute inset-0 bg-gold/20 translate-y-full transition-transform duration-300 group-hover:translate-y-0" />
       </button>
 
       {/* Trust signals */}

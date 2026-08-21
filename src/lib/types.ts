@@ -79,6 +79,7 @@ export interface CartItem {
   price: number // cents
   image: string
   color: string
+  stripe_checkout_url?: string
   quantity: number
 }
 
