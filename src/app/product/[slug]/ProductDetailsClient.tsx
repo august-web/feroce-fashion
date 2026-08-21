@@ -5,6 +5,8 @@ import type { ExtendedProduct } from '@/data/seed'
 import { formatPrice } from '@/lib/types'
 import { useCartStore } from '@/store/cart'
 import { useToastStore } from '@/components/Toast'
+import { useAuth } from '@/hooks/useAuth'
+import { AuthPromptModal } from '@/components/AuthPromptModal'
 import { ColorSwatches } from '@/components/product/ColorSwatches'
 import { SizeSelector } from '@/components/product/SizeSelector'
 import { QuantitySelector } from '@/components/product/QuantitySelector'
@@ -19,16 +21,27 @@ interface ProductDetailsClientProps {
 export function ProductDetailsClient({ product, selectedColor, onColorChange }: ProductDetailsClientProps) {
   const [selectedSize, setSelectedSize] = useState(product.sizes[0]?.label || 'One Size')
   const [quantity, setQuantity] = useState(1)
+  const [showAuthPrompt, setShowAuthPrompt] = useState(false)
   const addItem = useCartStore((s) => s.addItem)
   const toast = useToastStore((s) => s.add)
+  const { isAuthenticated, loading } = useAuth()
 
   const activeVariant = product.variants.find((v) => v.color === selectedColor) || product.variants[0]
 
-  const handleAddToBag = () => {
+  const handleAddToCart = () => {
+    // Gate behind auth
+    if (!loading && !isAuthenticated) {
+      setShowAuthPrompt(true)
+      return
+    }
+
+    // If Stripe checkout URL is set, redirect to Stripe
     if (activeVariant?.stripe_checkout_url) {
       window.location.href = activeVariant.stripe_checkout_url
       return
     }
+
+    // Otherwise add to local cart
     for (let i = 0; i < quantity; i++) {
       addItem({
         productId: product.id,
@@ -55,6 +68,12 @@ export function ProductDetailsClient({ product, selectedColor, onColorChange }: 
 
   return (
     <>
+      <AuthPromptModal
+        open={showAuthPrompt}
+        onClose={() => setShowAuthPrompt(false)}
+        message="Sign in or create an account to add items to your bag and checkout."
+      />
+
       {product.variants.length > 0 && (
         <ColorSwatches variants={product.variants} activeColor={selectedColor} onSelect={onColorChange} />
       )}
@@ -62,12 +81,18 @@ export function ProductDetailsClient({ product, selectedColor, onColorChange }: 
         <SizeSelector sizes={product.sizes} activeSize={selectedSize} onSelect={setSelectedSize} />
       )}
       <QuantitySelector quantity={quantity} onChange={setQuantity} />
-      <button onClick={handleAddToBag} className='w-full btn-primary py-4 text-center min-h-[48px] group relative overflow-hidden'>
+
+      <button
+        onClick={handleAddToCart}
+        disabled={loading}
+        className='w-full btn-primary py-4 text-center min-h-[48px] group relative overflow-hidden disabled:opacity-50'
+      >
         <span className='relative z-10'>
-          {activeVariant?.stripe_checkout_url ? 'Buy Now' : 'Add to Bag'} — {formatPrice(subtotal)}
+          {activeVariant?.stripe_checkout_url ? 'Buy Now' : 'Add to Cart'} — {formatPrice(subtotal)}
         </span>
         <div className='absolute inset-0 bg-gold/20 translate-y-full transition-transform duration-300 group-hover:translate-y-0' />
       </button>
+
       <div className='space-y-2.5'>
         <div className='flex items-center gap-2.5'>
           <svg viewBox='0 0 20 20' fill='currentColor' className='w-4 h-4 text-gold flex-shrink-0'>
