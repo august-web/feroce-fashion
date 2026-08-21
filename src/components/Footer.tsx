@@ -9,17 +9,18 @@ const FOOTER_LINKS = {
   ],
   Company: [
     { label: 'About', href: '/about' },
+    { label: 'FAQ', href: '/faq' },
     { label: 'Contact', href: '/contact' },
     { label: 'Careers', href: '/' },
   ],
   Support: [
-    { label: 'Shipping & Returns', href: '/shipping-returns' },
+    { label: 'Shipping & Returns', href: '/shipping' },
     { label: 'Care Guide', href: '/care-guide' },
     { label: 'FAQ', href: '/contact' },
   ],
   Legal: [
-    { label: 'Privacy', href: '/privacy' },
-    { label: 'Terms', href: '/terms' },
+    { label: 'Privacy Policy', href: '/privacy' },
+    { label: 'Terms & Conditions', href: '/terms' },
     { label: 'Accessibility', href: '/accessibility' },
   ],
 }
