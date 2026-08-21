@@ -1,4 +1,11 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
+
+export const metadata: Metadata = {
+  title: 'Contact Us — FÉROCE',
+  description: 'Get in touch with FÉROCE. Email, Instagram DM, or send us a message. We respond within 24 hours.',
+  alternates: { canonical: 'https://ferocefashionff.com/contact' },
+}
 import { ScrollReveal } from '@/components/ScrollReveal'
 
 export default function ContactPage() {

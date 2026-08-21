@@ -1,9 +1,11 @@
 import type { Metadata } from 'next'
+import { FaqJsonLd } from '@/components/seo/JsonLd'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
   title: 'FAQ | Feroce',
-  description: 'Frequently asked questions about Feroce handbags.',
+  description: 'Frequently asked questions about Feroce handbags. Shipping, returns, payment methods, and more.',
+  alternates: { canonical: 'https://ferocefashionff.com/faq' },
 }
 
 const faqs = [
@@ -42,8 +44,12 @@ const faqs = [
 ]
 
 export default function FAQPage() {
+  const faqItems = faqs.map((f) => ({ question: f.q, answer: f.a }))
+
   return (
-    <main className="min-h-screen bg-white">
+    <>
+      <FaqJsonLd items={faqItems} />
+      <main className="min-h-screen bg-white">
       <section className="relative h-[40vh] min-h-[280px] flex items-end">
         <div className="absolute inset-0 bg-cover bg-center" style={{ backgroundImage: 'url(/images/about-hero.jpg)' }} />
         <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-navy/50 to-transparent" />
@@ -76,5 +82,6 @@ export default function FAQPage() {
         </div>
       </section>
     </main>
+    </>
   )
 }
