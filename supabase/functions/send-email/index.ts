@@ -3,7 +3,7 @@ import { Resend } from "https://esm.sh/resend@3.2.0";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
-const FROM_EMAIL = "FÉROCE <orders@feroce-fashion.com>";
+const FROM_EMAIL = "FÉROCE <orders@ferocefashionff.com>";
 const ADMIN_EMAIL = "Ferocefashionff@gmail.com";
 const SITE_URL = "https://feroce-fashion.vercel.app";
 
