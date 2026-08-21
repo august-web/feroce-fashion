@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import { useCartStore } from '@/store/cart'
 import { formatPrice } from '@/lib/types'
@@ -31,9 +32,12 @@ export function MiniCartDrawer({ open, onClose }: MiniCartDrawerProps) {
 
   const totalItems = items.reduce((sum, i) => sum + i.quantity, 0)
 
-  return (
+  // Always render nothing when not mounted to avoid SSR issues
+  if (typeof window === 'undefined') return null
+
+  return createPortal(
     <>
-      {/* Backdrop — inline style for guaranteed rendering */}
+      {/* Backdrop */}
       <div
         style={{
           position: 'fixed',
@@ -57,17 +61,20 @@ export function MiniCartDrawer({ open, onClose }: MiniCartDrawerProps) {
           top: 0,
           right: 0,
           zIndex: 9999,
-          height: '100%',
-          width: '100%',
+          height: '100dvh',
+          width: 'min(85vw, 24rem)',
           maxWidth: '24rem',
           backgroundColor: '#fff',
           boxShadow: open ? '-4px 0 24px rgba(0,0,0,0.15)' : 'none',
           transform: open ? 'translateX(0)' : 'translateX(100%)',
           transition: 'transform 300ms cubic-bezier(0.16, 1, 0.3, 1)',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-line px-5 py-4">
+        <div className="flex items-center justify-between border-b border-line px-4 sm:px-5 py-4 flex-shrink-0">
           <h2 className="font-serif text-base font-semibold text-navy">
             Your Bag ({totalItems})
           </h2>
@@ -84,7 +91,7 @@ export function MiniCartDrawer({ open, onClose }: MiniCartDrawerProps) {
 
         {/* Items */}
         {items.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 px-6 text-center">
+          <div className="flex-1 flex flex-col items-center justify-center py-20 px-6 text-center">
             <div className="w-16 h-16 rounded-full bg-cream flex items-center justify-center mb-4">
               <svg className="w-6 h-6 text-navy/30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
                 <path d="M16 10a4 4 0 01-8 0" />
@@ -96,8 +103,8 @@ export function MiniCartDrawer({ open, onClose }: MiniCartDrawerProps) {
             <p className="text-[10px] text-navy/30">Add items to get started.</p>
           </div>
         ) : (
-          <div className="flex flex-col h-[calc(100%-60px)]">
-            <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+          <div className="flex-1 flex flex-col min-h-0">
+            <div className="flex-1 overflow-y-auto px-4 sm:px-5 py-4 space-y-4">
               {items.map((item) => (
                 <div key={item.productId + item.color} className="flex gap-3 border-b border-line/50 pb-4 last:border-0">
                   {/* Thumbnail */}
@@ -147,7 +154,7 @@ export function MiniCartDrawer({ open, onClose }: MiniCartDrawerProps) {
             </div>
 
             {/* Footer */}
-            <div className="border-t border-line px-5 py-4 space-y-3">
+            <div className="border-t border-line px-4 sm:px-5 py-4 space-y-3 flex-shrink-0">
               <div className="flex justify-between items-center">
                 <span className="text-xs text-navy/60">Subtotal</span>
                 <span className="text-sm font-serif font-semibold text-navy">{formatPrice(subtotal())}</span>
@@ -171,6 +178,7 @@ export function MiniCartDrawer({ open, onClose }: MiniCartDrawerProps) {
           </div>
         )}
       </div>
-    </>
+    </>,
+    document.body
   )
 }

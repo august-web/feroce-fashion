@@ -9,10 +9,10 @@ import { ScrollReveal } from '@/components/ScrollReveal'
 
 // Related products to show "Complete the Look"
 const RELATED = [
-  { name: 'Féroce Cream Quilted Mini', slug: 'feroce-cream-quilted-mini', price: 32500, image: '/images/products/quilted-cream/product-1.jpg' },
-  { name: 'Féroce Denim Monogram Mini', slug: 'feroce-denim-monogram-mini', price: 29500, image: '/images/products/quilted-blue/product-1.jpg' },
-  { name: 'Féroce Burgundy Satchel', slug: 'feroce-burgundy-satchel', price: 38500, image: '/images/products/burgundy-structured/product-1.jpg' },
-  { name: 'Féroce Navy Satchel', slug: 'feroce-navy-satchel', price: 35500, image: '/images/products/navy-structured/product-1.jpg' },
+  { name: 'Denim De Ville Collection -- Cream & Gold', slug: 'Denim De Ville Collection -- Cream & Gold', price: 32500, image: '/images/products/Denim De Ville Collection/Cream & Gold/Denim De Ville Collection -- Cream & Gold.jpg' },
+  { name: 'Naji Golden Collection -- Gold Fur Bag', slug: 'Naji Collection -- Gold Fur Bag', price: 29500, image: '/images/products/Naji Collection/Gold Fur Bag/Naji Collection -- Golden Fur.jpg' },
+  { name: 'Denim De Ville Collection -- Blue & Gold', slug: 'Denim De Ville Collection -- Blue & Gold', price: 38500, image: '/images/products/Denim De Ville Collection/Blue & Gold/Denim De Ville Collection --Blue & Gold.jpg' },
+  { name: 'Naji Maroon Collection', slug: 'Naji Collection -- Maroon Red Fur', price: 35500, image: '/images/products/Naji Collection/Maroon Fur Bag/Naji Collection -- Maroon Red Fur.jpg' },
 ]
 
 export default function BagPage() {

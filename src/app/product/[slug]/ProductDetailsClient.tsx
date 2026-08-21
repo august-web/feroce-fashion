@@ -6,8 +6,6 @@ import { formatPrice } from '@/lib/types'
 import { useCartStore } from '@/store/cart'
 import { useToastStore } from '@/components/Toast'
 import { useAuth } from '@/hooks/useAuth'
-import { AuthPromptModal } from '@/components/AuthPromptModal'
-import { MiniCartDrawer } from '@/components/MiniCartDrawer'
 import { ColorSwatches } from '@/components/product/ColorSwatches'
 import { SizeSelector } from '@/components/product/SizeSelector'
 import { QuantitySelector } from '@/components/product/QuantitySelector'
@@ -18,13 +16,13 @@ interface ProductDetailsClientProps {
   product: ShopProduct
   selectedColor: string
   onColorChange: (color: string) => void
+  onOpenMiniCart: () => void
+  onOpenAuthPrompt: () => void
 }
 
-export function ProductDetailsClient({ product, selectedColor, onColorChange }: ProductDetailsClientProps) {
+export function ProductDetailsClient({ product, selectedColor, onColorChange, onOpenMiniCart, onOpenAuthPrompt }: ProductDetailsClientProps) {
   const [selectedSize, setSelectedSize] = useState(product.sizes[0]?.label || 'One Size')
   const [quantity, setQuantity] = useState(1)
-  const [showAuthPrompt, setShowAuthPrompt] = useState(false)
-  const [showMiniCart, setShowMiniCart] = useState(false)
   const addItem = useCartStore((s) => s.addItem)
   const toast = useToastStore((s) => s.add)
   const { isAuthenticated, loading } = useAuth()
@@ -33,7 +31,7 @@ export function ProductDetailsClient({ product, selectedColor, onColorChange }: 
 
   const handleAddToCart = () => {
     if (!loading && !isAuthenticated) {
-      setShowAuthPrompt(true)
+      onOpenAuthPrompt()
       return
     }
 
@@ -49,12 +47,11 @@ export function ProductDetailsClient({ product, selectedColor, onColorChange }: 
       })
     }
     toast(product.name + (product.preorder ? ' added to preorder' : ' added to bag'))
-    setShowMiniCart(true)
+    onOpenMiniCart()
   }
 
   const subtotal = product.price * quantity
   const hasSale = !!product.compare_at_price && product.compare_at_price > product.price
-  const savings = hasSale ? product.compare_at_price! - product.price : 0
 
   const accordionItems = [
     { title: 'Materials & Fit', content: product.materials },
@@ -69,14 +66,6 @@ export function ProductDetailsClient({ product, selectedColor, onColorChange }: 
 
   return (
     <>
-      <AuthPromptModal
-        open={showAuthPrompt}
-        onClose={() => setShowAuthPrompt(false)}
-        message="Sign in or create an account to add items to your bag and checkout."
-      />
-
-      <MiniCartDrawer open={showMiniCart} onClose={() => setShowMiniCart(false)} />
-
       {product.variants.length > 0 && (
         <ColorSwatches variants={product.variants} activeColor={selectedColor} onSelect={onColorChange} />
       )}

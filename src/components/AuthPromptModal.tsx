@@ -1,7 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { useAuth } from '@/hooks/useAuth'
 
 interface AuthPromptModalProps {
@@ -18,12 +19,25 @@ export function AuthPromptModal({ open, onClose, message }: AuthPromptModalProps
     if (isAuthenticated && open) onClose()
   }, [isAuthenticated, open, onClose])
 
+  // Lock body scroll when open
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = 'hidden'
+    }
+    return () => { document.body.style.overflow = '' }
+  }, [open])
+
   if (!open || isAuthenticated) return null
 
-  return (
-    <div className="fixed inset-0 z-[90] flex items-center justify-center px-4">
+  if (typeof window === 'undefined') return null
+
+  return createPortal(
+    <div style={{ position: 'fixed', inset: 0, zIndex: 90, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '16px' }}>
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-navy/60 backdrop-blur-sm" onClick={onClose} />
+      <div
+        style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(10, 17, 40, 0.6)', backdropFilter: 'blur(4px)' }}
+        onClick={onClose}
+      />
 
       {/* Modal card */}
       <div className="relative bg-white border border-line max-w-md w-full px-8 py-10 text-center animate-slide-up">
@@ -69,6 +83,7 @@ export function AuthPromptModal({ open, onClose, message }: AuthPromptModalProps
           Already a member? Just sign in above.
         </p>
       </div>
-    </div>
+    </div>,
+    document.body
   )
 }
