@@ -6,6 +6,8 @@ interface AuthShellProps {
   children: React.ReactNode
 }
 
+const AUTH_IMAGE = "/images/products/Denim De Ville Collection/Cream & Gold/Preview 1.jpg"
+
 export function AuthShell({ children }: AuthShellProps) {
   return (
     <div className="bg-cream">
@@ -15,11 +17,10 @@ export function AuthShell({ children }: AuthShellProps) {
       <div className="hidden md:block lg:hidden">
         <div className="relative h-[200px] w-full overflow-hidden">
           <img
-            src="/images/products/navy-structured/model/lifestyle-1.jpg"
-            alt=""
+            src={AUTH_IMAGE}
+            alt="Féroce Denim De Ville Cream & Gold"
             className="h-full w-full object-cover object-center"
           />
-          {/* Strong scrim for legibility over busy editorial photo */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10" />
           <div className="absolute bottom-4 left-6 z-10">
             <span
@@ -34,14 +35,13 @@ export function AuthShell({ children }: AuthShellProps) {
 
       {/* ── Desktop split layout ── */}
       <div className="lg:relative lg:grid lg:grid-cols-[45fr_55fr] lg:min-h-[80svh]">
-        {/* Left panel — fixed editorial image */}
+        {/* Left panel — editorial image */}
         <div className="hidden lg:block lg:sticky lg:top-0 lg:h-screen lg:overflow-hidden">
           <img
-            src="/images/products/navy-structured/model/lifestyle-1.jpg"
-            alt=""
+            src={AUTH_IMAGE}
+            alt="Féroce Denim De Ville Cream & Gold"
             className="absolute inset-0 h-full w-full object-cover object-center"
           />
-          {/* Strong gradient scrim — bottom-heavy for wordmark, full coverage */}
           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/20" />
           <div className="absolute bottom-10 left-10 z-10">
             <span
