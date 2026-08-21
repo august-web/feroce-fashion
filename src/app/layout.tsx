@@ -7,7 +7,7 @@ export const metadata: Metadata = {
   title: 'FÉROCE — Luxury Handbags & Accessories',
   description: 'Fierce elegance, structured utility. Designed in Dallas.',
   icons: {
-    icon: '/favicon.svg',
+    icon: '/favicon.ico',
   },
   openGraph: {
     title: 'FÉROCE — Luxury Handbags & Accessories',

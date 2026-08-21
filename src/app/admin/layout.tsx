@@ -63,7 +63,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* Header */}
         <div className="flex items-center gap-3 px-6 py-5 border-b border-line">
           <Link href="/" className="font-serif text-lg font-semibold text-navy tracking-tight">
-            <img src="/logo.png" alt="FÉROCE" className="h-4 w-auto" />
+            FÉROCE
           </Link>
           <span className="text-[9px] font-sans uppercase tracking-luxury text-navy/40 bg-cream px-2 py-0.5">
             Admin
@@ -113,7 +113,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-white border-b border-line">
         <div className="flex items-center justify-between px-4 h-12">
           <div className="flex items-center gap-2">
-            <Link href="/"><img src="/logo.png" alt="FÉROCE" className="h-4 w-auto" /></Link>
+            <Link href="/" className="font-serif text-sm font-semibold text-navy">FÉROCE</Link>
             <span className="text-[9px] font-sans uppercase tracking-luxury text-navy/40 bg-cream px-1.5 py-0.5">Admin</span>
           </div>
           <button

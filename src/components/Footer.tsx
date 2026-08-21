@@ -83,7 +83,7 @@ export function Footer() {
         <div className="mt-5 sm:mt-6 flex flex-col items-center justify-between gap-4 md:flex-row">
           {/* Left — Logo + social icons */}
           <div className="flex items-center gap-5">
-            <img src="/logo.png" alt="FÉROCE" className="h-4 w-auto" />
+            <span className="font-serif text-sm font-semibold text-navy tracking-tight">FÉROCE</span>
             <div className="flex items-center gap-3">
               {/* Instagram */}
               <a
