@@ -73,11 +73,24 @@ export function ProductCard({ product }: ProductCardProps) {
           />
         )}
 
-        {product.is_new && (
-          <span className="absolute left-2.5 top-2.5 sm:left-3 sm:top-3 bg-gold px-2.5 py-1 sm:px-3 sm:py-1.5 text-[8px] sm:text-[9px] font-bold uppercase tracking-wider text-navy z-10">
-            New
-          </span>
-        )}
+        {/* Badges — top left */}
+        <div className="absolute left-2.5 top-2.5 sm:left-3 sm:top-3 z-10 flex flex-col gap-1.5">
+          {product.is_new && (
+            <span className="bg-gold px-2.5 py-1 sm:px-3 sm:py-1.5 text-[8px] sm:text-[9px] font-bold uppercase tracking-wider text-navy">
+              New
+            </span>
+          )}
+          {product.preorder && (
+            <span className="bg-navy px-2.5 py-1 sm:px-3 sm:py-1.5 text-[8px] sm:text-[9px] font-bold uppercase tracking-wider text-gold">
+              Preorder
+            </span>
+          )}
+          {product.compare_at_price && !product.preorder && (
+            <span className="bg-red-600 px-2.5 py-1 sm:px-3 sm:py-1.5 text-[8px] sm:text-[9px] font-bold uppercase tracking-wider text-white">
+              Sale
+            </span>
+          )}
+        </div>
 
         {/* Share icon — top right */}
         <button
@@ -150,9 +163,21 @@ export function ProductCard({ product }: ProductCardProps) {
         <p className="line-clamp-2 text-[10px] sm:text-[11px] leading-relaxed text-navy/45">
           {product.description}
         </p>
-        <p className="text-[11px] sm:text-xs font-medium text-navy tracking-wide">
-          {formatPrice(product.price)}
-        </p>
+        <div className="flex items-center gap-2">
+          <p className="text-[11px] sm:text-xs font-medium text-navy tracking-wide">
+            {formatPrice(product.price)}
+          </p>
+          {product.compare_at_price && product.compare_at_price > product.price && (
+            <p className="text-[10px] sm:text-[11px] text-navy/30 line-through">
+              {formatPrice(product.compare_at_price)}
+            </p>
+          )}
+        </div>
+        {product.preorder && (
+          <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] text-gold font-medium">
+            Preorder — ships in 2–3 weeks
+          </p>
+        )}
       </div>
     </Link>
   )

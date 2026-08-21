@@ -1,11 +1,21 @@
-// ── Supabase Row Types ──
+export type OrderStatus = 'pending' | 'paid' | 'shipped' | 'cancelled'
 
-export type UserRole = 'customer' | 'admin'
-
-export interface Profile {
+export interface Product {
   id: string
-  email: string
-  role: UserRole
+  category_id: string
+  collection?: string
+  name: string
+  slug: string
+  description: string
+  price: number
+  compare_at_price?: number
+  preorder?: boolean
+  image_urls: string[]
+  model_image_urls?: string[]
+  color: string
+  stock: number
+  active: boolean
+  is_new: boolean
   created_at: string
 }
 
@@ -16,35 +26,15 @@ export interface Category {
   sort_order: number
 }
 
-export type PaymentMethod =
-  | 'card'
-  | 'apple_pay'
-  | 'google_pay'
-  | 'cashapp'
-  | 'bank_transfer'
-
-export type PaymentProvider = 'stripe'
-
-export type OrderStatus = 'pending' | 'paid' | 'shipped' | 'cancelled'
-
-export interface Product {
-  id: string
-  category_id: string
-  /** Collection name (e.g. 'Denim De Ville', 'Naji') */
-  collection?: string
+export interface CartItem {
+  productId: string
   name: string
   slug: string
-  description: string
-  /** Price in cents */
   price: number
-  image_urls: string[]
-  /** Lifestyle/model shots — shown on product detail page */
-  model_image_urls?: string[]
+  image: string
   color: string
-  stock: number
-  active: boolean
-  is_new: boolean
-  created_at: string
+  quantity: number
+  stripe_checkout_url?: string
 }
 
 export interface Order {
@@ -53,10 +43,9 @@ export interface Order {
   stripe_session_id: string | null
   payment_method: PaymentMethod
   payment_provider: PaymentProvider
-  /** Total in cents */
   total: number
   status: OrderStatus
-  shipping_address: Record<string, unknown>
+  shipping_address: Record<string, string>
   created_at: string
 }
 
@@ -65,29 +54,13 @@ export interface OrderItem {
   order_id: string
   product_id: string
   name: string
-  /** Price in cents */
   price: number
   quantity: number
 }
 
-// ── Cart Types (client-side) ──
-
-export interface CartItem {
-  productId: string
-  name: string
-  slug: string
-  price: number // cents
-  image: string
-  color: string
-  stripe_checkout_url?: string
-  quantity: number
-}
-
-// ── Helpers ──
+export type PaymentMethod = 'card' | 'apple_pay' | 'google_pay' | 'cashapp' | 'bank_transfer' | 'paypal'
+export type PaymentProvider = 'stripe' | 'paypal'
 
 export function formatPrice(cents: number): string {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
-  }).format(cents / 100)
+  return '$' + (cents / 100).toFixed(2)
 }

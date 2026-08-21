@@ -48,18 +48,22 @@ export function ProductDetailsClient({ product, selectedColor, onColorChange }: 
         stripe_checkout_url: activeVariant?.stripe_checkout_url,
       })
     }
-    toast(product.name + ' added to bag')
+    toast(product.name + (product.preorder ? ' added to preorder' : ' added to bag'))
     setShowMiniCart(true)
   }
 
   const subtotal = product.price * quantity
+  const hasSale = !!product.compare_at_price && product.compare_at_price > product.price
+  const savings = hasSale ? product.compare_at_price! - product.price : 0
 
   const accordionItems = [
     { title: 'Materials & Fit', content: product.materials },
     { title: 'Care Instructions', content: product.careInstructions },
     {
       title: 'Shipping & Returns',
-      content: 'Complimentary standard shipping on orders over $200. Express shipping available at checkout. Free returns within 30 days of delivery. Items must be unused with tags attached.',
+      content: product.preorder
+        ? 'Preorder items ship within 2–3 weeks of purchase. Complimentary standard shipping on orders over $200. Free returns within 30 days of delivery. Items must be unused with tags attached.'
+        : 'Complimentary standard shipping on orders over $200. Express shipping available at checkout. Free returns within 30 days of delivery. Items must be unused with tags attached.',
     },
   ]
 
@@ -87,17 +91,25 @@ export function ProductDetailsClient({ product, selectedColor, onColorChange }: 
         className="w-full btn-primary py-4 text-center min-h-[48px] group relative overflow-hidden disabled:opacity-50"
       >
         <span className="relative z-10">
-          ADD TO CART — {formatPrice(subtotal)}
+          {product.preorder ? 'PREORDER' : 'ADD TO CART'} — {formatPrice(subtotal)}
         </span>
         <div className="absolute inset-0 bg-gold/20 translate-y-full transition-transform duration-300 group-hover:translate-y-0" />
       </button>
 
       <div className="space-y-2.5">
+        {product.preorder && (
+          <div className="flex items-center gap-2.5">
+            <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 text-gold flex-shrink-0">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+            </svg>
+            <span className="text-[11px] text-navy/50">Preorder — ships in 2–3 weeks</span>
+          </div>
+        )}
         <div className="flex items-center gap-2.5">
           <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 text-gold flex-shrink-0">
             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
           </svg>
-          <span className="text-[11px] text-navy/50">In stock — ships within 2–4 business days</span>
+          <span className="text-[11px] text-navy/50">{product.preorder ? 'Reserve now — pay today' : 'In stock — ships within 2–4 business days'}</span>
         </div>
         <div className="flex items-center gap-2.5">
           <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 text-gold flex-shrink-0">

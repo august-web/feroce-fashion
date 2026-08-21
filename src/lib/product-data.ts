@@ -12,6 +12,8 @@ function toShopProduct(p: DBRow): ShopProduct {
     slug: p.slug as string,
     description: (p.description as string) || '',
     price: p.price as number,
+    compare_at_price: (p.compare_at_price as number) || undefined,
+    preorder: (p.preorder as boolean) || false,
     image_urls: (p.image_urls as string[]) || [],
     model_image_urls: (p.model_image_urls as string[]) || [],
     color: p.color as string,
