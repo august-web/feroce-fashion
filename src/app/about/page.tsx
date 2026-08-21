@@ -12,7 +12,7 @@ export default function AboutPage() {
     <>
       {/* Hero */}
       <section className="relative h-[60vh] min-h-[400px] md:h-[70vh] overflow-hidden">
-        <img src="/images/products/Naji Collection/Gold Fur Bag/Main-Preview.jpg" alt="Féroce craftsmanship" className="absolute inset-0 h-full w-full object-cover object-center" fetchPriority="high" />
+        <img src="/images/about-hero.jpg" alt="Féroce craftsmanship" className="absolute inset-0 h-full w-full object-cover object-center" fetchPriority="high" />
         <div className="absolute inset-0 bg-gradient-to-t from-navy/80 via-navy/30 to-navy/10" />
         <div className="relative z-10 flex h-full items-end px-5 pb-12 md:items-center md:pb-0 md:px-12 lg:px-16">
           <div className="mx-auto max-w-7xl w-full">
