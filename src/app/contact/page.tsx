@@ -1,11 +1,7 @@
-import type { Metadata } from 'next'
+'use client'
+
 import Link from 'next/link'
 import { ScrollReveal } from '@/components/ScrollReveal'
-
-export const metadata: Metadata = {
-  title: 'Contact — FÉROCE',
-  description: 'Get in touch with Féroce. Email us, DM on Instagram, or visit our socials.',
-}
 
 export default function ContactPage() {
   return (
