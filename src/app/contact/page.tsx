@@ -1,6 +1,3 @@
-'use client'
-
-
 import Link from 'next/link'
 import { ScrollReveal } from '@/components/ScrollReveal'
 
@@ -82,7 +79,7 @@ export default function ContactPage() {
                   <h3 className="font-serif text-xl font-semibold text-navy mb-2">Send Us a Message</h3>
                   <p className="text-xs text-navy/40 mb-6">We typically respond within 24 hours.</p>
 
-                  <form className="space-y-4" onSubmit={(e) => { e.preventDefault(); window.location.href = 'mailto:Ferocefashionff@gmail.com?subject=Inquiry from Feroce Website'; }}>
+                  <form className="space-y-4" action="mailto:Ferocefashionff@gmail.com?subject=Inquiry%20from%20F%C3%A9roce%20Website">
                     <div>
                       <label className="block text-[11px] font-sans uppercase tracking-[0.08em] text-navy/60 mb-1.5">Name</label>
                       <input type="text" placeholder="Your name" className="w-full border border-[#d1cec7] bg-white px-4 text-[16px] font-sans text-navy placeholder:text-[#8a857c]/60 min-h-[48px] shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)] focus:border-gold focus:ring-2 focus:ring-gold/30 outline-none transition-all duration-150" />
