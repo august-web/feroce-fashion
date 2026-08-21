@@ -11,12 +11,9 @@ const FOOTER_LINKS = {
     { label: 'About', href: '/about' },
     { label: 'FAQ', href: '/faq' },
     { label: 'Contact', href: '/contact' },
-    { label: 'Careers', href: '/' },
   ],
   Support: [
     { label: 'Shipping & Returns', href: '/shipping' },
-    { label: 'Care Guide', href: '/care-guide' },
-    { label: 'FAQ', href: '/contact' },
   ],
   Legal: [
     { label: 'Privacy Policy', href: '/privacy' },
