@@ -132,9 +132,9 @@ export function RegisterForm() {
         <a href="#" className="hover:text-gold transition-colors underline underline-offset-2">Privacy Policy</a>.
       </p>
 
-      {/* Link */}
+      {/* Link — gold for conversion */}
       <div className="text-center pt-1">
-        <Link href="/login" className="text-xs text-[#8a857c] hover:text-gold transition-colors underline underline-offset-2">
+        <Link href="/login" className="text-xs font-medium text-gold hover:text-navy transition-colors underline underline-offset-2">
           Already have an account? Sign in
         </Link>
       </div>
