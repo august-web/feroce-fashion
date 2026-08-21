@@ -24,7 +24,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="relative aspect-[4/5] overflow-hidden border border-line bg-white">
         {/* Product-only image — always visible */}
         <img
-          src={product.image_urls[0] || '/images/products/quilted-cream/product-1.jpg'}
+          src={product.image_urls[0] || '/images/products/Denim De Ville Collection/Blue & Gold/Denim De Ville Collection --Blue & Gold.jpg'}
           alt={product.name}
           className="absolute inset-0 h-full w-full object-cover transition-all duration-700 group-hover:scale-[1.03]"
           loading="lazy"

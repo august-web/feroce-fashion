@@ -25,7 +25,7 @@ export default async function HomePage() {
   const productCounts = await getProductCounts(categories)
 
   // Only show first 4 products on homepage
-  const products = allProducts.slice(0, 4)
+  const products = allProducts
 
   return (
     <>

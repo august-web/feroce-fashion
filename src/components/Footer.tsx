@@ -4,8 +4,8 @@ const FOOTER_LINKS = {
   Shop: [
     { label: "Women's", href: '/shop/womens' },
     { label: "Men's", href: '/shop/mens' },
-    { label: 'Totes', href: '/shop' },
-    { label: 'Crossbody', href: '/shop' },
+    { label: 'Denim De Ville', href: '/product/denim-de-ville' },
+    { label: 'Naji', href: '/product/naji' },
   ],
   Company: [
     { label: 'About', href: '/about' },

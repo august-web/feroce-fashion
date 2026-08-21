@@ -30,13 +30,15 @@ export type OrderStatus = 'pending' | 'paid' | 'shipped' | 'cancelled'
 export interface Product {
   id: string
   category_id: string
+  /** Collection name (e.g. 'Denim De Ville', 'Naji') */
+  collection?: string
   name: string
   slug: string
   description: string
   /** Price in cents */
   price: number
   image_urls: string[]
-  /** Lifestyle/model shots — shown on hover in product grid */
+  /** Lifestyle/model shots — shown on product detail page */
   model_image_urls?: string[]
   color: string
   stock: number
