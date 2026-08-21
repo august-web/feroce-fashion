@@ -16,7 +16,7 @@ export function ShareButton({ name, slug, className = '' }: ShareButtonProps) {
 
   const productUrl = typeof window !== 'undefined'
     ? `${window.location.origin}/product/${slug}`
-    : `https://feroce-fashion.vercel.app/product/${slug}`
+    : `https://ferocefashionff.com/product/${slug}`
 
   const shareText = `Check out the ${name} from FÉROCE — luxury handbags designed in Dallas.`
 
