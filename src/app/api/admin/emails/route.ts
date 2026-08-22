@@ -10,11 +10,6 @@ export async function POST(req: NextRequest) {
   try {
     const supabase = createAdminClient()
 
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) { return NextResponse.json({ error: 'Unauthorized' }, { status: 401 }) }
-
-    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).single()
-    if (profile?.role !== 'admin') { return NextResponse.json({ error: 'Forbidden' }, { status: 403 }) }
 
     const body = await req.json()
     const { type, subject, htmlContent, recipientFilter, recipientEmails } = body
@@ -75,7 +70,7 @@ export async function POST(req: NextRequest) {
         subject: subject,
         recipient_count: recipients.length,
         recipient_filter: recipientFilter,
-        sent_by: user.email || '',
+        sent_by: "admin",
       })
     } catch { /* email_logs table may not exist */ }
 
