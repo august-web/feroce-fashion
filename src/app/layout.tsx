@@ -51,7 +51,7 @@ export const metadata: Metadata = {
       'Fierce elegance, structured utility. Luxury handbags for women and men. Designed in Dallas.',
     images: [
       {
-        url: '/images/hero-home.jpg',
+        url: '/images/about-hero.jpg',
         width: 1200,
         height: 630,
         alt: 'FÉROCE luxury handbag collection',
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     title: 'FÉROCE — Luxury Handbags & Accessories',
     description:
       'Fierce elegance, structured utility. Luxury handbags for women and men. Designed in Dallas.',
-    images: ['/images/hero-home.jpg'],
+    images: ['/images/about-hero.jpg'],
   },
   robots: {
     index: true,
