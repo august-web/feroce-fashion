@@ -72,6 +72,20 @@ body {
   background-color: var(--color-cream);
 }
 
+/* ── Accent colors for checkboxes ── */
+input[type=checkbox] {
+  accent-color: var(--color-navy);
+}
+input[type=checkbox].accent-gold {
+  accent-color: var(--color-gold);
+}
+input[type=checkbox].accent-navy {
+  accent-color: var(--color-navy);
+}
+input[type=color] {
+  accent-color: var(--color-navy);
+}
+
 /* ── Tailwind v4 utility overrides ── */
 @layer utilities {
   .font-serif {

@@ -110,7 +110,7 @@ export function LoginForm() {
 
       {/* Links — Forgot = neutral gray, Create one = gold for conversion */}
       <div className="flex items-center justify-between pt-1">
-        <a href="#" className="text-xs text-[#8a857c] hover:text-navy transition-colors underline underline-offset-2">
+        <a href="/forgot-password" className="text-xs text-[#8a857c] hover:text-navy transition-colors underline underline-offset-2">
           Forgot your password?
         </a>
         <Link href="/register" className="text-xs font-medium text-gold hover:text-navy transition-colors underline underline-offset-2">
