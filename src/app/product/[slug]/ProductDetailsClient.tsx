@@ -4,6 +4,8 @@ import { useState } from 'react'
 import type { ShopProduct } from '@/lib/shop-data'
 import { formatPrice } from '@/lib/types'
 import { useCartStore } from '@/store/cart'
+import { useWishlistStore } from '@/store/wishlist'
+import { Heart } from 'lucide-react'
 import { useToastStore } from '@/components/Toast'
 import { useAuth } from '@/hooks/useAuth'
 import { ColorSwatches } from '@/components/product/ColorSwatches'
@@ -26,6 +28,8 @@ export function ProductDetailsClient({ product, selectedColor, onColorChange, on
   const addItem = useCartStore((s) => s.addItem)
   const toast = useToastStore((s) => s.add)
   const { isAuthenticated, loading } = useAuth()
+  const { toggleItem, isInWishlist } = useWishlistStore()
+  const inWishlist = isInWishlist(product.id)
 
   const activeVariant = product.variants.find((v) => v.color === selectedColor) || product.variants[0]
 
@@ -108,7 +112,14 @@ export function ProductDetailsClient({ product, selectedColor, onColorChange, on
         </div>
       </div>
 
-      <div className="border-t border-[#E2DFD8] pt-3">
+      <div className="flex items-center gap-4 border-t border-[#E2DFD8] pt-3">
+        <button
+          onClick={() => toggleItem({ productId: product.id, name: product.name, slug: product.slug, price: product.price, image: product.image_urls[0] || '', color: selectedColor })}
+          className={"flex items-center gap-2 text-[11px] font-sans uppercase tracking-[0.1em] transition-colors " + (inWishlist ? 'text-red-500' : 'text-navy/50 hover:text-red-500')}
+        >
+          <Heart size={14} strokeWidth={1.5} fill={inWishlist ? 'currentColor' : 'none'} />
+          {inWishlist ? 'In Wishlist' : 'Add to Wishlist'}
+        </button>
         <ShareButton name={product.name} slug={product.slug} />
       </div>
 

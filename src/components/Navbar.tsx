@@ -68,7 +68,7 @@ export function Navbar() {
               <Search size={16} strokeWidth={1.5} />
             </button>
             {/* Wishlist — desktop only */}
-            <button aria-label="Wishlist" onClick={() => { window.location.href = '/account' }} className="hidden h-10 w-10 sm:h-12 sm:w-12 items-center justify-center text-navy hover:text-gold transition-colors md:flex relative">
+            <button aria-label="Wishlist" onClick={() => { window.location.href = '/wishlist' }} className="hidden h-10 w-10 sm:h-12 sm:w-12 items-center justify-center text-navy hover:text-gold transition-colors md:flex relative">
               <Heart size={16} strokeWidth={1.5} />
               {displayWishlist > 0 && (
                 <span className="absolute right-1 top-1 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-gold px-1 text-[8px] font-bold text-navy">{displayWishlist}</span>
@@ -110,6 +110,7 @@ export function Navbar() {
         </div>
         <div className="px-6 py-4 border-t border-line">
           <ul className="space-y-1">
+            <li><Link href="/wishlist" onClick={() => setMenuOpen(false)} className="flex h-12 items-center text-[11px] uppercase tracking-luxury text-navy hover:text-gold transition-colors"><Heart size={16} strokeWidth={1.5} className="mr-3" />Wishlist {displayWishlist > 0 && "(" + displayWishlist + ")"}</Link></li>
             <li><Link href={accountHref} onClick={() => setMenuOpen(false)} className="flex h-12 items-center text-[11px] uppercase tracking-luxury text-navy hover:text-gold transition-colors"><User size={16} strokeWidth={1.5} className="mr-3" />Account</Link></li>
             <li><Link href="/bag" onClick={() => setMenuOpen(false)} className="flex h-12 items-center text-[11px] uppercase tracking-luxury text-navy hover:text-gold transition-colors"><ShoppingBag size={16} strokeWidth={1.5} className="mr-3" />Bag {displayCount > 0 && '(' + displayCount + ')'}</Link></li>
             <li><button onClick={() => { setMenuOpen(false); setSearchOpen(true) }} className="flex h-12 items-center text-[11px] uppercase tracking-luxury text-navy hover:text-gold transition-colors w-full"><Search size={16} strokeWidth={1.5} className="mr-3" />Search</button></li>

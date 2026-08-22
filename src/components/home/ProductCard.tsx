@@ -2,6 +2,8 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
+import { Heart } from 'lucide-react'
+import { useWishlistStore } from '@/store/wishlist'
 import { Share2, Copy, Check, X } from 'lucide-react'
 import type { Product } from '@/lib/types'
 import { formatPrice } from '@/lib/types'
@@ -13,6 +15,8 @@ interface ProductCardProps {
 export function ProductCard({ product }: ProductCardProps) {
   const [showShare, setShowShare] = useState(false)
   const [copied, setCopied] = useState(false)
+  const { toggleItem, isInWishlist } = useWishlistStore()
+  const inWishlist = isInWishlist(product.id)
 
   const modelImage =
     product.model_image_urls && product.model_image_urls.length > 0
@@ -92,7 +96,27 @@ export function ProductCard({ product }: ProductCardProps) {
           )}
         </div>
 
-        {/* Share icon — top right */}
+                {/* Wishlist heart */}
+        <button
+          onClick={(e) => {
+            e.preventDefault()
+            e.stopPropagation()
+            toggleItem({
+              productId: product.id,
+              name: product.name,
+              slug: product.slug,
+              price: product.price,
+              image: product.image_urls[0] || '',
+              color: product.color,
+            })
+          }}
+          className={"absolute right-2.5 top-2.5 sm:right-3 sm:top-3 z-20 w-8 h-8 flex items-center justify-center backdrop-blur-sm transition-all duration-150 " + (inWishlist ? 'bg-red-500 text-white' : 'bg-white/90 text-navy/60 hover:text-red-500 hover:bg-white')}
+          aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
+        >
+          <Heart size={14} strokeWidth={1.5} fill={inWishlist ? "currentColor" : "none"} />
+        </button>
+
+{/* Share icon — top right */}
         <button
           onClick={handleShare}
           className="absolute right-2.5 top-2.5 sm:right-3 sm:top-3 z-20 w-8 h-8 flex items-center justify-center bg-white/90 backdrop-blur-sm text-navy/60 hover:text-navy hover:bg-white transition-all duration-150"
