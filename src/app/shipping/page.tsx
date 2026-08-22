@@ -40,26 +40,7 @@ export default function ShippingPage() {
 
       <section className="bg-cream px-6 py-16 md:py-20">
         <div className="max-w-4xl mx-auto">
-          <h2 className="font-serif text-2xl md:text-3xl text-navy mb-8">Returns Policy</h2>
-          <div className="space-y-6">
-            <div>
-              <h3 className="text-navy font-serif text-lg mb-2">Eligibility</h3>
-              <ul className="text-[#6b6b6b] text-sm space-y-2 ml-4">
-                <li>Free returns within 30 days of delivery</li>
-                <li>Item must be unused, unworn, in original packaging</li>
-                <li>Original tags must remain attached</li>
-                <li>Shoes must not be worn</li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="text-navy font-serif text-lg mb-2">How to Initiate a Return</h3>
-              <p className="text-[#6b6b6b] text-sm">Contact us via email at Ferocefashionff@gmail.com or give us a call with your order number.</p>
-            </div>
-            <div>
-              <h3 className="text-navy font-serif text-lg mb-2">Refunds</h3>
-              <p className="text-[#6b6b6b] text-sm">Full refund processed within 7-10 business days of receiving your return.</p>
-            </div>
-          </div>
+          <h2 className="font-serif text-2xl md:text-3xl text-navy mb-8">Returns & Exchanges Policy</h2><div className="space-y-6">  <div className="bg-white border border-line p-6">    <h3 className="text-navy font-serif text-lg mb-3">All Sales Are Final</h3>    <p className="text-[#6b6b6b] text-sm leading-relaxed mb-4">Due to the handcrafted nature of our products and our commitment to quality, <strong className="text-navy">all sales are final</strong>. We do not accept refunds, returns, or exchanges.</p>    <ul className="text-[#6b6b6b] text-sm space-y-2 ml-4">      <li>No refunds will be issued for any purchase</li>      <li>No returns are accepted once an order has been delivered</li>      <li>No exchanges for different sizes, colors, or styles</li>    </ul>  </div>  <div>    <h3 className="text-navy font-serif text-lg mb-2">Damaged or Defective Items</h3>    <p className="text-[#6b6b6b] text-sm">If your item arrives damaged or defective, please contact us within 48 hours of delivery at Ferocefashionff@gmail.com with your order number and photos of the damage. We will review on a case-by-case basis.</p>  </div>  <div>    <h3 className="text-navy font-serif text-lg mb-2">Questions?</h3>    <p className="text-[#6b6b6b] text-sm">If you have any concerns about your order, please reach out to us via email at Ferocefashionff@gmail.com or DM us on Instagram (@ferocefashion_ff). We are committed to ensuring your satisfaction.</p>  </div></div>
         </div>
       </section>
 

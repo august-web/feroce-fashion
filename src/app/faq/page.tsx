@@ -27,7 +27,7 @@ const faqs = [
   },
   {
     q: 'What is your return policy?',
-    a: 'We offer free returns within 30 days of delivery. Items must be unused and in original packaging. Contact us to initiate a return.',
+    a: 'All sales are final. We do not accept refunds, returns, or exchanges. If you have any concerns about your order, please contact us.',
   },
   {
     q: 'How do I care for my Feroce bag?',

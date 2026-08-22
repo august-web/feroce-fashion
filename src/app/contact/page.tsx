@@ -125,7 +125,7 @@ export default function ContactPage() {
             <p className="label mb-3 text-gold">Common Questions</p>
             <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy mb-10">Frequently Asked</h2>
             <div className="space-y-4 text-left">
-              {[{q:"How long does shipping take?",a:"Standard shipping is 5-7 business days. Express shipping (2-3 business days) is available at checkout. We ship internationally."},{q:"Do you accept returns?",a:"Yes - free returns within 30 days of delivery. Items must be unused with tags attached."},{q:"How do I care for my bag?",a:"Store in the included dust bag. Avoid prolonged sun exposure. Clean with a soft, dry cloth. Condition leather every 3-6 months."},{q:"Can I purchase via DM?",a:"Yes - DM us on Instagram @ferocefashion_ff for direct purchase options."}].map((faq,i)=>(
+              {[{q:"How long does shipping take?",a:"Standard shipping is 5-7 business days. Express shipping (2-3 business days) is available at checkout. We ship internationally."},{q:"What is your return policy?",a:"All sales are final. We do not accept refunds, returns, or exchanges."},{q:"How do I care for my bag?",a:"Store in the included dust bag. Avoid prolonged sun exposure. Clean with a soft, dry cloth. Condition leather every 3-6 months."},{q:"Can I purchase via DM?",a:"Yes - DM us on Instagram @ferocefashion_ff for direct purchase options."}].map((faq,i)=>(
                 <div key={i} className="border border-line p-5 md:p-6">
                   <h3 className="font-serif text-sm font-semibold text-navy mb-2">{faq.q}</h3>
                   <p className="text-xs text-navy/50 leading-relaxed">{faq.a}</p>

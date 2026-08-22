@@ -136,7 +136,7 @@ function orderCancelled(name, orderId) {
     html: wrap('<div class="body">'
       + '<div style="text-align:center;margin-bottom:32px;"><span class="badge badge-cancelled">CANCELLED</span></div>'
       + '<h2>Your order has been cancelled.</h2>'
-      + '<p>Order #' + orderId.slice(0, 8).toUpperCase() + ' has been cancelled. If charged, a refund will process within 5–10 business days.</p>'
+      + '<p>Order #' + orderId.slice(0, 8).toUpperCase() + ' has been cancelled. If you have any questions about this order, please contact us at hello@ferocefashionff.com.</p>'
       + '<div style="text-align:center;margin:32px 0;"><a href="mailto:' + ADMIN_EMAIL + '" class="btn">CONTACT US</a></div>'
       + '</div>'),
   };

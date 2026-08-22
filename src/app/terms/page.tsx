@@ -37,7 +37,7 @@ export default function TermsPage() {
 
           <div>
             <h2 className="font-serif text-2xl text-navy mb-4">Shipping & Returns</h2>
-            <p className="text-[#6b6b6b] text-sm leading-relaxed">We ship worldwide. See our Shipping & Returns page for details. Returns must be initiated within 30 days of delivery.</p>
+            <p className="text-[#6b6b6b] text-sm leading-relaxed">We ship worldwide. See our Shipping & Returns page for details. All sales are final. We do not accept refunds, returns, or exchanges.</p>
           </div>
 
           <div>

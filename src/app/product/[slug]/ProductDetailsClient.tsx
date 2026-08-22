@@ -63,8 +63,8 @@ export function ProductDetailsClient({ product, selectedColor, onColorChange, on
     {
       title: 'Shipping & Returns',
       content: product.preorder
-        ? 'Preorder items ship within 2–3 weeks of purchase. Complimentary standard shipping on orders over $200. Free returns within 30 days of delivery. Items must be unused with tags attached.'
-        : 'Complimentary standard shipping on orders over $200. Express shipping available at checkout. Free returns within 30 days of delivery. Items must be unused with tags attached.',
+        ? 'Preorder items ship within 2–3 weeks of purchase. Complimentary standard shipping on orders over $200. All sales are final — no refunds, returns, or exchanges of delivery. Items must be unused with tags attached.'
+        : 'Complimentary standard shipping on orders over $200. Express shipping available at checkout. All sales are final — no refunds, returns, or exchanges of delivery. Items must be unused with tags attached.',
     },
   ]
 
@@ -108,7 +108,7 @@ export function ProductDetailsClient({ product, selectedColor, onColorChange, on
           <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 text-gold flex-shrink-0">
             <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
           </svg>
-          <span className="text-[11px] text-navy/50">Free returns within 30 days</span>
+          <span className="text-[11px] text-navy/50">All sales are final — no refunds, returns, or exchanges</span>
         </div>
       </div>
 
