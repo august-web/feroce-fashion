@@ -81,7 +81,7 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
 
             {product.preorder && (
               <p className="text-[11px] uppercase tracking-[0.15em] text-gold font-medium">
-                Preorder — ships in 2–3 weeks
+                Preorder — ships in 4–8 weeks
               </p>
             )}
 

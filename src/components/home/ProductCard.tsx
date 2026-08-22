@@ -190,7 +190,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
         {product.preorder && (
           <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] text-gold font-medium">
-            Preorder — ships in 2–3 weeks
+            Preorder — ships in 4–8 weeks
           </p>
         )}
       </div>
