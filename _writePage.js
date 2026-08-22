@@ -1,1 +1,0 @@
-const fs=require("fs");const b64=process.argv[1];fs.writeFileSync("src/app/admin/emails/page.tsx",Buffer.from(b64,"base64").toString("utf8"));console.log("done")
