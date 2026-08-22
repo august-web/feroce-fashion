@@ -1,0 +1,1 @@
+const fs=require("fs");var c=fs.readFileSync("_page_b64.txt","utf8").trim();fs.writeFileSync("src/app/admin/emails/page.tsx",Buffer.from(c,"base64").toString("utf8"));console.log("Written",fs.statSync("src/app/admin/emails/page.tsx").size,"bytes")

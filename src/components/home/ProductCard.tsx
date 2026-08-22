@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { Heart } from 'lucide-react'
 import { useWishlistStore } from '@/store/wishlist'
+import Image from 'next/image'
 import { Share2, Copy, Check, X } from 'lucide-react'
 import type { Product } from '@/lib/types'
 import { formatPrice } from '@/lib/types'
@@ -61,23 +62,13 @@ export function ProductCard({ product }: ProductCardProps) {
     >
       {/* Image container */}
       <div className="relative aspect-[4/5] overflow-hidden border border-line bg-white">
-        <img
-          src={product.image_urls[0] || '/images/products/Denim De Ville Collection/Blue & Gold/Denim De Ville Collection --Blue & Gold.jpg'}
-          alt={product.name}
-          className="absolute inset-0 h-full w-full object-cover transition-all duration-700 group-hover:scale-[1.03]"
-          loading="lazy"
-        />
+        <Image src={product.image_urls[0] || "/images/products/Denim De Ville Collection/Blue & Gold/Denim De Ville Collection --Blue & Gold.jpg"} alt={product.name} width={600} height={750} sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw" className="absolute inset-0 h-full w-full object-cover transition-all duration-700 group-hover:scale-[1.03]" />
 
         {modelImage && (
-          <img
-            src={modelImage}
-            alt={`${product.name} — worn`}
-            className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-700 group-hover:opacity-100"
-            loading="lazy"
-          />
+          <Image src={modelImage} alt={product.name + " — worn"} width={600} height={750} sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw" className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
         )}
 
-        {/* Badges — top left */}
+{/* Badges — top left */}
         <div className="absolute left-2.5 top-2.5 sm:left-3 sm:top-3 z-10 flex flex-col gap-1.5">
           {product.is_new && (
             <span className="bg-gold px-2.5 py-1 sm:px-3 sm:py-1.5 text-[8px] sm:text-[9px] font-bold uppercase tracking-wider text-navy">

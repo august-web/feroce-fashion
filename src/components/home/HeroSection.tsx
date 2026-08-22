@@ -20,6 +20,9 @@ export function HeroSection() {
           src='/images/hero-home.jpg'
           alt='FEROCE handbag collection'
           fetchPriority='high'
+          decoding='async'
+          width={1920}
+          height={1080}
           className='absolute inset-0 h-full w-full object-cover'
           style={{ objectPosition: '50% 60%' }}
         />
