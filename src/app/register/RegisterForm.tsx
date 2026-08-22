@@ -9,13 +9,20 @@ export function RegisterForm() {
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [submittedEmail, setSubmittedEmail] = useState("")
 
   const handleSubmit = async (formData: FormData) => {
     setLoading(true)
     setError(null)
+    setSubmittedEmail((formData.get("email") as string) || "")
     const result = await registerAction(formData)
     if (result?.error) {
       setError(result.error)
+      setLoading(false)
+    } else {
+      // Success - redirect with success param handled by URL
+      setSuccess(true)
       setLoading(false)
     }
   }
@@ -23,6 +30,33 @@ export function RegisterForm() {
   const labelClass = "block text-[11px] font-sans uppercase tracking-[0.08em] text-navy/60 mb-1.5"
   const inputBase = "w-full border border-[#d1cec7] bg-white px-4 text-[16px] font-sans text-navy placeholder:text-[#8a857c]/60 min-h-[48px] transition-all duration-150 ease-out outline-none"
   const inputNormal = `${inputBase} shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)] focus:border-gold focus:ring-2 focus:ring-gold/30`
+
+  if (success) {
+    return (
+      <div className="text-center py-8">
+        <div className="w-16 h-16 mx-auto mb-6 bg-green-50 rounded-full flex items-center justify-center">
+          <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+        </div>
+        <h2 className="font-serif text-2xl font-semibold text-navy mb-3">Check Your Email</h2>
+        <p className="text-sm text-navy/60 mb-2">We sent a verification link to:</p>
+        <p className="text-sm font-medium text-navy mb-6">{submittedEmail || "your email address"}</p>
+        <p className="text-xs text-navy/50 mb-8">
+          Click the link in the email to verify your account and start shopping.
+          The link expires in 24 hours.
+        </p>
+        <div className="space-y-3">
+          <Link href="/login" className="block w-full bg-navy text-white uppercase font-sans font-medium text-[11px] tracking-[0.2em] px-6 py-3.5 min-h-[48px] hover:bg-navy/90 transition-colors">
+            Go to Sign In
+          </Link>
+          <Link href="/" className="block text-xs text-navy/50 hover:text-navy transition-colors">
+            Back to FEROCE
+          </Link>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <form action={handleSubmit} className="space-y-5" noValidate>
