@@ -5,6 +5,7 @@ import { CategoryIcons } from '@/components/home/CategoryIcons'
 import { EditSection } from '@/components/home/EditSection'
 import { LifestyleStrip } from '@/components/home/LifestyleStrip'
 import { MemberBanner } from '@/components/home/MemberBanner'
+import { VideoGrid } from '@/components/home/VideoGrid'
 
 export const dynamic = 'force-dynamic'
 
@@ -36,6 +37,7 @@ export default async function HomePage() {
       <Marquee />
       <CategoryIcons categories={categories} productCounts={productCounts} />
       <EditSection products={products} />
+      <VideoGrid />
       <LifestyleStrip />
       <MemberBanner />
     </>
