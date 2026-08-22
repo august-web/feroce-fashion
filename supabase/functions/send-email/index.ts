@@ -222,7 +222,15 @@ serve(async (req) => {
       case "new-order-admin":
         emailData = newOrderAdmin(params.orderId || "unknown", params.customerEmail || "unknown", params.items || [], params.total || 0, params.paymentMethod || "Card"); break;
       case "newsletter":
-        emailData = newsletterEmail(params.name || "there"); break;
+        if (params.customSubject && params.customHtml) {
+          emailData = { subject: params.customSubject, html: wrap(params.customHtml) };
+        } else {
+          emailData = newsletterEmail(params.name || "there");
+        }
+        break;
+      case "custom":
+        emailData = { subject: params.customSubject || "FÉROCE Update", html: wrap(params.customHtml || '<div class="body"><p>Update from FÉROCE.</p></div>') };
+        break;
       default:
         return new Response(JSON.stringify({ error: "Unknown type: " + type }), {
           status: 400, headers: { "Content-Type": "application/json" }
