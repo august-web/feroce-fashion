@@ -47,7 +47,7 @@ export function CategoryIcons({ categories, productCounts }: CategoryIconsProps)
                       {cat.name}
                     </p>
                     <p className='mt-1 text-[10px] uppercase tracking-luxury text-navy/40'>
-                      {cat.slug === 'mens' ? 'Coming Soon' : 'Explore Collection'}
+                      'Explore Collection'
                     </p>
                   </div>
                 </Link>
