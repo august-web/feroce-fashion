@@ -68,7 +68,7 @@ export default function AdminEmailsPage() {
     if (!subject.trim() || !body.trim()) return
     setSending(true); setSent(null)
     try {
-      const res = await fetch("/api/admin/emails/send", { method: "POST", headers: { "Content-Type": "application/json" },
+      const res = await fetch("/api/admin/emails", { method: "POST", headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ type: selectedType, subject: subject.trim(), htmlContent: body, recipientFilter, recipientEmails: selectedEmails }) })
       const data = await res.json()
       if (!res.ok) setSent({ success: false, error: data.error || "Failed" })
