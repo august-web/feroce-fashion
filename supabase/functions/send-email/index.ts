@@ -70,7 +70,7 @@ function verifyEmail(name, url) {
   return {
     subject: "Verify Your FÉROCE Account",
     html: wrap('<div class="body"><h2>Verify your email, ' + name + '.</h2>'
-      + '<p>Thanks for creating your FÉROCE account. Click the button below to verify your email and start shopping.</p>'
+      + '<p>Thanks for creating your FÉROCE account. Tap the link below to verify your email and start shopping.</p>'
       + '<div style="text-align:center;margin:32px 0;"><a href="' + url + '" class="btn">VERIFY MY EMAIL</a></div>'
       + '<p style="font-size:12px;color:#8a857c;">If you didn\'t create this account, you can safely ignore this email. This link expires in 24 hours.</p></div>'),
   };
