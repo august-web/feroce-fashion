@@ -5,13 +5,13 @@ import { ScrollReveal } from '@/components/ScrollReveal'
 
 export function MemberBanner() {
   return (
-    <section className="relative overflow-hidden py-11 sm:py-16 md:py-18">
+    <section className="relative overflow-hidden min-h-[500px] sm:min-h-[560px] md:min-h-[600px] py-16 sm:py-20 md:py-24">
       {/* Background photo with dark overlay */}
       <div className="absolute inset-0">
         <img
           src="/images/products/Denim De Ville Collection/Cream & Gold/Preview 3.jpg"
           alt=""
-          className="h-full w-full object-cover object-center"
+          className="h-full w-full object-cover object-[center_20%]"
         />
         <div className="absolute inset-0 bg-navy/80" />
       </div>
