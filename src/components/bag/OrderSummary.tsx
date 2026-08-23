@@ -46,7 +46,7 @@ export function OrderSummary() {
       const data = await res.json()
 
       if (data.url) {
-        window.location.href = data.url
+        window.open(data.url, "_self")
       } else {
         alert(data.error || 'Failed to start checkout. Please try again.')
       }
