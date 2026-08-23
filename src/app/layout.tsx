@@ -4,6 +4,8 @@ import { StoreShell } from '@/components/StoreShell'
 import { ToastContainer } from '@/components/Toast'
 import { GoogleAnalytics } from '@/components/seo/Analytics'
 import { OrganizationJsonLd, WebsiteJsonLd } from '@/components/seo/JsonLd'
+import { SmoothScroll } from '@/components/SmoothScroll'
+import { PageTransition } from '@/components/PageTransition'
 
 const SITE_URL = 'https://ferocefashionff.com'
 
@@ -110,7 +112,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-cream font-sans text-navy antialiased">
         <GoogleAnalytics />
-        <StoreShell>{children}</StoreShell>
+        <SmoothScroll><StoreShell><PageTransition>{children}</PageTransition></StoreShell></SmoothScroll>
         <ToastContainer />
       </body>
     </html>

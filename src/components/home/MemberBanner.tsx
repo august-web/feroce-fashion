@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ScrollReveal } from '@/components/ScrollReveal'
+import { motion } from 'framer-motion'
 
 export function MemberBanner() {
   return (
@@ -27,7 +27,7 @@ export function MemberBanner() {
       <div className="absolute top-0 right-0 h-full w-px bg-gradient-to-b from-transparent via-gold/20 to-transparent" />
 
       <div className="relative z-10 mx-auto max-w-3xl px-5 sm:px-6 text-center">
-        <ScrollReveal>
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
           <p className="mb-4 text-[10px] uppercase font-sans tracking-[0.3em] text-gold">
             Join the Inner Circle
           </p>
@@ -50,7 +50,7 @@ export function MemberBanner() {
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>
           </Link>
-        </ScrollReveal>
+        </motion.div>
       </div>
     </section>
   )

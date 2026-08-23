@@ -1,6 +1,6 @@
 'use client'
 
-import { ScrollReveal } from '@/components/ScrollReveal'
+import { motion } from 'framer-motion'
 import Link from 'next/link'
 
 const STRIP_IMAGES = [
@@ -28,17 +28,17 @@ export function LifestyleStrip() {
   return (
     <section className="bg-cream py-14 sm:py-20 md:py-28 overflow-hidden">
       <div className="mx-auto max-w-7xl px-4 md:px-8">
-        <ScrollReveal>
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
           <p className="label mb-3 text-center">The World of Féroce</p>
           <h2 className="font-serif text-2xl font-semibold text-center text-navy mb-10 sm:mb-14 md:text-3xl">
             Made to Be Seen
           </h2>
-        </ScrollReveal>
+        </motion.div>
 
         {/* Mobile: horizontal scroll. Desktop: 3-col grid */}
         <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide md:grid md:grid-cols-3 md:gap-6 md:overflow-visible pb-4 md:pb-0">
           {STRIP_IMAGES.map((img, i) => (
-            <ScrollReveal key={i} delay={i * 150}>
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.15 }}>
               <Link
                 href={img.href}
                 className="group relative block aspect-[3/4] sm:aspect-[4/5] overflow-hidden border border-line snap-center min-w-[70vw] sm:min-w-[55vw] md:min-w-0"
@@ -69,7 +69,7 @@ export function LifestyleStrip() {
                   </p>
                 </div>
               </Link>
-            </ScrollReveal>
+            </motion.div>
           ))}
         </div>
       </div>

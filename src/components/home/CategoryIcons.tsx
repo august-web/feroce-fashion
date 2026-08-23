@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import type { Category } from '@/lib/types'
-import { ScrollReveal } from '@/components/ScrollReveal'
+import { motion } from 'framer-motion'
 
 const CATEGORY_IMAGES: Record<string, string> = {
   womens: '/images/products/Denim De Ville Collection/Blue & Gold/Denim De Ville Collection --Blue & Gold.jpg',
@@ -18,19 +18,19 @@ export function CategoryIcons({ categories, productCounts }: CategoryIconsProps)
   return (
     <section className='bg-cream py-14 sm:py-20 md:py-28 overflow-hidden'>
       <div className='mx-auto max-w-7xl px-4 md:px-8'>
-        <ScrollReveal>
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
           <p className='label mb-4 text-center'>Shop by Category</p>
           <h2 className='font-serif text-2xl font-semibold text-center text-navy mb-14 md:text-3xl'>
             Find Your Silhouette
           </h2>
-        </ScrollReveal>
+        </motion.div>
 
         <div className='grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-2 md:gap-8 max-w-2xl mx-auto'>
           {categories.map((cat, i) => {
             const img = CATEGORY_IMAGES[cat.slug]
             const count = productCounts[cat.slug] || 0
             return (
-              <ScrollReveal key={cat.id} delay={i * 100}>
+              <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.15 }}>
                 <Link href={"/shop/" + cat.slug} className='group flex flex-col items-center gap-5'>
                   <div className='relative flex h-32 w-32 sm:h-40 sm:w-40 items-center justify-center rounded-full border border-line bg-white overflow-hidden transition-all duration-500 group-hover:border-gold group-hover:shadow-[0_8px_30px_rgba(212,175,55,0.15)] group-hover:scale-105 md:h-44 md:w-44'>
                     {img ? (
@@ -51,7 +51,7 @@ export function CategoryIcons({ categories, productCounts }: CategoryIconsProps)
                     </p>
                   </div>
                 </Link>
-              </ScrollReveal>
+              </motion.div>
             )
           })}
         </div>
