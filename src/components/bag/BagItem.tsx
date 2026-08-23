@@ -20,7 +20,7 @@ export function BagItem({ item }: BagItemProps) {
         className="relative h-28 w-24 flex-shrink-0 overflow-hidden border border-line bg-cream sm:h-36 sm:w-28"
       >
         <img
-          src={item.image || '/images/products/quilted-cream/product-1.jpg'}
+          src={item.image || '/images/hero-home.jpg'}
           alt={item.name}
           className="h-full w-full object-cover"
         />
