@@ -38,7 +38,7 @@ export function LifestyleStrip() {
         {/* Mobile: horizontal scroll. Desktop: 3-col grid */}
         <div className="flex gap-4 overflow-x-auto snap-x snap-mandatory scrollbar-hide md:grid md:grid-cols-3 md:gap-6 md:overflow-visible pb-4 md:pb-0">
           {STRIP_IMAGES.map((img, i) => (
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.15 }}>
+            <motion.div key={i} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.15 }}>
               <Link
                 href={img.href}
                 className="group relative block aspect-[3/4] sm:aspect-[4/5] overflow-hidden border border-line snap-center min-w-[70vw] sm:min-w-[55vw] md:min-w-0"

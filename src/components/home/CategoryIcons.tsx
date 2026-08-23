@@ -30,7 +30,7 @@ export function CategoryIcons({ categories, productCounts }: CategoryIconsProps)
             const img = CATEGORY_IMAGES[cat.slug]
             const count = productCounts[cat.slug] || 0
             return (
-              <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.15 }}>
+              <motion.div key={cat.id} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.5, delay: i * 0.15 }}>
                 <Link href={"/shop/" + cat.slug} className='group flex flex-col items-center gap-5'>
                   <div className='relative flex h-32 w-32 sm:h-40 sm:w-40 items-center justify-center rounded-full border border-line bg-white overflow-hidden transition-all duration-500 group-hover:border-gold group-hover:shadow-[0_8px_30px_rgba(212,175,55,0.15)] group-hover:scale-105 md:h-44 md:w-44'>
                     {img ? (
