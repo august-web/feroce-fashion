@@ -14,10 +14,10 @@ export function HeroSection() {
     <section className='relative flex min-h-[85vh] min-h-[540px] sm:min-h-[600px] md:min-h-[82vh] items-end overflow-hidden'>
       {/* Background image */}
       <picture className='absolute inset-0'>
-        <source media='(max-width: 767px)' srcSet='/images/about-hero.jpg' />
-        <source media='(min-width: 768px)' srcSet='/images/about-hero.jpg' />
+        <source media='(max-width: 767px)' srcSet='/images/hero-home.jpg' />
+        <source media='(min-width: 768px)' srcSet='/images/hero-home.jpg' />
         <img
-          src='/images/about-hero.jpg'
+          src='/images/hero-home.jpg'
           alt='FEROCE handbag collection'
           fetchPriority='high'
           decoding='async'
