@@ -20,17 +20,40 @@ export function OrderSummary() {
     }
   }
 
-  const handleCheckout = () => {
-    if (!items.length) return
+  const [checkingOut, setCheckingOut] = useState(false)
 
-    // Find the first item with a Stripe checkout URL
-    const checkoutItem = items.find((item) => item.stripe_checkout_url)
+  const handleCheckout = async () => {
+    if (!items.length || checkingOut) return
+    setCheckingOut(true)
 
-    if (checkoutItem?.stripe_checkout_url) {
-      window.location.href = checkoutItem.stripe_checkout_url
-    } else {
-      // Fallback: no checkout URL available
-      alert('Checkout is not available for this item yet.')
+    try {
+      const res = await fetch('/api/checkout/stripe/session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          items: items.map((item) => ({
+            productId: item.productId,
+            name: item.name,
+            slug: item.slug,
+            price: item.price,
+            image: item.image,
+            color: item.color,
+            quantity: item.quantity,
+          })),
+        }),
+      })
+
+      const data = await res.json()
+
+      if (data.url) {
+        window.location.href = data.url
+      } else {
+        alert(data.error || 'Failed to start checkout. Please try again.')
+      }
+    } catch {
+      alert('Network error. Please try again.')
+    } finally {
+      setCheckingOut(false)
     }
   }
 
@@ -92,10 +115,10 @@ export function OrderSummary() {
       {/* Checkout CTA — redirects to Stripe Payment Link */}
       <button
         onClick={handleCheckout}
-        disabled={!items.length}
+        disabled={!items.length || checkingOut}
         className="mt-6 block w-full btn-primary py-4 text-center min-h-[48px] group relative overflow-hidden text-center disabled:opacity-50 disabled:cursor-not-allowed"
       >
-        <span className="relative z-10">PROCEED TO CHECKOUT</span>
+        <span className="relative z-10">{checkingOut ? 'STARTING CHECKOUT...' : 'PROCEED TO CHECKOUT'}</span>
         <div className="absolute inset-0 bg-gold/20 translate-y-full transition-transform duration-300 group-hover:translate-y-0" />
       </button>
 
