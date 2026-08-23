@@ -9,7 +9,7 @@ export function MemberBanner() {
       {/* Background photo with dark overlay */}
       <div className="absolute inset-0">
         <img
-          src="/images/products/burgundy-structured/model/lifestyle-1.jpg"
+          src="/images/products/Denim De Ville Collection/Cream & Gold/Preview 3.jpg"
           alt=""
           className="h-full w-full object-cover object-center"
         />
