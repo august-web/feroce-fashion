@@ -44,8 +44,9 @@ export default function ShippingPage() {
         </div>
       </section>
 
-      <section className="bg-navy px-6 py-16 md:py-20">
-        <div className="max-w-3xl mx-auto text-center">
+      <section className="relative bg-navy px-6 py-20 md:py-28 overflow-hidden">
+        <div className="absolute inset-0 flex items-center justify-center opacity-10"><img src="/logo.png" alt="" className="h-48 w-48 md:h-64 md:w-64 object-contain" /></div>
+        <div className="relative z-10 max-w-3xl mx-auto text-center">
           <h2 className="font-serif text-2xl md:text-3xl text-white mb-4">Need Help?</h2>
           <p className="text-white/70 text-sm mb-8">We&apos;re here to help with any shipping or return questions.</p>
           <Link href="/contact" className="btn-primary bg-white text-navy hover:bg-white/90">CONTACT US</Link>
