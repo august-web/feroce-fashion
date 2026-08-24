@@ -26,7 +26,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Cart is empty' }, { status: 400 })
     }
 
-    const origin = request.headers.get('origin') || 'https://feroce-fashion.vercel.app'
+    const origin = request.headers.get('origin') || 'https://www.ferocefashionff.com'
 
     // Build Stripe Checkout line items from cart
     const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = items.map((item) => ({

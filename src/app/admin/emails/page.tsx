@@ -16,7 +16,7 @@ const TEMPLATES: Record<string, { subject: string; body: string }> = {
   custom: { subject: "", body: "<p>Write your email content here...</p>" },
   newsletter: {
     subject: "Stay in the Loop — FEROCE Updates",
-    body: '<h2>Your exclusive FEROCE update.</h2><p>Here is what is new.</p><div class="divider"></div><p>Add your content here.</p><div style="text-align:center;margin:32px 0;"><a href="https://feroce-fashion.vercel.app/shop" class="btn btn-gold">SHOP NEW ARRIVALS</a></div>',
+    body: '<h2>Your exclusive FEROCE update.</h2><p>Here is what is new.</p><div class="divider"></div><p>Add your content here.</p><div style="text-align:center;margin:32px 0;"><a href="https://www.ferocefashionff.com/shop" class="btn btn-gold">SHOP NEW ARRIVALS</a></div>',
   },
   welcome: { subject: "Welcome to FEROCE — The Attitude is Fierce", body: "" },
 }

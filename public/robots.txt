@@ -1,4 +1,4 @@
-# https://ferocefashionff.com/robots.txt
+# https://www.ferocefashionff.com/robots.txt
 User-agent: *
 Allow: /
 Disallow: /admin/
@@ -6,4 +6,4 @@ Disallow: /api/
 Disallow: /checkout/
 Disallow: /account/
 
-Sitemap: https://ferocefashionff.com/sitemap.xml
+Sitemap: https://www.ferocefashionff.com/sitemap.xml

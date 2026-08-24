@@ -24,7 +24,7 @@ export function ProductCard({ product }: ProductCardProps) {
       ? product.model_image_urls[0]
       : null
 
-  const productUrl = `https://ferocefashionff.com/product/${product.slug}`
+  const productUrl = `https://www.ferocefashionff.com/product/${product.slug}`
   const shareText = `Check out the ${product.name} from FÉROCE — luxury handbags designed in Dallas.`
 
   const handleShare = (e: React.MouseEvent) => {

@@ -7,7 +7,7 @@ import { OrganizationJsonLd, WebsiteJsonLd } from '@/components/seo/JsonLd'
 import { SmoothScroll } from '@/components/SmoothScroll'
 import { PageTransition } from '@/components/PageTransition'
 
-const SITE_URL = 'https://ferocefashionff.com'
+const SITE_URL = 'https://www.ferocefashionff.com'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

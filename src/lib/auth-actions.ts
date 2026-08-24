@@ -5,7 +5,7 @@ import { createClient } from '@/lib/supabase/server'
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
 const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-const SITE_URL = 'https://ferocefashionff.com'
+const SITE_URL = 'https://www.ferocefashionff.com'
 
 async function triggerEmail(type: string, to: string, params: Record<string, unknown> = {}) {
   try {

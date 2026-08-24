@@ -5,7 +5,7 @@ const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
 const FROM_EMAIL = "FÉROCE <hello@ferocefashionff.com>";
 const ADMIN_EMAIL = "Ferocefashionff@gmail.com";
-const SITE_URL = "https://feroce-fashion.vercel.app";
+const SITE_URL = "https://www.ferocefashionff.com";
 
 const sharedHead = `
   <meta charset="utf-8" />

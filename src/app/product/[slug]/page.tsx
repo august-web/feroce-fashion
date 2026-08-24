@@ -9,7 +9,7 @@ import { ProductJsonLd, BreadcrumbJsonLd } from '@/components/seo/JsonLd'
 
 export const dynamic = 'force-dynamic'
 
-const SITE_URL = 'https://ferocefashionff.com'
+const SITE_URL = 'https://www.ferocefashionff.com'
 
 interface ProductPageProps {
   params: Promise<{ slug: string }>

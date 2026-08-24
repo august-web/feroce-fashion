@@ -5,7 +5,7 @@ import Link from 'next/link'
 export const metadata: Metadata = {
   title: 'FAQ | Feroce',
   description: 'Frequently asked questions about Feroce handbags. Shipping, returns, payment methods, and more.',
-  alternates: { canonical: 'https://ferocefashionff.com/faq' },
+  alternates: { canonical: 'https://www.ferocefashionff.com/faq' },
 }
 
 const faqs = [
