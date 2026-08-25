@@ -36,11 +36,11 @@ export default async function HomePage() {
   return (
     <>
       <HeroSection />
+      <FeaturedInfluencer />
       <Marquee />
       <CategoryIcons categories={categories} productCounts={productCounts} />
       <VideoGrid />
       <EditSection products={products} />
-      <FeaturedInfluencer />
       <PopularSearches />
       <LifestyleStrip />
       <MemberBanner />
