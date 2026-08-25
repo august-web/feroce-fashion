@@ -36,8 +36,8 @@ export default async function HomePage() {
   return (
     <>
       <HeroSection />
-      <FeaturedInfluencer />
       <Marquee />
+      <FeaturedInfluencer />
       <CategoryIcons categories={categories} productCounts={productCounts} />
       <VideoGrid />
       <EditSection products={products} />
