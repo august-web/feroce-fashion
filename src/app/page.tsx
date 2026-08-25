@@ -36,8 +36,8 @@ export default async function HomePage() {
       <HeroSection />
       <Marquee />
       <CategoryIcons categories={categories} productCounts={productCounts} />
-      <EditSection products={products} />
       <VideoGrid />
+      <EditSection products={products} />
       <LifestyleStrip />
       <MemberBanner />
     </>
