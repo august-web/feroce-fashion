@@ -18,18 +18,26 @@ export const metadata: Metadata = {
   description:
     'Fierce elegance, structured utility. FÉROCE crafts luxury handbags for women and men. Shop the Naji Collection and Denim De Ville Collection. Designed in Dallas.',
   keywords: [
-    'luxury handbags',
-    'designer bags',
-    'FEROCE',
-    'Dallas fashion',
-    'women handbags',
-    'men handbags',
-    'fur handbag',
-    'denim handbag',
-    'Naji collection',
-    'Denim De Ville',
-    'structured handbag',
-    'luxury accessories',
+    // Brand
+    'FEROCE', 'FEROCE handbags', 'FEROCE fashion', 'FEROCE bags',
+    // Core product terms
+    'luxury handbags', 'designer handbags', 'premium handbags', 'high-end handbags', 'designer bags',
+    // Women's
+    'women handbags', 'womens handbags', 'women designer bags', 'ladies handbags', 'women luxury bags',
+    // Men's
+    'men handbags', 'mens handbags', 'men designer bags', 'men luxury bags', 'men accessories',
+    // Styles
+    'fur handbag', 'fur bag', 'quilted handbag', 'structured handbag', 'crossbody bag', 'tote bag', 'clutch bag', 'satchel bag', 'fanny pack',
+    // Materials
+    'fur bags', 'denim handbag', 'leather handbag', 'genuine leather bag',
+    // Collections
+    'Naji collection', 'Naji bag', 'Denim De Ville', 'Denim De Ville bag',
+    // Occasions
+    'party bag', 'evening bag', 'everyday handbag', 'travel bag',
+    // Location / brand story
+    'Dallas fashion', 'Dallas designer', 'Texas fashion',
+    // Long-tail
+    'best luxury handbags 2026', 'trendy handbags', 'affordable luxury bags', 'designer handbag sale', 'shop handbags online',
   ],
   authors: [{ name: 'FÉROCE Fashion' }],
   creator: 'FÉROCE Fashion',

@@ -8,6 +8,7 @@ import { SortSelect } from '@/components/shop/SortSelect'
 import { EmptyState } from '@/components/shop/EmptyState'
 import { ProductCard } from '@/components/home/ProductCard'
 import { ScrollReveal } from '@/components/ScrollReveal'
+import { CollectionPageJsonLd } from '@/components/seo/JsonLd'
 
 export const dynamic = 'force-dynamic'
 
@@ -43,6 +44,13 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
   const sorted = sortProducts(products, sort)
 
   return (
+    <>
+    <CollectionPageJsonLd
+      name={`${activeCat.name} — FÉROCE Luxury Handbags`}
+      description={`Browse our ${activeCat.name.toLowerCase()} collection of luxury handbags.`}
+      url={`https://www.ferocefashionff.com/shop/${category}`}
+      numberOfItems={sorted.length}
+    />
     <section className="bg-cream min-h-[60svh]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 py-10 sm:py-14 md:py-20">
         {/* Header */}
@@ -77,5 +85,6 @@ export default async function CategoryPage({ params, searchParams }: CategoryPag
         )}
       </div>
     </section>
+    </>
   )
 }

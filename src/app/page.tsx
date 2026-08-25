@@ -7,6 +7,7 @@ import { LifestyleStrip } from '@/components/home/LifestyleStrip'
 import { MemberBanner } from '@/components/home/MemberBanner'
 import { VideoGrid } from '@/components/home/VideoGrid'
 import { FeaturedInfluencer } from '@/components/home/FeaturedInfluencer'
+import { PopularSearches } from '@/components/home/PopularSearches'
 
 export const dynamic = 'force-dynamic'
 
@@ -40,6 +41,7 @@ export default async function HomePage() {
       <VideoGrid />
       <EditSection products={products} />
       <FeaturedInfluencer />
+      <PopularSearches />
       <LifestyleStrip />
       <MemberBanner />
     </>

@@ -125,6 +125,33 @@ export function WebsiteJsonLd({ name, url, description }: WebsiteJsonLdProps) {
   )
 }
 
+interface CollectionPageJsonLdProps {
+  name: string
+  description: string
+  url: string
+  numberOfItems: number
+}
+
+export function CollectionPageJsonLd({ name, description, url, numberOfItems }: CollectionPageJsonLdProps) {
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name,
+    description,
+    url,
+    numberOfItems,
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems,
+      itemListOrder: 'https://schema.org/ItemListUnordered',
+    },
+  }
+
+  return (
+    <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+  )
+}
+
 interface FaqJsonLdProps {
   items: { question: string; answer: string }[]
 }

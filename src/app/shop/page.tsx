@@ -7,6 +7,7 @@ import { SortSelect } from '@/components/shop/SortSelect'
 import { EmptyState } from '@/components/shop/EmptyState'
 import { ProductCard } from '@/components/home/ProductCard'
 import { ScrollReveal } from '@/components/ScrollReveal'
+import { CollectionPageJsonLd } from '@/components/seo/JsonLd'
 
 export const dynamic = 'force-dynamic'
 
@@ -46,6 +47,13 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   const products = sortProducts(filtered, sort)
 
   return (
+    <>
+    <CollectionPageJsonLd
+      name="Shop All — FÉROCE Luxury Handbags"
+      description="Browse the full FÉROCE collection of luxury handbags for women and men."
+      url="https://www.ferocefashionff.com/shop"
+      numberOfItems={products.length}
+    />
     <section className="bg-cream min-h-[60svh]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 py-10 sm:py-14 md:py-20">
         <ShopHeader title="Shop All" count={products.length} />
@@ -84,5 +92,6 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
         </div>
       </div>
     </section>
+    </>
   )
 }
