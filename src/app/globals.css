@@ -29,6 +29,7 @@
   --animate-fade-in: fadeIn 0.8s ease-out both;
   --animate-slide-up: slideUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
   --animate-float: float 3s ease-in-out infinite;
+  --animate-scroll: scroll 30s linear infinite;
 
   @keyframes marquee {
     0% { transform: translateX(0); }
@@ -54,6 +55,11 @@
   @keyframes float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-6px); }
+  }
+
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
   }
 }
 
