@@ -22,7 +22,7 @@ export function HeroSection() {
           decoding='async'
           width={1920}
           height={1080}
-          className='absolute inset-0 h-full w-full object-cover object-[center_55%]'
+          className='absolute inset-0 h-full w-full object-cover max-md:object-[center_15%] md:object-[center_55%]'
         />
       </picture>
 
