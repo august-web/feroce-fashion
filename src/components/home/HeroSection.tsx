@@ -14,16 +14,15 @@ export function HeroSection() {
     <section className='relative flex min-h-[70vh] min-h-[500px] sm:min-h-[600px] md:min-h-[82vh] items-end overflow-hidden'>
       {/* Background image */}
       <picture className='absolute inset-0'>
-        <source media='(max-width: 767px)' srcSet='/images/hero-home.jpg' />
-        <source media='(min-width: 768px)' srcSet='/images/hero-home.jpg' />
+        <source media='(max-width: 767px)' srcSet='/images/mobile-hero-home.jpg' />
         <img
           src='/images/hero-home.jpg'
-          alt='FEROCE handbag collection'
+          alt='FÉROCE handbag collection'
           fetchPriority='high'
           decoding='async'
           width={1920}
           height={1080}
-          className='absolute inset-0 h-full w-full object-cover max-md:object-[center_40%] md:object-[center_55%]'
+          className='absolute inset-0 h-full w-full object-cover object-[center_55%]'
         />
       </picture>
 
