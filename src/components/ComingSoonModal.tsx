@@ -53,7 +53,15 @@ export function ComingSoonModal({ open, onClose }: ComingSoonModalProps) {
       />
 
       {/* Modal card */}
-      <div className="relative bg-white border border-line max-w-md w-full px-8 py-10 sm:px-10 sm:py-12 text-center animate-slide-up">
+      <div className="relative bg-white border border-line max-w-md w-full px-8 py-10 sm:px-10 sm:py-12 text-center animate-slide-up overflow-hidden">
+        {/* Logo backdrop */}
+        <div
+          className="absolute inset-0 flex items-center justify-center opacity-[0.06] pointer-events-none"
+          aria-hidden="true"
+        >
+          <img src="/logo.png" alt="" className="w-[120%] max-w-none" />
+        </div>
+
         {/* Close button */}
         <button
           onClick={onClose}
@@ -67,7 +75,7 @@ export function ComingSoonModal({ open, onClose }: ComingSoonModalProps) {
         <div className="w-10 h-px bg-gold mx-auto mb-6" />
 
         {/* Logo */}
-        <p className="font-serif text-2xl font-semibold tracking-tight text-navy mb-1">FÉROCE</p>
+        <img src="/logo.png" alt="FÉROCE" className="h-12 sm:h-14 mx-auto mb-2" />
 
         {/* Badge */}
         <span className="inline-block text-[9px] uppercase tracking-[0.3em] text-gold font-sans font-medium mb-4">
