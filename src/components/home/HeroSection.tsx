@@ -11,7 +11,7 @@ const fadeUp = (delay = 0) => ({
 
 export function HeroSection() {
   return (
-    <section className='relative flex min-h-[540px] sm:min-h-[600px] md:min-h-[82vh] items-end overflow-hidden'>
+    <section className="relative flex min-h-[90svh] md:min-h-[82vh] items-end overflow-hidden">
       {/* Background image */}
       <picture className='absolute inset-0'>
         <source media='(max-width: 767px)' srcSet='/images/hero-home.jpg' />
