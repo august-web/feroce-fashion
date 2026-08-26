@@ -54,7 +54,7 @@ export function HeroSection() {
             </Link>
             <div className='hidden sm:block h-5 w-px bg-white/30' />
             <Link href='/about' className='group flex items-center gap-2 text-[11px] font-sans uppercase text-white/90 transition-colors hover:text-gold' style={{ letterSpacing: '0.2em' }}>
-              <span className='underline underline-offset-4 decoration-white/40 group-hover:decoration-gold transition-colors duration-300'>View Lookbook</span>
+              <span className='underline underline-offset-4 decoration-white/40 group-hover:decoration-gold transition-colors duration-300'>About Féroce</span>
               <span className='inline-block transition-transform duration-300 group-hover:translate-x-1'>→</span>
             </Link>
           </motion.div>
