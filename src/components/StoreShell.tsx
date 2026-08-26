@@ -5,27 +5,25 @@ import { useEffect, useState } from 'react'
 import { AnnouncementBar } from '@/components/AnnouncementBar'
 import { Navbar } from '@/components/Navbar'
 import { Footer } from '@/components/Footer'
-import { AuthPromptModal } from '@/components/AuthPromptModal'
-import { useAuth } from '@/hooks/useAuth'
+import { ComingSoonModal } from '@/components/ComingSoonModal'
 
 export function StoreShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const isAdmin = pathname.startsWith('/admin')
-  const { isAuthenticated, loading } = useAuth()
-  const [showWelcome, setShowWelcome] = useState(false)
+  const [showComingSoon, setShowComingSoon] = useState(false)
 
-  // Show welcome popup once per session for non-signed-in visitors
+  // Show coming soon popup once per session
   useEffect(() => {
-    if (loading || isAdmin || isAuthenticated) return
-    const hasSeenWelcome = sessionStorage.getItem('feroce-welcome-seen')
-    if (!hasSeenWelcome) {
+    if (isAdmin) return
+    const hasSeen = sessionStorage.getItem('feroce-coming-soon-seen')
+    if (!hasSeen) {
       const timer = setTimeout(() => {
-        setShowWelcome(true)
-        sessionStorage.setItem('feroce-welcome-seen', '1')
-      }, 2000) // 2 second delay so they see the page first
+        setShowComingSoon(true)
+        sessionStorage.setItem('feroce-coming-soon-seen', '1')
+      }, 1500)
       return () => clearTimeout(timer)
     }
-  }, [loading, isAuthenticated, isAdmin])
+  }, [isAdmin])
 
   if (isAdmin) {
     return <>{children}</>
@@ -37,10 +35,9 @@ export function StoreShell({ children }: { children: React.ReactNode }) {
       <Navbar />
       <main>{children}</main>
       <Footer />
-      <AuthPromptModal
-        open={showWelcome}
-        onClose={() => setShowWelcome(false)}
-        message="Create an account to start building your bag, track orders, and get early access to new collections."
+      <ComingSoonModal
+        open={showComingSoon}
+        onClose={() => setShowComingSoon(false)}
       />
     </>
   )
