@@ -11,8 +11,7 @@ interface ComingSoonModalProps {
 
 export function ComingSoonModal({ open, onClose }: ComingSoonModalProps) {
   const [email, setEmail] = useState('')
-  const [submitted, setSubmitted] = useState(false)
-  const [loading, setLoading] = useState(false)
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
 
   // Lock body scroll when open
   useEffect(() => {
@@ -28,11 +27,21 @@ export function ComingSoonModal({ open, onClose }: ComingSoonModalProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!email || !email.includes('@')) return
-    setLoading(true)
-    // Simulate submission (could connect to Resend/newsletter API later)
-    await new Promise(r => setTimeout(r, 800))
-    setSubmitted(true)
-    setLoading(false)
+    setStatus('loading')
+    try {
+      const url = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
+      const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+      const res = await fetch(url + '/functions/v1/send-email', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + key },
+        body: JSON.stringify({ type: 'newsletter', to: email, name: email.split('@')[0] }),
+      })
+      setStatus(res.ok ? 'success' : 'error')
+      if (res.ok) setEmail('')
+    } catch {
+      setStatus('error')
+    }
+    setTimeout(() => setStatus('idle'), 4000)
   }
 
   return createPortal(
@@ -72,7 +81,7 @@ export function ComingSoonModal({ open, onClose }: ComingSoonModalProps) {
           Fierce elegance, structured luxury. Be the first to shop our handcrafted collection.
         </p>
 
-        {!submitted ? (
+        {status !== 'success' ? (
           <form onSubmit={handleSubmit} className="space-y-3">
             <input
               type="email"
@@ -82,12 +91,15 @@ export function ComingSoonModal({ open, onClose }: ComingSoonModalProps) {
               required
               className="w-full border border-line rounded-lg px-4 py-3.5 text-sm text-navy placeholder:text-navy/35 focus:outline-none focus:ring-2 focus:ring-gold focus:border-gold transition-all"
             />
+            {status === 'error' && (
+              <p className="text-xs text-red-500">Something went wrong. Please try again.</p>
+            )}
             <button
               type="submit"
-              disabled={loading}
+              disabled={status === 'loading'}
               className="w-full btn-primary py-3.5 min-h-[48px] disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              {loading ? 'Signing Up...' : 'Get Early Access'}
+              {status === 'loading' ? 'Signing Up...' : 'Get Early Access'}
             </button>
           </form>
         ) : (
