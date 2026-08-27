@@ -100,7 +100,7 @@ export default function AboutPage() {
           <ScrollReveal>
             <div className="grid md:grid-cols-[1fr_2fr] gap-10 md:gap-16 items-center">
               <div className="relative aspect-[3/4] overflow-hidden border border-line">
-                <img src="/images/founder.jpg" alt="Feroce founder" className="h-full w-full object-cover" loading="lazy" />
+                <img src="/images/founder.jpg" alt="Zhanne' Lyles, Founder of FÉROCE" className="h-full w-full object-cover" loading="lazy" />
               </div>
               <div>
                 <p className="label mb-4 text-gold">From the Founder</p>
@@ -113,7 +113,7 @@ export default function AboutPage() {
                 </div>
                 <div className="mt-6 flex items-center gap-3">
                   <div className="w-8 h-px bg-gold" />
-                  <p className="text-[11px] font-sans uppercase tracking-[0.2em] text-navy/40">FÉROCE Founder</p>
+                  <p className="text-[11px] font-sans uppercase tracking-[0.2em] text-navy/40">Zhanne' Lyles — Founder, FÉROCE</p>
                 </div>
               </div>
             </div>
