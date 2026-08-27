@@ -97,7 +97,7 @@ export function ComingSoonModal({ open, onClose }: ComingSoonModalProps) {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email for early access"
               required
-              className="w-full border border-line rounded-lg px-4 py-3.5 text-sm text-navy placeholder:text-navy/35 focus:outline-none focus:ring-2 focus:ring-gold focus:border-gold transition-all"
+              className="w-full border border-line rounded-lg px-4 py-3.5 text-[16px] text-navy placeholder:text-navy/35 focus:outline-none focus:ring-2 focus:ring-gold focus:border-gold transition-all"
             />
             {status === 'error' && (
               <p className="text-xs text-red-500">Something went wrong. Please try again.</p>

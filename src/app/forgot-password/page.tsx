@@ -41,7 +41,7 @@ export default function ForgotPasswordPage() {
             <div>
               <label className="block text-[10px] font-sans uppercase tracking-[0.1em] text-navy/50 mb-1">Email Address</label>
               <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" required
-                className="w-full border border-line bg-white px-4 py-3 text-sm font-sans text-navy placeholder:text-navy/40 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30 min-h-[48px] transition-all" />
+                className="w-full border border-line bg-white px-4 py-3 text-[16px] font-sans text-navy placeholder:text-navy/40 focus:outline-none focus:border-gold focus:ring-1 focus:ring-gold/30 min-h-[48px] transition-all" />
             </div>
             {status === 'error' && <p className="text-xs text-red-600">Something went wrong. Please try again.</p>}
             <button type="submit" disabled={status === 'loading'}

@@ -51,16 +51,16 @@ export function BagItem({ item }: BagItemProps) {
           <div className="flex items-center border border-line">
             <button
               onClick={() => updateQuantity(item.productId, item.quantity - 1)}
-              className="flex h-9 w-9 items-center justify-center text-sm text-navy hover:bg-cream transition-colors disabled:text-navy/20"
+              className="flex h-11 w-11 items-center justify-center text-sm text-navy hover:bg-cream transition-colors disabled:text-navy/20"
             >
               −
             </button>
-            <span className="flex h-9 w-10 items-center justify-center text-xs font-sans text-navy border-x border-line">
+            <span className="flex h-11 w-11 items-center justify-center text-xs font-sans text-navy border-x border-line">
               {item.quantity}
             </span>
             <button
               onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-              className="flex h-9 w-9 items-center justify-center text-sm text-navy hover:bg-cream transition-colors"
+              className="flex h-11 w-11 items-center justify-center text-sm text-navy hover:bg-cream transition-colors"
             >
               +
             </button>

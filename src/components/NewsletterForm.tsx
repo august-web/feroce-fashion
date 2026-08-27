@@ -27,7 +27,7 @@ export function NewsletterForm() {
   return (
     <form onSubmit={handleSubmit} className="mx-auto flex max-w-md gap-0 flex-col sm:flex-row">
       <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Your email address" required
-        className="flex-1 border border-line bg-white px-4 py-3 text-[13px] font-sans text-navy placeholder:text-navy/40 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/30 min-h-[48px] rounded-l-lg sm:rounded-r-none rounded-lg sm:border-r-0 transition-all duration-150" />
+        className="flex-1 border border-line bg-white px-4 py-3 text-[16px] font-sans text-navy placeholder:text-navy/40 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/30 min-h-[48px] rounded-l-lg sm:rounded-r-none rounded-lg sm:border-r-0 transition-all duration-150" />
       <button type="submit" disabled={status === 'loading'}
         className="bg-navy text-white uppercase font-sans font-medium text-[11px] tracking-[0.2em] rounded-lg sm:rounded-l-none px-8 py-3 min-h-[48px] transition-all duration-150 hover:bg-[#152240] hover:scale-[1.02] active:scale-[0.98] active:bg-[#080e1f] whitespace-nowrap disabled:opacity-50">
         {status === 'loading' ? 'Sending...' : status === 'success' ? 'Subscribed!' : status === 'error' ? 'Try again' : 'Subscribe'}

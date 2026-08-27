@@ -122,16 +122,16 @@ export function MiniCartDrawer({ open, onClose }: MiniCartDrawerProps) {
                       <div className="flex items-center border border-line">
                         <button
                           onClick={() => updateQuantity(item.productId, item.quantity - 1)}
-                          className="h-7 w-7 flex items-center justify-center text-navy/60 hover:text-navy text-xs transition-colors"
+                          className="h-10 w-10 flex items-center justify-center text-navy/60 hover:text-navy text-xs transition-colors"
                         >
                           −
                         </button>
-                        <span className="h-7 w-7 flex items-center justify-center text-[11px] font-medium text-navy border-x border-line">
+                        <span className="h-10 w-10 flex items-center justify-center text-[11px] font-medium text-navy border-x border-line">
                           {item.quantity}
                         </span>
                         <button
                           onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-                          className="h-7 w-7 flex items-center justify-center text-navy/60 hover:text-navy text-xs transition-colors"
+                          className="h-10 w-10 flex items-center justify-center text-navy/60 hover:text-navy text-xs transition-colors"
                         >
                           +
                         </button>
@@ -144,7 +144,7 @@ export function MiniCartDrawer({ open, onClose }: MiniCartDrawerProps) {
                     {/* Remove */}
                     <button
                       onClick={() => removeItem(item.productId)}
-                      className="text-[10px] text-navy/40 hover:text-red-500 transition-colors mt-1.5"
+                      className="text-[10px] text-navy/40 hover:text-red-500 transition-colors mt-1.5 min-h-[44px] min-w-[44px] flex items-center"
                     >
                       Remove
                     </button>

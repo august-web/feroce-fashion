@@ -95,7 +95,7 @@ export function OrderSummary() {
             value={promoCode}
             onChange={(e) => setPromoCode(e.target.value)}
             placeholder="Promo code"
-            className="flex-1 border border-line bg-white px-4 py-3 text-xs font-sans text-navy placeholder:text-navy/40 focus:outline-none focus:border-navy/30 min-h-[44px]"
+            className="flex-1 border border-line bg-white px-4 py-3 text-[16px] font-sans text-navy placeholder:text-navy/40 focus:outline-none focus:border-navy/30 min-h-[48px]"
           />
           <button
             onClick={handleApplyPromo}

@@ -14,7 +14,7 @@ export function FilterPills({ categories, activeSlug }: FilterPillsProps) {
       {/* All pill */}
       <Link
         href="/shop"
-        className={`flex-shrink-0 px-4 py-2.5 text-[10px] sm:text-[11px] font-sans uppercase tracking-luxury border transition-all duration-300 min-h-[40px] flex items-center ${
+        className={`flex-shrink-0 px-4 py-2.5 text-[10px] sm:text-[11px] font-sans uppercase tracking-luxury border transition-all duration-300 min-h-[48px] flex items-center ${
           !activeSlug
             ? 'bg-navy text-white border-navy'
             : 'bg-white text-navy border-line hover:border-navy/30'
@@ -27,7 +27,7 @@ export function FilterPills({ categories, activeSlug }: FilterPillsProps) {
         <Link
           key={cat.id}
           href={`/shop/${cat.slug}`}
-          className={`flex-shrink-0 px-4 py-2.5 text-[10px] sm:text-[11px] font-sans uppercase tracking-luxury border transition-all duration-300 min-h-[40px] flex items-center ${
+          className={`flex-shrink-0 px-4 py-2.5 text-[10px] sm:text-[11px] font-sans uppercase tracking-luxury border transition-all duration-300 min-h-[48px] flex items-center ${
             activeSlug === cat.slug
               ? 'bg-navy text-white border-navy'
               : 'bg-white text-navy border-line hover:border-navy/30'

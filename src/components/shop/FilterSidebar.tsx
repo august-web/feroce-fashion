@@ -112,7 +112,7 @@ export function FilterSidebar({ categories, open, onClose, minPrice = 0, maxPric
               value={priceMin}
               onChange={(e) => setPriceMin(e.target.value)}
               min="0"
-              className="w-full border border-line bg-white px-3 py-2 text-xs text-navy placeholder:text-navy/30 focus:outline-none focus:border-navy/30 min-h-[40px]"
+              className="w-full border border-line bg-white px-3 py-2 text-[16px] text-navy placeholder:text-navy/30 focus:outline-none focus:border-navy/30 min-h-[48px]"
             />
           </div>
           <span className="text-navy/30 text-xs">—</span>
@@ -123,7 +123,7 @@ export function FilterSidebar({ categories, open, onClose, minPrice = 0, maxPric
               value={priceMax}
               onChange={(e) => setPriceMax(e.target.value)}
               min="0"
-              className="w-full border border-line bg-white px-3 py-2 text-xs text-navy placeholder:text-navy/30 focus:outline-none focus:border-navy/30 min-h-[40px]"
+              className="w-full border border-line bg-white px-3 py-2 text-[16px] text-navy placeholder:text-navy/30 focus:outline-none focus:border-navy/30 min-h-[48px]"
             />
           </div>
         </div>
@@ -132,7 +132,7 @@ export function FilterSidebar({ categories, open, onClose, minPrice = 0, maxPric
       {/* Apply */}
       <button
         onClick={applyFilters}
-        className="w-full btn-primary py-3 text-[11px] min-h-[44px]"
+        className="w-full btn-primary py-3 text-[11px] min-h-[48px]"
       >
         APPLY FILTERS
       </button>

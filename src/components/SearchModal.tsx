@@ -54,7 +54,7 @@ export function SearchModal({ open, onClose }: { open: boolean; onClose: () => v
           <svg className="w-4 h-4 text-navy/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8" /><line x1="21" y1="21" x2="16.65" y2="16.65" /></svg>
           <input ref={inputRef} type="text" value={query} onChange={(e) => setQuery(e.target.value)}
             placeholder="Search bags, colors, collections..."
-            className="flex-1 px-3 py-4 text-sm font-sans text-navy placeholder:text-navy/40 focus:outline-none bg-transparent" />
+            className="flex-1 px-3 py-4 text-[16px] font-sans text-navy placeholder:text-navy/40 focus:outline-none bg-transparent" />
           <button onClick={onClose} className="text-navy/40 hover:text-navy text-xs font-sans uppercase tracking-wider">ESC</button>
         </div>
         {query.trim() && (
