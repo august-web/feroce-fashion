@@ -45,6 +45,8 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
   const [saving, setSaving] = useState(false)
   const [hasSale, setHasSale] = useState(!!product?.compare_at_price)
   const [isPreorder, setIsPreorder] = useState(!!product?.preorder)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [deleting, setDeleting] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const modelFileInputRef = useRef<HTMLInputElement>(null)
 
@@ -110,6 +112,21 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
     window.location.reload()
   }
 
+  const handleDelete = async () => {
+    if (!product) return
+    setDeleting(true)
+    const supabase = createClient()
+    const { error } = await supabase.from('products').delete().eq('id', product.id)
+    if (error) {
+      alert('Failed to delete product: ' + error.message)
+      setDeleting(false)
+      return
+    }
+    setShowDeleteConfirm(false)
+    setDeleting(false)
+    window.location.reload()
+  }
+
   const ImgUploadBtn = ({ target, ref }: { target: 'catalog' | 'model'; ref: React.RefObject<HTMLInputElement | null> }) => (
     <button type='button' onClick={() => ref.current?.click()} disabled={uploading}
       className='h-16 w-16 border border-dashed border-line flex items-center justify-center text-navy/30 hover:border-gold hover:text-gold transition-colors disabled:opacity-50'>
@@ -127,10 +144,35 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
           Add Product
         </button>
       ) : (
-        <button onClick={() => { setOpen(true); setImageUrls(product?.image_urls || []); setModelImageUrls(product?.model_image_urls || []); setHasSale(!!product?.compare_at_price); setIsPreorder(!!product?.preorder) }}
-          className="text-[11px] font-sans uppercase tracking-[0.1em] text-navy/60 hover:text-navy transition-colors min-h-[36px]">
-          Edit
-        </button>
+        <div className="flex items-center gap-2">
+          <button onClick={() => { setOpen(true); setImageUrls(product?.image_urls || []); setModelImageUrls(product?.model_image_urls || []); setHasSale(!!product?.compare_at_price); setIsPreorder(!!product?.preorder) }}
+            className="text-[11px] font-sans uppercase tracking-[0.1em] text-navy/60 hover:text-navy transition-colors min-h-[36px]">
+            Edit
+          </button>
+          <button onClick={() => setShowDeleteConfirm(true)}
+            className="text-[11px] font-sans uppercase tracking-[0.1em] text-red-500 hover:text-red-700 transition-colors min-h-[36px]">
+            Delete
+          </button>
+        </div>
+      )}
+
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center" style={{backgroundColor:'rgba(10,17,40,0.4)'}}>
+          <div className="bg-white border border-line w-full max-w-sm p-6 text-center">
+            <div className="mx-auto w-12 h-12 rounded-full bg-red-50 flex items-center justify-center mb-4">
+              <svg className="w-6 h-6 text-red-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><path d="M3 6h18M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2" /></svg>
+            </div>
+            <h3 className="text-sm font-semibold text-navy mb-2">Delete Product</h3>
+            <p className="text-xs text-navy/60 mb-6">Are you sure you want to delete <strong>{product?.name}</strong>? This action cannot be undone.</p>
+            <div className="flex gap-3">
+              <button onClick={() => setShowDeleteConfirm(false)} className="flex-1 text-[11px] font-sans uppercase tracking-[0.1em] text-navy/50 hover:text-navy transition-colors min-h-[44px] border border-line">Cancel</button>
+              <button onClick={handleDelete} disabled={deleting} className="flex-1 bg-red-600 text-white uppercase font-sans font-medium text-[10px] tracking-[0.2em] px-4 py-2.5 min-h-[44px] hover:bg-red-700 transition-colors disabled:opacity-50 flex items-center justify-center gap-2">
+                {deleting && <svg className="w-3 h-3 animate-spin" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" /><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" /></svg>}
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
       {open && (
