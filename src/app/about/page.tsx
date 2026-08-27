@@ -4,7 +4,7 @@ import { ScrollReveal } from '@/components/ScrollReveal'
 
 export const metadata: Metadata = {
   title: 'About — FÉROCE',
-  description: 'Designed in Dallas. Handcrafted for those who refuse to blend in.',
+  description: 'The next generation of Black-owned luxury. Fierce by nature. Luxury by design. Built for legacy.',
 }
 
 export default function AboutPage() {
@@ -18,53 +18,44 @@ export default function AboutPage() {
           <div className="mx-auto max-w-7xl w-full">
             <p className="label mb-4 text-gold">Our Story</p>
             <h1 className="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold text-white leading-[1.08] max-w-2xl">
-              Designed in Dallas.<br />
-              <span className="italic text-gold">Handcrafted</span> for those who refuse to blend in.
+              The Next Generation of<br />
+              <span className="italic text-gold">Black-Owned</span> Luxury.
             </h1>
           </div>
         </div>
       </section>
 
       {/* Brand Story */}
-            <section className="bg-cream py-16 md:py-24">
+      <section className="bg-cream py-16 md:py-24">
         <div className="mx-auto max-w-3xl px-5 md:px-8">
           <ScrollReveal>
             <div className="w-12 h-px bg-gold mx-auto mb-10" />
-            <p className="label mb-6 text-center text-gold">The Origin</p>
+            <p className="label mb-6 text-center text-gold">Our Story</p>
             <div className="space-y-6 text-sm sm:text-base text-navy/70 leading-relaxed font-light text-center">
-              <p className="font-serif text-xl sm:text-2xl text-navy leading-relaxed">Feroce was born from a single belief: luxury should have attitude.</p>
-              <p>Founded in Dallas, Texas, Feroce began as a question — why does luxury always feel so quiet? So safe? We wanted to build something different: handbags that do not whisper, they speak. Bags with presence, with structure, with a point of view.</p>
-              <p>Our name means fierce in French, and that is exactly what we design for. Every piece is handcrafted by skilled artisans using premium materials — Italian calfskin, gold-plated hardware, quilted monogram leather, and fur-textured finishes that demand a second look.</p>
-              <p>Designed in Dallas is not just a label — it is a statement. Dallas is bold, unapologetic, and built different. That energy lives in every stitch, every clasp, every silhouette we create. We do not follow trends from Paris or Milan. We set our own standard, right here.</p>
-              <p className="font-serif text-lg text-navy">The attitude is Feroce. And it was never meant for everyone.</p>
+              <p className="font-serif text-xl sm:text-2xl text-navy leading-relaxed">FÉROCE was created with one vision: to build a Black-owned luxury fashion house that deserves a place among the world's most recognized names.</p>
+              <p>FÉROCE was created with a vision: to build a new generation of luxury — one defined by confidence, individuality, craftsmanship, and fearless self-expression.</p>
+              <p>The name FÉROCE, meaning fierce, represents the spirit behind everything we create.</p>
             </div>
             <div className="w-12 h-px bg-gold mx-auto mt-10" />
           </ScrollReveal>
         </div>
       </section>
 
-      {/* Design Philosophy */}
+      {/* The Vision */}
       <section className="bg-white py-16 md:py-24">
-        <div className="mx-auto max-w-7xl px-5 md:px-8">
+        <div className="mx-auto max-w-4xl px-5 md:px-8">
           <ScrollReveal>
-            <p className="label mb-3 text-center">What We Stand For</p>
-            <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy text-center mb-14">The Feroce Standard</h2>
+            <div className="text-center">
+              <p className="label mb-6 text-gold">The Vision</p>
+              <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-semibold text-navy mb-8 leading-snug">The Vision Is Bigger Than a Handbag</h2>
+              <div className="space-y-6 text-sm sm:text-base text-navy/70 leading-relaxed font-light max-w-2xl mx-auto">
+                <p className="font-serif text-lg sm:text-xl text-navy leading-relaxed">We're not building FÉROCE for one season.</p>
+                <p className="font-serif text-lg sm:text-xl text-navy leading-relaxed">We're building it for generations.</p>
+                <p>The goal is to create a name that becomes synonymous with craftsmanship, innovation, exclusivity, and cultural impact — a Black-owned luxury house capable of standing proudly on the global fashion stage.</p>
+              </div>
+            </div>
+            <div className="w-12 h-px bg-gold mx-auto mt-12" />
           </ScrollReveal>
-          <div className="grid md:grid-cols-3 gap-10 md:gap-12">
-            {[ { icon: "layers", title: "Craftsmanship", desc: "Every Feroce bag is handcrafted by skilled artisans using premium materials — Italian calfskin, gold-plated hardware, and meticulous attention to detail." }, { icon: "star", title: "Design", desc: "Structured utility meets fierce elegance. Our designs are bold without being loud — clean lines, rich textures, and a silhouette that holds its shape." }, { icon: "heart", title: "Attitude", desc: "The attitude is Feroce. We do not follow trends — we set the standard. Our bags are for the bold, the confident, the ones who know exactly who they are." } ].map((pillar, i) => (
-              <ScrollReveal key={i} delay={i * 150}>
-                <div className="text-center">
-                  <div className="w-12 h-12 mx-auto mb-5 flex items-center justify-center border border-gold/40 text-gold">
-                    {pillar.icon === "layers" && <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z" /><path d="M2 17l10 5 10-5" /><path d="M2 12l10 5 10-5" /></svg>}
-                    {pillar.icon === "star" && <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" /></svg>}
-                    {pillar.icon === "heart" && <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" /></svg>}
-                  </div>
-                  <h3 className="font-serif text-lg font-semibold text-navy mb-3">{pillar.title}</h3>
-                  <p className="text-sm text-navy/50 leading-relaxed max-w-xs mx-auto">{pillar.desc}</p>
-                </div>
-              </ScrollReveal>
-            ))}
-          </div>
         </div>
       </section>
 
@@ -135,11 +126,26 @@ export default function AboutPage() {
         </div>
       </section>
 
+      {/* Legacy Statement */}
+      <section className="bg-navy py-20 md:py-28">
+        <div className="mx-auto max-w-3xl px-5 md:px-8 text-center">
+          <ScrollReveal>
+            <p className="font-serif text-2xl sm:text-3xl md:text-4xl text-white leading-snug mb-8">
+              This isn't simply the arrival of another fashion brand.<br />
+              <span className="text-gold">It's the beginning of a legacy.</span>
+            </p>
+            <div className="w-16 h-px bg-gold mx-auto mb-8" />
+            <p className="font-serif text-lg sm:text-xl text-white/60 italic">FÉROCE</p>
+            <p className="text-[11px] uppercase tracking-[0.3em] text-gold mt-3">Fierce by nature. Luxury by design. Built for legacy.</p>
+          </ScrollReveal>
+        </div>
+      </section>
+
       {/* CTA */}
       <section className="bg-cream py-16 md:py-24">
         <div className="mx-auto max-w-2xl px-5 md:px-8 text-center">
           <ScrollReveal>
-            <p className="label mb-4 text-gold">Experience Feroce</p>
+            <p className="label mb-4 text-gold">Experience FÉROCE</p>
             <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy mb-6">Ready to make a statement?</h2>
             <p className="text-sm text-navy/50 mb-8 max-w-md mx-auto leading-relaxed">Explore our collections and find the bag that matches your attitude.</p>
             <div className="flex flex-wrap items-center justify-center gap-4"><Link href="/shop" className="btn-primary py-4 min-h-[48px]">Shop the Collection</Link><Link href="/register" className="inline-flex items-center gap-2 border border-navy text-navy uppercase font-sans font-medium text-[11px] px-9 py-4 min-h-[48px] transition-all duration-300 hover:bg-navy hover:text-white" style={{ letterSpacing: "0.2em" }}>Join the Circle</Link></div>
