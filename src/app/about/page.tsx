@@ -104,18 +104,39 @@ export default function AboutPage() {
               </div>
               <div>
                 <p className="label mb-4 text-gold">From the Founder</p>
-                <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy mb-6">I wanted to build something Dallas had never seen.</h2>
+                <h2 className="font-serif text-2xl md:text-3xl font-semibold text-navy mb-6">The Story Behind FÉROCE</h2>
                 <div className="space-y-4 text-sm text-navy/60 leading-relaxed">
-                  <p>When I started Feroce, people told me luxury had to come from New York or LA. That you could not build a premium handbag brand from Texas. I took that as motivation.</p>
-                  <p>Every bag we make is a statement against mediocrity. The quilted monogram leather, the gold-plated F hardware, the structured silhouettes — none of it is accidental. Every detail is a choice, and every choice says the same thing: the attitude is Feroce.</p>
-                  <p>We are just getting started. Dallas is home, but the world is the market.</p>
+                  <p>FÉROCE was born from a place where there wasn't much to start with—except a vision, determination, and a creative mind.</p>
+                  <p>I come from the bottom. I didn't start with wealth, connections, or everything already figured out. I started with the desire to create something bigger for myself and my family—something that could change the direction of our future.</p>
+                  <p>I always knew I wanted more out of life. Not simply more for myself, but the opportunity to build something my family could be proud of and something future generations could benefit from.</p>
+                  <p>Fashion became the place where I could turn that ambition into something real.</p>
                 </div>
                 <div className="mt-6 flex items-center gap-3">
                   <div className="w-8 h-px bg-gold" />
-                  <p className="text-[11px] font-sans uppercase tracking-[0.2em] text-navy/40">Feroce Founder</p>
+                  <p className="text-[11px] font-sans uppercase tracking-[0.2em] text-navy/40">FÉROCE Founder</p>
                 </div>
               </div>
             </div>
+          </ScrollReveal>
+        </div>
+      </section>
+
+      {/* Turning Creativity Into Reality */}
+      <section className="bg-white py-16 md:py-24">
+        <div className="mx-auto max-w-3xl px-5 md:px-8">
+          <ScrollReveal>
+            <div className="text-center">
+              <p className="label mb-6 text-gold">The Process</p>
+              <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-semibold text-navy mb-8 leading-snug">Turning Creativity Into Reality</h2>
+              <div className="space-y-6 text-sm sm:text-base text-navy/70 leading-relaxed font-light max-w-2xl mx-auto">
+                <p className="font-serif text-lg sm:text-xl text-navy leading-relaxed">I've always had a creative mind. I can imagine something before it exists—the colors, materials, details, shapes, and the feeling I want a design to give someone.</p>
+                <p className="font-serif text-lg sm:text-xl text-navy leading-relaxed">Eventually, imagining wasn't enough.</p>
+                <p className="font-serif text-lg sm:text-xl text-navy leading-relaxed">I wanted to bring those ideas to life.</p>
+                <p className="font-serif text-lg sm:text-xl text-navy leading-relaxed">That desire became FÉROCE.</p>
+                <p className="font-serif text-lg sm:text-xl text-navy leading-relaxed">Every design represents a piece of my creativity.</p>
+              </div>
+            </div>
+            <div className="w-12 h-px bg-gold mx-auto mt-12" />
           </ScrollReveal>
         </div>
       </section>
