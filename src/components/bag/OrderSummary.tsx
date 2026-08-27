@@ -3,7 +3,6 @@
 import { useState } from 'react'
 import { formatPrice } from '@/lib/types'
 import { useCartStore } from '@/store/cart'
-import { PayPalButton } from '@/components/checkout/PayPalButton'
 
 export function OrderSummary() {
   const { items, subtotal } = useCartStore()
@@ -130,12 +129,11 @@ export function OrderSummary() {
           <svg className="h-5 w-auto" viewBox="0 0 38 24" fill="none"><rect width="38" height="24" rx="2" fill="#1A1F71"/><text x="19" y="15" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold" fontFamily="sans-serif">VISA</text></svg>
           <svg className="h-5 w-auto" viewBox="0 0 38 24" fill="none"><rect width="38" height="24" rx="2" fill="#EB001B" opacity="0.15"/><circle cx="15" cy="12" r="7" fill="#EB001B"/><circle cx="23" cy="12" r="7" fill="#F79E1B"/></svg>
           <svg className="h-5 w-auto" viewBox="0 0 38 24" fill="none"><rect width="38" height="24" rx="2" fill="#2754C3"/><text x="19" y="15" textAnchor="middle" fill="white" fontSize="6" fontWeight="bold" fontFamily="sans-serif">AMEX</text></svg>
-          <svg className="h-5 w-auto" viewBox="0 0 38 24" fill="none"><rect width="38" height="24" rx="2" fill="#003087"/><text x="19" y="15" textAnchor="middle" fill="#009CDE" fontSize="6" fontWeight="bold" fontFamily="sans-serif">PayPal</text></svg>
+
         </div>
       </div>
 
-      {/* PayPal checkout */}
-      <PayPalButton />
+
 
       {/* Trust signals */}
       <div className="mt-5 space-y-2">
