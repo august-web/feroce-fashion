@@ -22,7 +22,7 @@ export function HeroSection() {
     >
       {/* Background image */}
       <picture className="absolute inset-0">
-        <source media="(max-width: 767px)" srcSet="/images/mobile-hero-home.jpg" />
+        <source media="(max-width: 767px)" srcSet="/images/mobile-hero-home-test.jpg" />
         <img
           src="/images/hero-home.jpg"
           alt="FÉROCE handbag collection"
