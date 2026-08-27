@@ -57,6 +57,21 @@ export default function AboutPage() {
             <div className="w-12 h-px bg-gold mx-auto mt-12" />
           </ScrollReveal>
         </div>
+      </section>      {/* The Meaning Behind the Dove */}
+      <section className="bg-cream py-16 md:py-24">
+        <div className="mx-auto max-w-3xl px-5 md:px-8">
+          <ScrollReveal>
+            <div className="text-center">
+              <p className="label mb-6 text-gold">The Symbol</p>
+              <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-semibold text-navy mb-8 leading-snug">The Meaning Behind the Dove</h2>
+              <div className="space-y-6 text-sm sm:text-base text-navy/70 leading-relaxed font-light max-w-2xl mx-auto">
+                <p className="font-serif text-lg sm:text-xl text-navy leading-relaxed">At the heart of FÉROCE is the dove, a symbol that carries a meaning much deeper than fashion.</p>
+                <p className="font-serif text-lg sm:text-xl text-navy leading-relaxed">The dove represents the Holy Spirit.</p>
+              </div>
+            </div>
+            <div className="w-12 h-px bg-gold mx-auto mt-12" />
+          </ScrollReveal>
+        </div>
       </section>
 
 {/* Editorial Image Strip */}
