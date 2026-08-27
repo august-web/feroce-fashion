@@ -11,8 +11,8 @@ const fadeUp = (delay = 0) => ({
 
 export function HeroSection() {
   return (
-    <section className="relative flex min-h-[70vh] min-h-[500px] sm:min-h-[600px] md:min-h-[82vh] items-end overflow-hidden bg-[#3d3024]">
-      {/* Background image */}
+    <section className="relative flex min-h-[85svh] min-h-[500px] sm:min-h-[600px] md:min-h-[82vh] items-end overflow-hidden bg-[#3d3024]">
+      {/* Background image — mobile: cover fills width, position top to show logo + bags */}
       <picture className="absolute inset-0">
         <source media="(max-width: 767px)" srcSet="/images/mobile-hero-home.jpg" />
         <img
@@ -22,8 +22,7 @@ export function HeroSection() {
           decoding="async"
           width={1920}
           height={1080}
-          className="absolute inset-0 h-full w-full md:object-cover md:object-[center_55%] max-md:object-contain max-md:object-top"
-          style={{ objectPosition: '48% top' }}
+          className="absolute inset-0 h-full w-full object-cover max-md:object-[center_top] md:object-[center_55%]"
         />
       </picture>
 
@@ -31,8 +30,8 @@ export function HeroSection() {
       <div className="absolute inset-0 hidden md:block" style={{ background: 'linear-gradient(to right, rgba(10,17,40,0.88) 0%, rgba(10,17,40,0.7) 30%, rgba(10,17,40,0.3) 55%, transparent 80%)' }} />
       <div className="absolute inset-0 hidden md:block" style={{ background: 'linear-gradient(to top, rgba(10,17,40,0.75) 0%, rgba(10,17,40,0.35) 30%, transparent 55%)' }} />
 
-      {/* Scrims — mobile: gentle overlay at bottom for text readability only */}
-      <div className="absolute inset-0 md:hidden" style={{ background: 'linear-gradient(to top, rgba(10,17,40,0.7) 0%, rgba(10,17,40,0.25) 30%, transparent 55%)' }} />
+      {/* Scrims — mobile: bottom only for text, top clear for logo */}
+      <div className="absolute inset-0 md:hidden" style={{ background: 'linear-gradient(to top, rgba(10,17,40,0.85) 0%, rgba(10,17,40,0.5) 20%, rgba(10,17,40,0.15) 45%, transparent 65%)' }} />
 
       {/* Content */}
       <div className="relative z-20 w-full px-5 pb-24 pt-12 sm:px-6 sm:pb-28 md:px-12 md:pb-24 lg:px-16">
