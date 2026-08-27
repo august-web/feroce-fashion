@@ -33,7 +33,7 @@ export default function AboutPage() {
             <p className="label mb-6 text-center text-gold">Our Story</p>
             <div className="space-y-6 text-sm sm:text-base text-navy/70 leading-relaxed font-light text-center">
               <p className="font-serif text-xl sm:text-2xl text-navy leading-relaxed">FÉROCE was created with one vision: to build a Black-owned luxury fashion house that deserves a place among the world's most recognized names.</p>
-              <p>FÉROCE was created with a vision: to build a new generation of luxury — one defined by confidence, individuality, craftsmanship, and fearless self-expression.</p>
+              <p>FÉROCE was created with a vision: to build a new generation of luxury—one defined by confidence, individuality, craftsmanship, and fearless self-expression.</p>
               <p>The name FÉROCE, meaning fierce, represents the spirit behind everything we create.</p>
             </div>
             <div className="w-12 h-px bg-gold mx-auto mt-10" />
@@ -51,7 +51,7 @@ export default function AboutPage() {
               <div className="space-y-6 text-sm sm:text-base text-navy/70 leading-relaxed font-light max-w-2xl mx-auto">
                 <p className="font-serif text-lg sm:text-xl text-navy leading-relaxed">We're not building FÉROCE for one season.</p>
                 <p className="font-serif text-lg sm:text-xl text-navy leading-relaxed">We're building it for generations.</p>
-                <p>The goal is to create a name that becomes synonymous with craftsmanship, innovation, exclusivity, and cultural impact — a Black-owned luxury house capable of standing proudly on the global fashion stage.</p>
+                <p>The goal is to create a name that becomes synonymous with craftsmanship, innovation, exclusivity, and cultural impact—a Black-owned luxury house capable of standing proudly on the global fashion stage.</p>
               </div>
             </div>
             <div className="w-12 h-px bg-gold mx-auto mt-12" />
