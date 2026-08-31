@@ -61,6 +61,6 @@ export interface OrderItem {
 export type PaymentMethod = 'card' | 'apple_pay' | 'google_pay' | 'cashapp' | 'bank_transfer' | 'paypal'
 export type PaymentProvider = 'stripe' | 'paypal'
 
-export function formatPrice(cents: number): string {
-  return '$' + (cents / 100).toFixed(2)
+export function formatPrice(amount: number): string {
+  return '$' + amount.toFixed(2)
 }

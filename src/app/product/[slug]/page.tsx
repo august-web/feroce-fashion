@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   if (!product) return { title: 'Product Not Found — FÉROCE' }
 
   const categoryName = product.category_id === '1' ? "Women's" : "Men's"
-  const priceStr = '$' + (product.price / 100).toFixed(0)
+  const priceStr = '$' + product.price.toFixed(0)
 
   return {
     title: `${product.name} — ${categoryName} Handbag | FÉROCE`,

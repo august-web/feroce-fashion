@@ -96,7 +96,7 @@ export default function BagPage() {
                           {p.name}
                         </h3>
                         <p className="text-[11px] sm:text-xs font-medium text-navy">
-                          ${(p.price / 100).toFixed(2)}
+                          ${p.price.toFixed(2)}
                         </p>
                       </div>
                     </Link>

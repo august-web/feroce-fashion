@@ -66,7 +66,7 @@ export function ProductJsonLd({
     brand: { '@type': 'Brand', name: brand },
     offers: {
       '@type': 'Offer',
-      price: price / 100,
+      price: price,
       priceCurrency,
       availability,
       url,
