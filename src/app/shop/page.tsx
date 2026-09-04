@@ -24,8 +24,9 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
   const params = await searchParams
   const sort = (params.sort as SortOption) || 'newest'
   const categories = params.category?.split(',').filter(Boolean) || []
-  const priceMin = params.price_min ? parseInt(params.price_min) * 100 : undefined
-  const priceMax = params.price_max ? parseInt(params.price_max) * 100 : undefined
+  // Prices are stored in dollars — filter values map 1:1
+  const priceMin = params.price_min ? parseInt(params.price_min) : undefined
+  const priceMax = params.price_max ? parseInt(params.price_max) : undefined
 
   const [allCategories, allProducts] = await Promise.all([
     fetchCategories(),
