@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { isAdminRequest } from '@/lib/admin-auth'
 
 /**
  * POST /api/admin/upload
@@ -8,6 +9,10 @@ import { createAdminClient } from '@/lib/supabase/admin'
  * service-role key (bypasses RLS). Returns public URLs.
  */
 export async function POST(request: NextRequest) {
+  if (!(await isAdminRequest())) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
   try {
     const formData = await request.formData()
     const files = formData.getAll('files') as File[]
