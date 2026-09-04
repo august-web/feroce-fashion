@@ -79,20 +79,20 @@ export default async function AdminDashboard() {
   ]
 
   return (
-    <div className="p-6 lg:p-8">
-      <div className="mb-8">
+    <div className="p-4 sm:p-6 lg:p-8">
+      <div className="mb-6 sm:mb-8">
         <h1 className="font-serif text-2xl font-semibold text-navy">Dashboard</h1>
         <p className="text-sm text-navy/50 mt-1">Overview of your store performance.</p>
       </div>
 
       {/* Stat cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mb-6 sm:mb-8">
         {statCards.map((card) => (
-          <div key={card.label} className="bg-white border border-line p-5">
-            <div className="flex items-center justify-between mb-4">
+          <div key={card.label} className="bg-white border border-line p-4 sm:p-5 min-w-0">
+            <div className="flex items-center justify-between mb-3 sm:mb-4">
               <span className="text-navy/30">{card.icon}</span>
             </div>
-            <p className="text-2xl font-serif font-semibold text-navy">{card.value}</p>
+            <p className="text-xl sm:text-2xl font-serif font-semibold text-navy truncate">{card.value}</p>
             <p className="text-[10px] font-sans uppercase tracking-[0.15em] text-navy/40 mt-1.5">{card.label}</p>
           </div>
         ))}
@@ -107,12 +107,12 @@ export default async function AdminDashboard() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-line">
-                <th className="px-5 py-3 text-left text-[10px] font-sans uppercase tracking-[0.15em] text-navy/50 font-medium">Order</th>
-                <th className="px-5 py-3 text-left text-[10px] font-sans uppercase tracking-[0.15em] text-navy/50 font-medium">Customer</th>
-                <th className="px-5 py-3 text-left text-[10px] font-sans uppercase tracking-[0.15em] text-navy/50 font-medium">Payment</th>
-                <th className="px-5 py-3 text-left text-[10px] font-sans uppercase tracking-[0.15em] text-navy/50 font-medium">Total</th>
-                <th className="px-5 py-3 text-left text-[10px] font-sans uppercase tracking-[0.15em] text-navy/50 font-medium">Status</th>
-                <th className="px-5 py-3 text-left text-[10px] font-sans uppercase tracking-[0.15em] text-navy/50 font-medium">Date</th>
+                <th className="px-3 sm:px-5 py-3 text-left text-[10px] font-sans uppercase tracking-[0.15em] text-navy/50 font-medium">Order</th>
+                <th className="px-3 sm:px-5 py-3 text-left text-[10px] font-sans uppercase tracking-[0.15em] text-navy/50 font-medium">Customer</th>
+                <th className="hidden sm:table-cell px-3 sm:px-5 py-3 text-left text-[10px] font-sans uppercase tracking-[0.15em] text-navy/50 font-medium">Payment</th>
+                <th className="px-3 sm:px-5 py-3 text-left text-[10px] font-sans uppercase tracking-[0.15em] text-navy/50 font-medium">Total</th>
+                <th className="px-3 sm:px-5 py-3 text-left text-[10px] font-sans uppercase tracking-[0.15em] text-navy/50 font-medium">Status</th>
+                <th className="hidden md:table-cell px-3 sm:px-5 py-3 text-left text-[10px] font-sans uppercase tracking-[0.15em] text-navy/50 font-medium">Date</th>
               </tr>
             </thead>
             <tbody>
@@ -133,19 +133,19 @@ export default async function AdminDashboard() {
               ) : (
                 stats.recentOrders.map((order) => (
                   <tr key={order.id} className="border-b border-line/50 last:border-0 hover:bg-cream/50 transition-colors">
-                    <td className="px-5 py-3 font-mono text-xs text-navy">#{order.id.slice(0, 8).toUpperCase()}</td>
-                    <td className="px-5 py-3 text-navy/60">
+                    <td className="px-3 sm:px-5 py-3 font-mono text-xs text-navy whitespace-nowrap">#{order.id.slice(0, 8).toUpperCase()}</td>
+                    <td className="px-3 sm:px-5 py-3 text-navy/60 truncate max-w-[90px] sm:max-w-none">
                       {(order.shipping_address as Record<string, string>)?.name || 'Guest'}
                     </td>
-                    <td className="px-5 py-3 text-navy/60 text-xs">
+                    <td className="hidden sm:table-cell px-3 sm:px-5 py-3 text-navy/60 text-xs">
                       {order.payment_method === 'card' ? 'Card' :
                        order.payment_method === 'apple_pay' ? 'Apple Pay' :
                        order.payment_method === 'google_pay' ? 'Google Pay' :
                        order.payment_method === 'cashapp' ? 'Cash App' :
                        'Bank Transfer'}
                     </td>
-                    <td className="px-5 py-3 font-medium text-navy">{formatPrice(order.total)}</td>
-                    <td className="px-5 py-3">
+                    <td className="px-3 sm:px-5 py-3 font-medium text-navy whitespace-nowrap">{formatPrice(order.total)}</td>
+                    <td className="px-3 sm:px-5 py-3">
                       <span className={`inline-block text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 ${
                         order.status === 'paid' ? 'bg-green-50 text-green-700' :
                         order.status === 'shipped' ? 'bg-blue-50 text-blue-700' :
@@ -155,7 +155,7 @@ export default async function AdminDashboard() {
                         {order.status}
                       </span>
                     </td>
-                    <td className="px-5 py-3 text-navy/40 text-xs">
+                    <td className="hidden md:table-cell px-3 sm:px-5 py-3 text-navy/40 text-xs whitespace-nowrap">
                       {new Date(order.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                     </td>
                   </tr>
