@@ -5,9 +5,8 @@ import { useTransition } from 'react'
 
 const SORT_OPTIONS = [
   { value: 'newest', label: 'Newest' },
-  { value: 'price-asc', label: 'Price: Low → High' },
-  { value: 'price-desc', label: 'Price: High → Low' },
-  { value: 'name', label: 'Name: A → Z' },
+  { value: 'price-low', label: 'Price: Low → High' },
+  { value: 'price-high', label: 'Price: High → Low' },
 ]
 
 interface SortSelectProps {
