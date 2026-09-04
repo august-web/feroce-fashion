@@ -8,11 +8,12 @@ import { EmptyBag } from '@/components/bag/EmptyBag'
 import { ScrollReveal } from '@/components/ScrollReveal'
 
 // Related products to show "Complete the Look"
+// (slugs + prices match the live products table)
 const RELATED = [
-  { name: 'Denim De Ville Collection -- Cream & Gold', slug: 'Denim De Ville Collection -- Cream & Gold', price: 32500, image: '/images/products/Denim De Ville Collection/Cream & Gold/Denim De Ville Collection -- Cream & Gold.jpg' },
-  { name: 'Naji Golden Collection -- Gold Fur Bag', slug: 'Naji Collection -- Gold Fur Bag', price: 29500, image: '/images/products/Naji Collection/Gold Fur Bag/Naji Collection -- Golden Fur.jpg' },
-  { name: 'Denim De Ville Collection -- Blue & Gold', slug: 'Denim De Ville Collection -- Blue & Gold', price: 38500, image: '/images/products/Denim De Ville Collection/Blue & Gold/Denim De Ville Collection --Blue & Gold.jpg' },
-  { name: 'Naji Maroon Collection', slug: 'Naji Collection -- Maroon Red Fur', price: 35500, image: '/images/products/Naji Collection/Maroon Fur Bag/Naji Collection -- Maroon Red Fur.jpg' },
+  { name: 'Denim De Ville — Cream & Gold', slug: 'denim-de-ville-cream-gold', price: 350, image: '/images/products/Denim De Ville Collection/Cream & Gold/Denim De Ville Collection -- Cream & Gold.jpg' },
+  { name: 'Naji — Gold Fur (XL)', slug: 'naji-gold-fur-xl', price: 443, image: '/images/products/Naji Collection/Gold Fur Bag/Naji Collection -- Golden Fur.jpg' },
+  { name: 'Denim De Ville — Blue & Gold', slug: 'denim-de-ville-blue-gold', price: 350, image: '/images/products/Denim De Ville Collection/Blue & Gold/Denim De Ville Collection --Blue & Gold.jpg' },
+  { name: 'Naji — Maroon Red Fur (XL)', slug: 'naji-maroon-red-fur-xl', price: 443, image: '/images/products/Naji Collection/Maroon Fur Bag/Naji Collection -- Maroon Red Fur.jpg' },
 ]
 
 export default function BagPage() {
