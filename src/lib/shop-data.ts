@@ -15,6 +15,8 @@ export type Category = {
 export type ShopProduct = {
   id: string
   category_id: string
+  category_name?: string
+  category_slug?: string
   collection: string
   name: string
   slug: string
