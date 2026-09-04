@@ -42,12 +42,16 @@ export async function fetchProductBySlug(slug: string): Promise<ShopProduct | nu
   const supabase = createAdminClient()
   const { data } = await supabase
     .from('products')
-    .select('*')
+    .select('*, categories(name, slug)')
     .eq('slug', slug)
     .single()
 
   if (!data) return null
-  return toShopProduct(data as DBRow)
+  const row = data as DBRow & { categories?: { name?: string; slug?: string } | null }
+  const product = toShopProduct(row as DBRow)
+  product.category_name = row.categories?.name || undefined
+  product.category_slug = row.categories?.slug || undefined
+  return product
 }
 
 export async function fetchRelatedProducts(
