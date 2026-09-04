@@ -20,7 +20,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
   const product = await fetchProductBySlug(slug)
   if (!product) return { title: 'Product Not Found — FÉROCE' }
 
-  const categoryName = product.category_id === '1' ? "Women's" : "Men's"
+  const categoryName = product.category_name || 'FÉROCE'
   const priceStr = '$' + product.price.toFixed(0)
 
   return {
@@ -65,7 +65,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
   if (!product) notFound()
 
   const related = await fetchRelatedProducts(product.category_id, product.id)
-  const categoryName = product.category_id === '1' ? "Women's" : "Men's"
+  const categoryName = product.category_name || 'FÉROCE'
+  const categorySlug = product.category_slug || 'shop'
 
   return (
     <>
@@ -87,7 +88,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         items={[
           { name: 'Home', url: SITE_URL },
           { name: 'Shop', url: `${SITE_URL}/shop` },
-          { name: categoryName, url: `${SITE_URL}/shop/${product.category_id === '1' ? 'womens' : 'mens'}` },
+          { name: categoryName, url: `${SITE_URL}/shop/${categorySlug}` },
           { name: product.name, url: `${SITE_URL}/product/${product.slug}` },
         ]}
       />
@@ -99,7 +100,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
             <span className="mx-2">/</span>
             <Link href="/shop" className="hover:text-navy transition-colors">Shop</Link>
             <span className="mx-2">/</span>
-            <Link href={"/shop/" + (product.category_id === "1" ? "womens" : "mens")} className="hover:text-navy transition-colors">
+            <Link href={"/shop/" + categorySlug} className="hover:text-navy transition-colors">
               {categoryName}
             </Link>
             <span className="mx-2">/</span>
