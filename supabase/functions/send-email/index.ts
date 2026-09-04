@@ -89,7 +89,7 @@ function passwordReset(name, url) {
 
 // 4. ORDER CONFIRMATION
 function orderConfirmation(name, orderId, items, total, addr, method) {
-  var fmt = function(c) { return "$" + (c / 100).toFixed(2); };
+  var fmt = function(c) { return "$" + Number(c).toFixed(2); };
   var rows = items.map(function(i) {
     return '<tr><td>' + i.name + '</td><td style="text-align:center;">' + i.quantity + '</td><td style="text-align:right;">' + fmt(i.price * i.quantity) + '</td></tr>';
   }).join('');
@@ -144,7 +144,7 @@ function orderCancelled(name, orderId) {
 
 // 7. NEW ORDER ADMIN
 function newOrderAdmin(orderId, customerEmail, items, total, method) {
-  var fmt = function(c) { return "$" + (c / 100).toFixed(2); };
+  var fmt = function(c) { return "$" + Number(c).toFixed(2); };
   var rows = items.map(function(i) {
     return '<tr><td>' + i.name + '</td><td style="text-align:center;">' + i.quantity + '</td><td style="text-align:right;">' + fmt(i.price * i.quantity) + '</td></tr>';
   }).join('');
