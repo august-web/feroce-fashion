@@ -51,10 +51,35 @@ export async function POST(request: NextRequest) {
           process.env.SUPABASE_SERVICE_ROLE_KEY!,
         );
 
-        // Update order status to paid
+        // Mark paid and capture the address Stripe collected at checkout
+        // (the hosted flow creates the order before an address exists).
+        const addr = session.shipping_details?.address;
+        const shippingAddress: Record<string, string> = {
+          email,
+          ...(session.customer_details?.name ? { name: session.customer_details.name } : {}),
+          ...(session.customer_details?.phone ? { phone: session.customer_details.phone } : {}),
+          ...(addr?.line1 ? { address: addr.line1 } : {}),
+          ...(addr?.line2 ? { apartment: addr.line2 } : {}),
+          ...(addr?.city ? { city: addr.city } : {}),
+          ...(addr?.state ? { state: addr.state } : {}),
+          ...(addr?.postal_code ? { zip: addr.postal_code } : {}),
+          ...(addr?.country ? { country: addr.country } : {}),
+        };
+
+        const { data: existingOrder } = await supabase
+          .from('orders')
+          .select('shipping_address')
+          .eq('id', orderId)
+          .single();
+
+        const hasAddress = (() => {
+          const current = existingOrder?.shipping_address as Record<string, string> | null | undefined;
+          return !!(current && Object.keys(current).length > 0);
+        })();
+
         await supabase
           .from('orders')
-          .update({ status: 'paid' })
+          .update({ status: 'paid', ...(hasAddress ? {} : { shipping_address: shippingAddress }) })
           .eq('id', orderId);
 
         // Fetch order details
