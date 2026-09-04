@@ -39,7 +39,7 @@ export function BagItem({ item }: BagItemProps) {
             {item.color}
           </p>
           <button
-            onClick={() => removeItem(item.productId)}
+            onClick={() => removeItem(item.productId, item.color)}
             className="mt-2 text-[10px] uppercase tracking-luxury text-navy/40 underline underline-offset-2 hover:text-navy transition-colors min-h-[36px] inline-flex items-center"
           >
             Remove
@@ -50,7 +50,7 @@ export function BagItem({ item }: BagItemProps) {
           {/* Quantity selector */}
           <div className="flex items-center border border-line">
             <button
-              onClick={() => updateQuantity(item.productId, item.quantity - 1)}
+              onClick={() => updateQuantity(item.productId, item.quantity - 1, item.color)}
               className="flex h-11 w-11 items-center justify-center text-sm text-navy hover:bg-cream transition-colors disabled:text-navy/20"
             >
               −
@@ -59,7 +59,7 @@ export function BagItem({ item }: BagItemProps) {
               {item.quantity}
             </span>
             <button
-              onClick={() => updateQuantity(item.productId, item.quantity + 1)}
+              onClick={() => updateQuantity(item.productId, item.quantity + 1, item.color)}
               className="flex h-11 w-11 items-center justify-center text-sm text-navy hover:bg-cream transition-colors"
             >
               +
