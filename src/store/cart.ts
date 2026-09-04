@@ -7,9 +7,8 @@ import type { CartItem } from '@/lib/types'
 interface CartState {
   items: CartItem[]
   addItem: (item: Omit<CartItem, 'quantity'>) => void
-  removeItem: (productId: string) =>
-    void
-  updateQuantity: (productId: string, quantity: number) => void
+  removeItem: (productId: string, color?: string) => void
+  updateQuantity: (productId: string, quantity: number, color?: string) => void
   clearCart: () => void
   totalCount: () => number
   subtotal: () => number
@@ -38,17 +37,21 @@ export const useCartStore = create<CartState>()(
         })
       },
 
-      removeItem: (productId) => {
+      removeItem: (productId, color) => {
         set((state) => ({
-          items: state.items.filter((i) => i.productId !== productId),
+          items: state.items.filter(
+            (i) => i.productId !== productId || (color !== undefined && i.color !== color),
+          ),
         }))
       },
 
-      updateQuantity: (productId, quantity) => {
-        if (quantity < 1) return get().removeItem(productId)
+      updateQuantity: (productId, quantity, color) => {
+        if (quantity < 1) return get().removeItem(productId, color)
         set((state) => ({
           items: state.items.map((i) =>
-            i.productId === productId ? { ...i, quantity } : i,
+            i.productId === productId && (color === undefined || i.color === color)
+              ? { ...i, quantity }
+              : i,
           ),
         }))
       },
@@ -60,6 +63,8 @@ export const useCartStore = create<CartState>()(
       subtotal: () =>
         get().items.reduce((sum, i) => sum + i.price * i.quantity, 0),
     }),
-    { name: 'feroce-cart' },
+    // v1: prices moved from cents to dollars — old persisted carts are
+    // wiped once rather than rendering 100x prices.
+    { name: 'feroce-cart', version: 1, migrate: () => ({ items: [] }) },
   ),
 )
