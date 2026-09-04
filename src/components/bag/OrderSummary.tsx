@@ -9,10 +9,11 @@ export function OrderSummary() {
   const [promoCode, setPromoCode] = useState('')
   const [promoApplied, setPromoApplied] = useState(false)
 
-  const subtotalCents = subtotal()
-  const shippingCents = subtotalCents >= 20000 ? 0 : 1500
-  const taxCents = Math.round(subtotalCents * 0.0825)
-  const totalCents = subtotalCents + shippingCents + taxCents
+  // All amounts in DOLLARS. Free shipping over $200, standard shipping $15.
+  const subtotalDollars = subtotal()
+  const shippingDollars = subtotalDollars >= 200 ? 0 : 15
+  const taxDollars = Math.round(subtotalDollars * 0.0825 * 100) / 100
+  const totalDollars = subtotalDollars + shippingDollars + taxDollars
 
   const handleApplyPromo = () => {
     if (promoCode.trim()) {
@@ -64,26 +65,26 @@ export function OrderSummary() {
       <div className="space-y-3.5 text-sm">
         <div className="flex justify-between">
           <span className="text-navy/60">Subtotal ({items.length} {items.length === 1 ? 'item' : 'items'})</span>
-          <span className="font-medium text-navy">{formatPrice(subtotalCents)}</span>
+          <span className="font-medium text-navy">{formatPrice(subtotalDollars)}</span>
         </div>
         <div className="flex justify-between">
           <span className="text-navy/60">Shipping</span>
           <span className="font-medium text-navy">
-            {shippingCents === 0 ? (
+            {shippingDollars === 0 ? (
               <span className="text-gold">Free</span>
             ) : (
-              formatPrice(shippingCents)
+              formatPrice(shippingDollars)
             )}
           </span>
         </div>
         <div className="flex justify-between">
           <span className="text-navy/60">Estimated Tax</span>
-          <span className="font-medium text-navy">{formatPrice(taxCents)}</span>
+          <span className="font-medium text-navy">{formatPrice(taxDollars)}</span>
         </div>
         <div className="h-px bg-line" />
         <div className="flex justify-between">
           <span className="font-serif text-base font-semibold text-navy">Total</span>
-          <span className="font-serif text-base font-semibold text-navy">{formatPrice(totalCents)}</span>
+          <span className="font-serif text-base font-semibold text-navy">{formatPrice(totalDollars)}</span>
         </div>
       </div>
 
