@@ -22,9 +22,12 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   const { category } = await params
   const categories = await fetchCategories()
   const cat = categories.find((c) => c.slug === category)
+  // Real 404 status for unknown categories (a returned "Shop" title here
+  // would produce a soft 404 with HTTP 200).
+  if (!cat) notFound()
   return {
-    title: cat ? `${cat.name} — FÉROCE` : 'Shop — FÉROCE',
-    description: `Browse the Féroce ${cat?.name ?? ''} collection.`,
+    title: `${cat.name} — FÉROCE`,
+    description: `Browse the Féroce ${cat.name} collection.`,
   }
 }
 
