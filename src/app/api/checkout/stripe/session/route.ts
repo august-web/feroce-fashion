@@ -60,6 +60,23 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to create order' }, { status: 500 })
     }
 
+    // Persist the line items so the dashboard, emails, and packing
+    // workflow know what the order contains.
+    const { error: itemsError } = await supabase.from('order_items').insert(
+      items.map((item) => ({
+        order_id: order.id,
+        product_id: item.productId,
+        name: item.name,
+        product_name: item.name,
+        color: item.color,
+        price: item.price,
+        quantity: item.quantity,
+      })),
+    )
+    if (itemsError) {
+      console.error('Order items error:', itemsError)
+    }
+
     try {
       // Build Stripe Checkout line items from cart (dollars → cents)
       const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = items.map((item) => ({
