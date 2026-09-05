@@ -18,7 +18,10 @@ interface ProductPageProps {
 export async function generateMetadata({ params }: ProductPageProps): Promise<Metadata> {
   const { slug } = await params
   const product = await fetchProductBySlug(slug)
-  if (!product) return { title: 'Product Not Found — FÉROCE' }
+  // Trigger the real 404 here (generateMetadata resolves before the
+  // response streams) — returning metadata instead yields a soft 404
+  // with HTTP 200, which Google can index as junk.
+  if (!product) notFound()
 
   const categoryName = product.category_name || 'FÉROCE'
   const priceStr = '$' + product.price.toFixed(0)
