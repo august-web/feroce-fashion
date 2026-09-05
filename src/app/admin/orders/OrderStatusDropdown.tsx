@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 const STATUSES = ['pending', 'paid', 'shipped', 'cancelled'] as const
 
@@ -12,19 +13,22 @@ interface OrderStatusDropdownProps {
 export function OrderStatusDropdown({ orderId, currentStatus }: OrderStatusDropdownProps) {
   const [status, setStatus] = useState(currentStatus)
   const [saving, setSaving] = useState(false)
+  const router = useRouter()
 
   const handleChange = async (newStatus: string) => {
     setStatus(newStatus)
     setSaving(true)
 
     try {
-      // In production, this would call an API route to update the order
-      // For now, just update locally
-      await fetch(`/api/admin/orders/${orderId}`, {
+      const res = await fetch(`/api/admin/orders/${orderId}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus }),
       })
+      if (res.ok) {
+        // Re-render server components (dashboard "Ready to Pack" lists, etc.)
+        router.refresh()
+      }
     } catch {
       // Silently fail — in production, show error toast
     } finally {
