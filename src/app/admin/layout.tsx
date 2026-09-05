@@ -5,7 +5,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { useState } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
-const NAV_ITEMS = [
+const NAV_ITEMS: Array<{ label: string; href: string; icon: React.ReactNode; tab?: boolean }> = [
   {
     label: 'Dashboard',
     href: '/admin',
@@ -49,6 +49,17 @@ const NAV_ITEMS = [
       <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
         <polyline points="22,6 12,13 2,6" />
+      </svg>
+    ),
+  },
+  {
+    label: 'Settings',
+    href: '/admin/settings',
+    tab: false,
+    icon: (
+      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="3" />
+        <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33h0a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51h0a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82v0a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z" />
       </svg>
     ),
   },]
@@ -172,9 +183,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         )}
       </div>
 
-      {/* ── Mobile Bottom Tab Bar ── */}
+      {/* ── Mobile Bottom Tab Bar (Settings lives in the ☰ menu on mobile) ── */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-line flex" style={{ paddingBottom: 'env(safe-area-inset-bottom)' }}>
-        {NAV_ITEMS.map((item) => {
+        {NAV_ITEMS.filter((item) => item.tab !== false).map((item) => {
           const isActive = item.href === '/admin'
             ? pathname === '/admin'
             : pathname.startsWith(item.href)
