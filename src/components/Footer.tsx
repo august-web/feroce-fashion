@@ -6,7 +6,7 @@ const FOOTER_LINKS = {
     { label: "Women's", href: '/shop/womens' },
     { label: "Men's", href: '/shop/mens' },
     { label: 'Denim De Ville', href: '/product/denim-de-ville-blue-gold' },
-    { label: 'Naji', href: '/product/naji-gold-fur' },
+    { label: 'Naji', href: '/product/naji-gold-fur-xl' },
   ],
   Company: [
     { label: 'About', href: '/about' },
