@@ -12,11 +12,11 @@ const SITE_URL = 'https://www.ferocefashionff.com'
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'FÉROCE — Luxury Handbags & Accessories | Designed in Dallas',
-    template: '%s | FÉROCE',
+    default: 'FÉROCE Fashion — Luxury Handbags & Accessories | Designed in Dallas',
+    template: '%s | FÉROCE Fashion',
   },
   description:
-    'Fierce elegance, structured utility. FÉROCE crafts luxury handbags for women and men. Shop the Naji Collection and Denim De Ville Collection. Designed in Dallas.',
+    'Fierce elegance, structured utility. FÉROCE Fashion crafts luxury handbags for women and men. Shop the Naji Collection and Denim De Ville Collection. Designed in Dallas.',
   keywords: [
     // Brand
     'FEROCE', 'FEROCE handbags', 'FEROCE fashion', 'FEROCE bags',
@@ -55,8 +55,8 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: SITE_URL,
-    siteName: 'FÉROCE',
-    title: 'FÉROCE — Luxury Handbags & Accessories',
+    siteName: 'FÉROCE Fashion',
+    title: 'FÉROCE Fashion — Luxury Handbags & Accessories',
     description:
       'Fierce elegance, structured utility. Luxury handbags for women and men. Designed in Dallas.',
     images: [
@@ -70,7 +70,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'FÉROCE — Luxury Handbags & Accessories',
+    title: 'FÉROCE Fashion — Luxury Handbags & Accessories',
     description:
       'Fierce elegance, structured utility. Luxury handbags for women and men. Designed in Dallas.',
     images: ['/images/hero-home.jpg'],
@@ -104,7 +104,7 @@ export default function RootLayout({
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap" />
         <meta name="google-site-verification" content="IuQlTSkDs6ZsFTTV_x1PPq49ldNrHX9sQclLzptXYxE" />
         <OrganizationJsonLd
-          name="FÉROCE"
+          name="FÉROCE Fashion"
           url={SITE_URL}
           logo={`${SITE_URL}/favicon.ico`}
           description="Fierce elegance, structured utility. Luxury handbags designed in Dallas."
@@ -114,7 +114,7 @@ export default function RootLayout({
           ]}
         />
         <WebsiteJsonLd
-          name="FÉROCE"
+          name="FÉROCE Fashion"
           url={SITE_URL}
           description="Fierce elegance, structured utility. Luxury handbags designed in Dallas."
         />
