@@ -16,8 +16,8 @@ export function HeroSection() {
       style={{
         /* Mobile: aspect-ratio matches the portrait image (941×1672 ≈ 0.563) so the
            full image shows without cropping or letterboxing.
-           Desktop: min-height 82vh as before. */
-        minHeight: 'min(177vw, 85svh)',
+           Desktop: full viewport height for immersive hero. */
+        minHeight: 'min(177vw, 90svh)',
       }}
     >
       {/* Background image */}
@@ -28,18 +28,16 @@ export function HeroSection() {
           alt="FÉROCE handbag collection"
           fetchPriority="high"
           decoding="async"
-          width={1920}
-          height={1080}
-          className="absolute inset-0 h-full w-full object-cover max-md:object-top md:object-[center_55%]"
+          width={2752}
+          height={1536}
+          className="absolute inset-0 h-full w-full object-cover object-center"
         />
       </picture>
 
-      {/* Scrims — desktop */}
-      <div className="absolute inset-0 hidden md:block" style={{ background: 'linear-gradient(to right, rgba(10,17,40,0.88) 0%, rgba(10,17,40,0.7) 30%, rgba(10,17,40,0.3) 55%, transparent 80%)' }} />
-      <div className="absolute inset-0 hidden md:block" style={{ background: 'linear-gradient(to top, rgba(10,17,40,0.75) 0%, rgba(10,17,40,0.35) 30%, transparent 55%)' }} />
-
-      {/* Scrims — mobile: bottom only for text readability, top stays clear for logo */}
-      <div className="absolute inset-0 md:hidden" style={{ background: 'linear-gradient(to top, rgba(10,17,40,0.85) 0%, rgba(10,17,40,0.45) 15%, rgba(10,17,40,0.1) 35%, transparent 55%)' }} />
+      {/* Scrims — consistent across mobile and desktop: bottom gradient for text readability */}
+      <div className="absolute inset-0" style={{ background: 'linear-gradient(to top, rgba(10,17,40,0.85) 0%, rgba(10,17,40,0.5) 15%, rgba(10,17,40,0.15) 35%, transparent 55%)' }} />
+      {/* Left scrim on desktop for text contrast */}
+      <div className="absolute inset-0 hidden md:block" style={{ background: 'linear-gradient(to right, rgba(10,17,40,0.6) 0%, rgba(10,17,40,0.3) 35%, transparent 65%)' }} />
 
       {/* Content */}
       <div className="relative z-20 w-full px-5 pb-24 pt-12 sm:px-6 sm:pb-28 md:px-12 md:pb-24 lg:px-16">
