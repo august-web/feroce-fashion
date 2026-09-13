@@ -53,9 +53,14 @@ export function ProductJsonLd({
   priceCurrency = 'USD',
   availability = 'https://schema.org/InStock',
   brand = 'FÉROCE',
-  reviewCount = 84,
-  ratingValue = 5.0,
+  reviewCount,
+  ratingValue,
 }: ProductJsonLdProps) {
+  // Only emit aggregateRating when real review data exists — fabricated
+  // ratings in Product markup violate Google's structured-data guidelines.
+  const aggregateRating = reviewCount && ratingValue
+    ? { '@type': 'AggregateRating', ratingValue, reviewCount, bestRating: 5 }
+    : undefined
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Product',
@@ -71,7 +76,7 @@ export function ProductJsonLd({
       availability,
       url,
     },
-    aggregateRating: { '@type': 'AggregateRating', ratingValue, reviewCount },
+    aggregateRating,
   }
 
   return (
