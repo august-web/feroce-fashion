@@ -107,10 +107,10 @@ export function ProductCard({ product }: ProductCardProps) {
           <Heart size={14} strokeWidth={1.5} fill={inWishlist ? "currentColor" : "none"} />
         </button>
 
-{/* Share icon — top right */}
+{/* Share icon — below the wishlist heart so the two never overlap */}
         <button
           onClick={handleShare}
-          className="absolute right-2.5 top-2.5 sm:right-3 sm:top-3 z-20 w-8 h-8 flex items-center justify-center bg-white/90 backdrop-blur-sm text-navy/60 hover:text-navy hover:bg-white transition-all duration-150"
+          className="absolute right-2.5 top-[3.25rem] sm:right-3 sm:top-[3.75rem] z-20 w-8 h-8 flex items-center justify-center bg-white/90 backdrop-blur-sm text-navy/60 hover:text-navy hover:bg-white transition-all duration-150"
           aria-label={`Share ${product.name}`}
         >
           <Share2 size={14} strokeWidth={1.5} />
@@ -119,7 +119,7 @@ export function ProductCard({ product }: ProductCardProps) {
         {/* Share dropdown */}
         {showShare && (
           <div
-            className="absolute right-2.5 top-12 sm:right-3 sm:top-12 z-30 w-48 bg-white border border-[#E2DFD8] shadow-lg"
+            className="absolute right-2.5 top-[5.75rem] sm:right-3 sm:top-[6.25rem] z-30 w-48 bg-white border border-[#E2DFD8] shadow-lg"
             onClick={(e) => { e.preventDefault(); e.stopPropagation() }}
           >
             <div className="flex items-center justify-between px-3 py-2 border-b border-[#E2DFD8]">
@@ -175,7 +175,7 @@ export function ProductCard({ product }: ProductCardProps) {
         <h3 className="font-serif text-[13px] sm:text-sm font-medium text-navy transition-colors group-hover:text-gold leading-tight">
           {product.name}
         </h3>
-        <p className="line-clamp-2 text-[10px] sm:text-[11px] leading-relaxed text-navy/45">
+        <p className="line-clamp-1 sm:line-clamp-2 text-[10px] sm:text-[11px] leading-relaxed text-navy/45">
           {product.description}
         </p>
         <div className="flex items-center gap-2">
