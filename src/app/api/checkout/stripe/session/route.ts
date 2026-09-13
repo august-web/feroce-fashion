@@ -1,17 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { createClient } from '@supabase/supabase-js'
+import { getStripe } from '@/lib/stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, { typescript: true })
-
+// The client only sends productId + quantity (+ optional color preference).
+// Names, slugs, images, and especially PRICES are always resolved from the
+// products table server-side — never trust client-supplied prices.
 interface CartItem {
   productId: string
-  name: string
-  slug: string
-  price: number
-  image: string
-  color: string
   quantity: number
+  color?: string
 }
 
 // Prices are stored and displayed in DOLLARS (e.g. 350 = $350.00).
@@ -19,6 +17,7 @@ interface CartItem {
 // converted here at the boundary. Free shipping over $200.
 const FREE_SHIPPING_THRESHOLD = 200
 const STANDARD_SHIPPING_CENTS = 1500
+const SITE_ORIGIN = 'https://www.ferocefashionff.com'
 
 /**
  * POST /api/checkout/stripe/session
@@ -30,16 +29,46 @@ export async function POST(request: NextRequest) {
   try {
     const { items }: { items: CartItem[] } = await request.json()
 
-    if (!items?.length) {
+    if (!Array.isArray(items) || !items.length) {
       return NextResponse.json({ error: 'Cart is empty' }, { status: 400 })
     }
 
-    const origin = request.headers.get('origin') || 'https://www.ferocefashionff.com'
+    // Merge duplicate product lines and validate quantities up front.
+    const quantities = new Map<string, number>()
+    for (const item of items) {
+      const qty = Number(item?.quantity)
+      if (!item?.productId || !Number.isInteger(qty) || qty < 1 || qty > 99) {
+        return NextResponse.json({ error: 'Invalid cart item' }, { status: 400 })
+      }
+      quantities.set(item.productId, (quantities.get(item.productId) || 0) + qty)
+    }
 
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY!,
     )
+
+    // Resolve authoritative product data (price, name, stock) from the DB.
+    const { data: products, error: productsError } = await supabase
+      .from('products')
+      .select('id, name, slug, price, color, image_urls, stock, active')
+      .in('id', [...quantities.keys()])
+
+    if (productsError || !products) {
+      console.error('Product lookup error:', productsError)
+      return NextResponse.json({ error: 'Failed to verify cart products' }, { status: 500 })
+    }
+
+    const productMap = new Map(products.map((p) => [p.id, p]))
+    for (const [productId, qty] of quantities) {
+      const product = productMap.get(productId)
+      if (!product || !product.active) {
+        return NextResponse.json({ error: 'A product in your bag is no longer available' }, { status: 400 })
+      }
+      if (product.stock !== null && product.stock < qty) {
+        return NextResponse.json({ error: `Not enough stock for ${product.name}` }, { status: 409 })
+      }
+    }
 
     // Create the order first (pending) so the webhook can find it.
     const { data: order, error: orderError } = await supabase
@@ -60,43 +89,56 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to create order' }, { status: 500 })
     }
 
-    // Persist the line items so the dashboard, emails, and packing
-    // workflow know what the order contains.
+    // Persist the line items from DB-verified data so the dashboard,
+    // emails, and packing workflow know what the order contains.
     const { error: itemsError } = await supabase.from('order_items').insert(
-      items.map((item) => ({
-        order_id: order.id,
-        product_id: item.productId,
-        name: item.name,
-        product_name: item.name,
-        color: item.color,
-        price: item.price,
-        quantity: item.quantity,
-      })),
+      [...quantities.entries()].map(([productId, qty]) => {
+        const product = productMap.get(productId)!
+        return {
+          order_id: order.id,
+          product_id: productId,
+          name: product.name,
+          product_name: product.name,
+          color: product.color || '',
+          price: product.price,
+          quantity: qty,
+        }
+      }),
     )
     if (itemsError) {
       console.error('Order items error:', itemsError)
     }
 
     try {
-      // Build Stripe Checkout line items from cart (dollars → cents)
-      const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] = items.map((item) => ({
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: item.name,
-            description: item.color ? `${item.color}` : undefined,
-            images: item.image ? [item.image.startsWith('http') ? item.image : `${origin}${item.image}`] : undefined,
-            metadata: {
-              productId: item.productId,
-              slug: item.slug,
+      // Build Stripe Checkout line items from DB-verified prices (dollars → cents)
+      const lineItems: Stripe.Checkout.SessionCreateParams.LineItem[] =
+        [...quantities.entries()].map(([productId, qty]) => {
+          const product = productMap.get(productId)!
+          const image = product.image_urls?.[0]
+          return {
+            price_data: {
+              currency: 'usd',
+              product_data: {
+                name: product.name,
+                description: product.color || undefined,
+                images: image
+                  ? [image.startsWith('http') ? image : `${SITE_ORIGIN}${image}`]
+                  : undefined,
+                metadata: {
+                  productId,
+                  slug: product.slug,
+                },
+              },
+              unit_amount: Math.round(product.price * 100),
             },
-          },
-          unit_amount: Math.round(item.price * 100),
-        },
-        quantity: item.quantity,
-      }))
+            quantity: qty,
+          }
+        })
 
-      const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+      const subtotal = [...quantities.entries()].reduce(
+        (sum, [productId, qty]) => sum + productMap.get(productId)!.price * qty,
+        0,
+      )
       const shippingCents = subtotal >= FREE_SHIPPING_THRESHOLD ? 0 : STANDARD_SHIPPING_CENTS
 
       if (shippingCents > 0) {
@@ -123,7 +165,7 @@ export async function POST(request: NextRequest) {
         .update({ total: Math.round(subtotal + shippingDollars + tax) })
         .eq('id', order.id)
 
-      const session = await stripe.checkout.sessions.create({
+      const session = await getStripe().checkout.sessions.create({
         mode: 'payment',
         line_items: lineItems,
         shipping_address_collection: {
@@ -133,11 +175,13 @@ export async function POST(request: NextRequest) {
           enabled: false,
         },
         automatic_tax: { enabled: true },
-        success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-        cancel_url: `${origin}/bag`,
+        success_url: `${SITE_ORIGIN}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${SITE_ORIGIN}/bag`,
         metadata: {
           order_id: order.id,
-          items: items.map((i) => `${i.name} x${i.quantity}`).join(', '),
+          items: [...quantities.entries()]
+            .map(([productId, qty]) => `${productMap.get(productId)!.name} x${qty}`)
+            .join(', '),
         },
       })
 
