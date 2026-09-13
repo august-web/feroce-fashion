@@ -2,7 +2,9 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { fetchProductBySlug, fetchRelatedProducts } from '@/lib/product-data'
+import { fetchProductReviews, fetchReviewSummary } from '@/lib/review-data'
 import { ProductPageClient } from './ProductPageClient'
+import { ProductReviews } from './ProductReviews'
 import { ProductCard } from '@/components/home/ProductCard'
 import { ScrollReveal } from '@/components/ScrollReveal'
 import { ProductJsonLd, BreadcrumbJsonLd } from '@/components/seo/JsonLd'
@@ -68,6 +70,10 @@ export default async function ProductPage({ params }: ProductPageProps) {
   if (!product) notFound()
 
   const related = await fetchRelatedProducts(product.category_id, product.id)
+  const [reviews, summary] = await Promise.all([
+    fetchProductReviews(product.id),
+    fetchReviewSummary(product.id),
+  ])
   const categoryName = product.category_name || 'FÉROCE'
   const categorySlug = product.category_slug || 'shop'
 
@@ -86,6 +92,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
               ? 'https://schema.org/InStock'
               : 'https://schema.org/OutOfStock'
         }
+        reviewCount={summary.count || undefined}
+        ratingValue={summary.count ? summary.average : undefined}
       />
       <BreadcrumbJsonLd
         items={[
@@ -113,6 +121,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
           <ScrollReveal>
             <ProductPageClient product={product} />
           </ScrollReveal>
+
+          <ProductReviews productId={product.id} reviews={reviews} summary={summary} />
 
           {related.length > 0 && (
             <div className="mt-16 sm:mt-20 md:mt-28 border-t border-line pt-14 sm:pt-16 md:pt-20">
