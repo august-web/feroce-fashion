@@ -1,5 +1,7 @@
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || "";
+// The send-email edge function rejects the public anon key — it only
+// accepts the service-role key, so email can't be sent by third parties.
+const EMAIL_FUNCTION_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
 const ADMIN_EMAIL = "Ferocefashionff@gmail.com";
 
 export type EmailType =
@@ -10,6 +12,7 @@ export type EmailType =
   | "order-shipped"
   | "order-cancelled"
   | "new-order-admin"
+  | "review-submitted"
   | "newsletter";
 
 export interface EmailParams {
@@ -25,6 +28,11 @@ export interface EmailParams {
   paymentMethod?: string;
   trackingNumber?: string;
   customerEmail?: string;
+  productName?: string;
+  reviewAuthor?: string;
+  reviewRating?: number;
+  reviewBody?: string;
+  reviewNeedsApproval?: boolean;
 }
 
 async function triggerEmail(params: EmailParams): Promise<boolean> {
@@ -33,7 +41,7 @@ async function triggerEmail(params: EmailParams): Promise<boolean> {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
+        Authorization: `Bearer ${EMAIL_FUNCTION_KEY}`,
       },
       body: JSON.stringify(params),
     });
