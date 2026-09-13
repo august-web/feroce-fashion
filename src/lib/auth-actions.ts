@@ -2,9 +2,12 @@
 
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+// The send-email edge function rejects the public anon key — it only
+// accepts the service-role key, so email can't be sent by third parties.
+const EMAIL_FUNCTION_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 const SITE_URL = 'https://www.ferocefashionff.com'
 
 async function triggerEmail(type: string, to: string, params: Record<string, unknown> = {}) {
@@ -13,7 +16,7 @@ async function triggerEmail(type: string, to: string, params: Record<string, unk
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + SUPABASE_ANON_KEY,
+        Authorization: "Bearer " + EMAIL_FUNCTION_KEY,
       },
       body: JSON.stringify({ type, to, ...params }),
     })
@@ -54,8 +57,12 @@ export async function registerAction(formData: FormData) {
       .insert({ id: data.user.id, email: data.user.email!, role: "customer" } as never)
     if (profileError) console.error("Profile creation error:", profileError)
 
-    // Generate verification link via Supabase admin API
-    const { data: linkData } = await supabase.auth.admin.generateLink({
+    // Generate verification link via Supabase admin API. This requires the
+    // service-role key (the anon-key server client would always fail), so
+    // use the admin client — server-side only; the link goes to the user's
+    // own email address.
+    const adminSupabase = createAdminClient()
+    const { data: linkData } = await adminSupabase.auth.admin.generateLink({
       type: "signup",
       email,
       password,
@@ -72,13 +79,29 @@ export async function registerAction(formData: FormData) {
       console.warn("Could not generate verification link")
       await triggerEmail("welcome", email, { name })
     }
+
+    // Land the customer where they want to be instead of the signup screen.
+    // If Supabase already returned a session (email confirmation disabled),
+    // go straight to the account dashboard; otherwise try an immediate
+    // password sign-in. If confirmation is still pending, let them browse
+    // the shop — the branded verification email is already on its way.
+    if (data.session) {
+      redirect("/account")
+    }
+    const { data: signIn } = await supabase.auth.signInWithPassword({ email, password })
+    if (signIn.session) {
+      redirect("/account")
+    }
+    redirect("/shop")
   }
 
   redirect("/register?success=true")
 }
 export async function resendVerificationEmail(email: string) {
-  const supabase = await createClient()
-  const { data: linkData } = await supabase.auth.admin.generateLink({
+  // Service-role client — generateLink is an admin API call and fails with
+  // the anon key. Only emailed to the address itself, so no link leakage.
+  const adminSupabase = createAdminClient()
+  const { data: linkData } = await adminSupabase.auth.admin.generateLink({
     type: "signup",
     email,
     password: "placeholder",
