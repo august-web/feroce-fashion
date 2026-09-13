@@ -3,7 +3,9 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { isAdminRequest } from '@/lib/admin-auth'
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-const SUPABASE_ANON_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+// The send-email edge function rejects the public anon key — it only
+// accepts the service-role key, so email can't be sent by third parties.
+const EMAIL_FUNCTION_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || ''
 
 export const dynamic = 'force-dynamic'
 
@@ -51,7 +53,7 @@ export async function POST(req: NextRequest) {
 
     const res = await fetch(SUPABASE_URL + '/functions/v1/send-email', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + SUPABASE_ANON_KEY },
+      headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + EMAIL_FUNCTION_KEY },
       body: JSON.stringify({
         type: type,
         to: recipients,
