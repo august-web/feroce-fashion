@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { createClient } from '@supabase/supabase-js';
 import { sendOrderConfirmation } from '@/lib/email';
+import { getStripe } from '@/lib/stripe';
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!);
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
 /**
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest) {
     // Verify webhook signature — throws if invalid
     let event: Stripe.Event;
     try {
-      event = stripe.webhooks.constructEvent(body, sig, webhookSecret);
+      event = getStripe().webhooks.constructEvent(body, sig, webhookSecret);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Unknown error';
       console.error('Webhook signature verification failed:', message);
@@ -68,19 +68,57 @@ export async function POST(request: NextRequest) {
 
         const { data: existingOrder } = await supabase
           .from('orders')
-          .select('shipping_address')
+          .select('status, shipping_address')
           .eq('id', orderId)
           .single();
+
+        // Idempotency: webhook deliveries can repeat — don't re-apply
+        // side effects (stock decrement, confirmation email) for an
+        // order that is already past pending.
+        if (existingOrder && existingOrder.status !== 'pending') {
+          return NextResponse.json({ received: true, duplicate: true });
+        }
+
+        // Only mark paid if the money actually arrived (async payment
+        // methods can complete the session while unpaid).
+        if (session.payment_status !== 'paid') {
+          return NextResponse.json({ received: true, unpaid: true });
+        }
 
         const hasAddress = (() => {
           const current = existingOrder?.shipping_address as Record<string, string> | null | undefined;
           return !!(current && Object.keys(current).length > 0);
         })();
 
+        // Stripe's charge is authoritative for money — record the real
+        // amount (cents → dollars) plus the payment intent id.
         await supabase
           .from('orders')
-          .update({ status: 'paid', ...(hasAddress ? {} : { shipping_address: shippingAddress }) })
+          .update({
+            status: 'paid',
+            total: (session.amount_total ?? 0) / 100,
+            ...(session.payment_intent ? { stripe_payment_intent_id: session.payment_intent as string } : {}),
+            ...(hasAddress ? {} : { shipping_address: shippingAddress }),
+          })
           .eq('id', orderId);
+
+        // Atomically decrement stock for every line item. Runs only on the
+        // pending → paid transition (guarded by the idempotency check above).
+        const { data: items } = await supabase
+          .from('order_items')
+          .select('product_id, quantity')
+          .eq('order_id', orderId);
+
+        for (const item of items || []) {
+          if (!item.product_id) continue;
+          const { error: stockError } = await supabase.rpc('decrement_stock', {
+            p_product_id: item.product_id,
+            p_quantity: item.quantity,
+          });
+          if (stockError) {
+            console.error('Stock decrement failed for ' + item.product_id + ':', stockError.message);
+          }
+        }
 
         // Fetch order details
         const { data: order } = await supabase
@@ -90,10 +128,10 @@ export async function POST(request: NextRequest) {
           .single();
 
         if (order) {
-          // Fetch order items
-          const { data: items } = await supabase
+          // Fetch order details for the email (names + quantities + prices)
+          const { data: fullItems } = await supabase
             .from('order_items')
-            .select('*')
+            .select('name, price, quantity')
             .eq('order_id', orderId);
 
           const shippingAddr = order.shipping_address as Record<string, string>;
@@ -103,7 +141,7 @@ export async function POST(request: NextRequest) {
             orderId: order.id,
             email,
             customerName: shippingAddr?.name || 'Customer',
-            items: (items || []).map((item) => ({
+            items: (fullItems || []).map((item) => ({
               name: item.name,
               color: '',
               price: item.price,
