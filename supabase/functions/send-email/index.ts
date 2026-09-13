@@ -38,6 +38,14 @@ const sharedHead = `
   </style>
 `;
 
+// Escape user-supplied values before interpolating into email HTML —
+// names, tracking numbers, and item names come from customers.
+function esc(value) {
+  return String(value == null ? '' : value)
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+}
+
 function wrap(body) {
   return '<!DOCTYPE html><html><head>' + sharedHead + '</head><body><div class="container">'
     + '<div class="header"><h1>FÉROCE</h1><div class="tagline">Designed in Dallas</div></div>'
@@ -55,7 +63,7 @@ function wrap(body) {
 function welcomeEmail(name) {
   return {
     subject: "Welcome to FÉROCE — The Attitude is Fierce",
-    html: wrap('<div class="body"><h2>Welcome to FÉROCE, ' + name + '.</h2>'
+    html: wrap('<div class="body"><h2>Welcome to FÉROCE, ' + esc(name) + '.</h2>'
       + '<p>You\'ve just joined a community that refuses to blend in. FÉROCE is luxury with attitude — handcrafted bags designed in Dallas for those who lead, never follow.</p>'
       + '<p>As a member, you\'ll get early access to new collections, exclusive offers, and a first look at what\'s next from FÉROCE.</p>'
       + '<div class="divider"></div>'
@@ -69,7 +77,7 @@ function welcomeEmail(name) {
 function verifyEmail(name, url) {
   return {
     subject: "Verify Your FÉROCE Account",
-    html: wrap('<div class="body"><h2>Verify your email, ' + name + '.</h2>'
+    html: wrap('<div class="body"><h2>Verify your email, ' + esc(name) + '.</h2>'
       + '<p>Thanks for creating your FÉROCE account. Tap the link below to verify your email and start shopping.</p>'
       + '<div style="text-align:center;margin:32px 0;"><a href="' + url + '" class="btn">VERIFY MY EMAIL</a></div>'
       + '<p style="font-size:12px;color:#8a857c;">If you didn\'t create this account, you can safely ignore this email. This link expires in 24 hours.</p></div>'),
@@ -81,7 +89,7 @@ function passwordReset(name, url) {
   return {
     subject: "Reset Your FÉROCE Password",
     html: wrap('<div class="body"><h2>Password reset request.</h2>'
-      + '<p>Hi ' + name + ', we received a request to reset your FÉROCE password. Click below to choose a new one.</p>'
+      + '<p>Hi ' + esc(name) + ', we received a request to reset your FÉROCE password. Click below to choose a new one.</p>'
       + '<div style="text-align:center;margin:32px 0;"><a href="' + url + '" class="btn">RESET PASSWORD</a></div>'
       + '<p style="font-size:12px;color:#8a857c;">If you didn\'t request this, your password stays unchanged. This link expires in 1 hour.</p></div>'),
   };
@@ -91,14 +99,14 @@ function passwordReset(name, url) {
 function orderConfirmation(name, orderId, items, total, addr, method) {
   var fmt = function(c) { return "$" + Number(c).toFixed(2); };
   var rows = items.map(function(i) {
-    return '<tr><td>' + i.name + '</td><td style="text-align:center;">' + i.quantity + '</td><td style="text-align:right;">' + fmt(i.price * i.quantity) + '</td></tr>';
+    return '<tr><td>' + esc(i.name) + '</td><td style="text-align:center;">' + i.quantity + '</td><td style="text-align:right;">' + fmt(i.price * i.quantity) + '</td></tr>';
   }).join('');
-  var shipping = addr ? (addr.address || '') + ', ' + (addr.city || '') + ', ' + (addr.state || '') + ' ' + (addr.zip || '') : 'On file';
+  var shipping = addr ? esc(addr.address || '') + ', ' + esc(addr.city || '') + ', ' + esc(addr.state || '') + ' ' + esc(addr.zip || '') : 'On file';
   return {
     subject: "Order Confirmed — #" + orderId.slice(0, 8).toUpperCase(),
     html: wrap('<div class="body">'
       + '<div style="text-align:center;margin-bottom:32px;"><span class="badge badge-paid">ORDER CONFIRMED</span></div>'
-      + '<h2>Thank you, ' + name + '.</h2>'
+      + '<h2>Thank you, ' + esc(name) + '.</h2>'
       + '<p>Your order has been placed successfully. We\'re preparing it now and you\'ll receive another email when it ships.</p>'
       + '<div class="divider"></div>'
       + '<div class="label">ORDER NUMBER</div>'
@@ -121,8 +129,8 @@ function orderShipped(name, orderId, tracking) {
     subject: "Your FÉROCE Order #" + orderId.slice(0, 8).toUpperCase() + " Has Shipped",
     html: wrap('<div class="body">'
       + '<div style="text-align:center;margin-bottom:32px;"><span class="badge badge-shipped">SHIPPED</span></div>'
-      + '<h2>Your order is on its way, ' + name + '.</h2>'
-      + '<p>Great news — your FÉROCE order has been shipped.' + (tracking ? '<br><br>Tracking: <strong>' + tracking + '</strong>' : '') + '</p>'
+      + '<h2>Your order is on its way, ' + esc(name) + '.</h2>'
+      + '<p>Great news — your FÉROCE order has been shipped.' + (tracking ? '<br><br>Tracking: <strong>' + esc(tracking) + '</strong>' : '') + '</p>'
       + '<p>Estimated delivery: 5–7 business days (standard), 2–3 (express).</p>'
       + '<div style="text-align:center;margin:32px 0;"><a href="' + SITE_URL + '/account" class="btn">TRACK ORDER</a></div>'
       + '</div>'),
@@ -146,7 +154,7 @@ function orderCancelled(name, orderId) {
 function newOrderAdmin(orderId, customerEmail, items, total, method) {
   var fmt = function(c) { return "$" + Number(c).toFixed(2); };
   var rows = items.map(function(i) {
-    return '<tr><td>' + i.name + '</td><td style="text-align:center;">' + i.quantity + '</td><td style="text-align:right;">' + fmt(i.price * i.quantity) + '</td></tr>';
+    return '<tr><td>' + esc(i.name) + '</td><td style="text-align:center;">' + i.quantity + '</td><td style="text-align:right;">' + fmt(i.price * i.quantity) + '</td></tr>';
   }).join('');
   return {
     subject: "New Order #" + orderId.slice(0, 8).toUpperCase() + " — " + fmt(total),
@@ -156,7 +164,7 @@ function newOrderAdmin(orderId, customerEmail, items, total, method) {
       + '<div class="divider"></div>'
       + '<div class="label">ORDER NUMBER</div>'
       + '<div class="value" style="font-weight:600;font-size:16px;">#' + orderId.slice(0, 8).toUpperCase() + '</div>'
-      + '<div class="label">CUSTOMER</div><div class="value">' + customerEmail + '</div>'
+      + '<div class="label">CUSTOMER</div><div class="value">' + esc(customerEmail) + '</div>'
       + '<table class="order-table"><thead><tr><th>Item</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Price</th></tr></thead>'
       + '<tbody>' + rows
       + '<tr class="total-row"><td colspan="2">Total</td><td style="text-align:right;">' + fmt(total) + '</td></tr>'
@@ -172,10 +180,35 @@ function newsletterEmail(name) {
   return {
     subject: "Stay in the Loop — FÉROCE Updates",
     html: wrap('<div class="body">'
-      + '<h2>You\'re in the circle, ' + name + '.</h2>'
+      + '<h2>You\'re in the circle, ' + esc(name) + '.</h2>'
       + '<p>Welcome to the FÉROCE inner circle. You\'ll be the first to know about new collections, exclusive offers, and everything behind the scenes.</p>'
       + '<div class="divider"></div>'
       + '<div style="text-align:center;margin:32px 0;"><a href="' + SITE_URL + '/shop" class="btn btn-gold">SHOP NEW ARRIVALS</a></div>'
+      + '</div>'),
+  };
+}
+
+// 9. REVIEW SUBMITTED (admin)
+function reviewSubmitted(author, productName, rating, body, needsApproval) {
+  var stars = "";
+  for (var i = 0; i < rating; i++) stars += "\u2B50";
+  var badge = needsApproval
+    ? '<span class="badge badge-paid">NEEDS APPROVAL</span>'
+    : '<span class="badge badge-shipped">AUTO-PUBLISHED (VERIFIED PURCHASE)</span>';
+  var action = needsApproval
+    ? '<div style="text-align:center;margin:32px 0;"><a href="' + SITE_URL + '/admin" class="btn">OPEN DASHBOARD</a></div>'
+    : '';
+  return {
+    subject: (needsApproval ? "Review Awaiting Approval — " : "New Review — ") + productName + " (" + rating + "\u2605)",
+    html: wrap('<div class="body">'
+      + '<div style="text-align:center;margin-bottom:32px;">' + badge + '</div>'
+      + '<h2>New product review.</h2>'
+      + '<p><strong>' + esc(productName) + '</strong> received a ' + rating + '-star review from ' + esc(author) + '.</p>'
+      + (needsApproval ? '<p>This reviewer has no verified purchase, so the review is <strong>not live yet</strong> — approve it in the dashboard.</p>' : '<p>This is a verified purchase, so the review is already live.</p>')
+      + '<div class="divider"></div>'
+      + '<div class="label">RATING</div><div class="value">' + stars + '</div>'
+      + '<div class="label">REVIEW</div><div class="value">' + esc(body) + '</div>'
+      + action
       + '</div>'),
   };
 }
@@ -192,6 +225,17 @@ serve(async (req) => {
     });
   }
   try {
+    // Auth gate: this function sends email from the brand domain, so it must
+    // never be callable with the public anon key. Only server-side callers
+    // holding the service-role key may invoke it.
+    var authHeader = req.headers.get("Authorization") || "";
+    var serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") || "";
+    if (!serviceKey || authHeader !== "Bearer " + serviceKey) {
+      return new Response(JSON.stringify({ error: "Unauthorized" }), {
+        status: 401, headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" }
+      });
+    }
+
     var body = await req.json();
     var type = body.type;
     var to = body.to;
@@ -221,6 +265,8 @@ serve(async (req) => {
         emailData = orderCancelled(params.name || "Valued Customer", params.orderId || "unknown"); break;
       case "new-order-admin":
         emailData = newOrderAdmin(params.orderId || "unknown", params.customerEmail || "unknown", params.items || [], params.total || 0, params.paymentMethod || "Card"); break;
+      case "review-submitted":
+        emailData = reviewSubmitted(params.reviewAuthor || "A customer", params.productName || "a product", Number(params.reviewRating) || 5, params.reviewBody || "", params.reviewNeedsApproval !== false); break;
       case "newsletter":
         if (params.customSubject && params.customHtml) {
           emailData = { subject: params.customSubject, html: wrap(params.customHtml) };
