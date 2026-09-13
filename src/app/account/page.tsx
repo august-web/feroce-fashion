@@ -105,18 +105,18 @@ export default async function AccountPage() {
         </div>
 
         {/* ── Stats ── */}
-        <div className="grid grid-cols-3 gap-3 sm:gap-4 mb-10 sm:mb-12">
-          <div className="bg-white border border-line p-4 sm:p-6 text-center">
-            <p className="font-serif text-2xl sm:text-3xl text-navy">{orders?.length || 0}</p>
-            <p className="label mt-1.5 text-navy/40">Orders</p>
+        <div className="flex gap-2.5 sm:gap-4 mb-10 sm:mb-12">
+          <div className="flex-1 min-w-0 bg-white border border-line px-2 py-4 sm:px-6 sm:py-6 text-center">
+            <p className="font-serif text-xl sm:text-2xl md:text-3xl text-navy">{orders?.length || 0}</p>
+            <p className="label mt-1.5 text-navy/40 text-[9px] sm:text-[10px]">Orders</p>
           </div>
-          <div className="bg-white border border-line p-4 sm:p-6 text-center">
-            <p className="font-serif text-2xl sm:text-3xl text-navy">{formatPrice(lifetimeSpend)}</p>
-            <p className="label mt-1.5 text-navy/40">Lifetime Spend</p>
+          <div className="flex-1 min-w-0 bg-white border border-line px-2 py-4 sm:px-6 sm:py-6 text-center">
+            <p className="font-serif text-xl sm:text-2xl md:text-3xl text-navy">{formatPrice(lifetimeSpend)}</p>
+            <p className="label mt-1.5 text-navy/40 text-[9px] sm:text-[10px]">Lifetime Spend</p>
           </div>
-          <div className="bg-white border border-line p-4 sm:p-6 text-center">
-            <p className="font-serif text-2xl sm:text-3xl text-navy">{reviewCount || 0}</p>
-            <p className="label mt-1.5 text-navy/40">Reviews</p>
+          <div className="flex-1 min-w-0 bg-white border border-line px-2 py-4 sm:px-6 sm:py-6 text-center">
+            <p className="font-serif text-xl sm:text-2xl md:text-3xl text-navy">{reviewCount || 0}</p>
+            <p className="label mt-1.5 text-navy/40 text-[9px] sm:text-[10px]">Reviews</p>
           </div>
         </div>
 
@@ -185,8 +185,10 @@ export default async function AccountPage() {
                     )}
 
                     <p className="text-[10px] text-navy/40 mt-4">
-                      {PAYMENT_LABELS[order.payment_method] || 'Bank Transfer'}{' '}
-                      {' • '}{order.payment_provider}
+                      {PAYMENT_LABELS[order.payment_method] || 'Bank Transfer'}
+                      {order.payment_provider
+                        ? ' • ' + order.payment_provider.charAt(0).toUpperCase() + order.payment_provider.slice(1)
+                        : ''}
                     </p>
                   </div>
                 ))}
