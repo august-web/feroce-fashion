@@ -11,12 +11,10 @@ export function NewsletterForm() {
     if (!email) return
     setStatus('loading')
     try {
-      const url = process.env.NEXT_PUBLIC_SUPABASE_URL || ''
-      const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
-      const res = await fetch(url + '/functions/v1/send-email', {
+      const res = await fetch('/api/newsletter', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: 'Bearer ' + key },
-        body: JSON.stringify({ type: 'newsletter', to: email, name: email.split('@')[0] }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
       })
       setStatus(res.ok ? 'success' : 'error')
       if (res.ok) setEmail('')
