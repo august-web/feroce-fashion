@@ -2,7 +2,7 @@ import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { fetchCategories, fetchProducts, sortProducts, type SortOption } from '@/lib/shop-data'
 import { ShopHeader } from '@/components/shop/ShopHeader'
-import { ShopFilters } from '@/components/shop/ShopFilters'
+import { ShopFilters, DesktopFilterSidebar } from '@/components/shop/ShopFilters'
 import { SortSelect } from '@/components/shop/SortSelect'
 import { EmptyState } from '@/components/shop/EmptyState'
 import { ProductCard } from '@/components/home/ProductCard'
@@ -73,9 +73,7 @@ export default async function ShopPage({ searchParams }: ShopPageProps) {
 
         {/* Sidebar + Grid */}
         <div className="flex gap-8">
-          <Suspense fallback={null}>
-            <ShopFilters categories={allCategories} />
-          </Suspense>
+          <DesktopFilterSidebar categories={allCategories} />
 
           <div className="flex-1 min-w-0">
             {products.length === 0 ? (

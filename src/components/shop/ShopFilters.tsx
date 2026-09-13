@@ -8,12 +8,17 @@ interface ShopFiltersProps {
   categories: Category[]
 }
 
+/**
+ * Mobile-only filter entry point: toggle button + slide-in drawer.
+ * The desktop sidebar lives in <DesktopFilterSidebar /> so each is
+ * rendered exactly once (a previous double-render put a stray toggle
+ * button beside the product grid on mobile).
+ */
 export function ShopFilters({ categories }: ShopFiltersProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
 
   return (
     <>
-      {/* Mobile filter toggle */}
       <button
         onClick={() => setMobileOpen(true)}
         className="flex items-center gap-2 text-[11px] font-sans uppercase tracking-[0.15em] text-navy/60 hover:text-navy transition-colors min-h-[44px] lg:hidden"
@@ -24,11 +29,12 @@ export function ShopFilters({ categories }: ShopFiltersProps) {
         Filters
       </button>
 
-      {/* Desktop sidebar */}
-      <FilterSidebar categories={categories} open={false} onClose={() => {}} />
-
-      {/* Mobile drawer */}
       <FilterSidebar categories={categories} open={mobileOpen} onClose={() => setMobileOpen(false)} />
     </>
   )
+}
+
+/** Desktop-only filter sidebar (renders nothing below lg). */
+export function DesktopFilterSidebar({ categories }: { categories: Category[] }) {
+  return <FilterSidebar categories={categories} open={false} onClose={() => {}} />
 }
