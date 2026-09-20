@@ -13,6 +13,12 @@ export const dynamic = 'force-dynamic'
 
 const SITE_URL = 'https://www.ferocefashionff.com'
 
+function truncateMeta(s: string, max = 155): string {
+  if (s.length <= max) return s
+  const cut = s.slice(0, max)
+  return cut.slice(0, cut.lastIndexOf(' ')).trimEnd() + '…'
+}
+
 interface ProductPageProps {
   params: Promise<{ slug: string }>
 }
@@ -30,7 +36,7 @@ export async function generateMetadata({ params }: ProductPageProps): Promise<Me
 
   return {
     title: `${product.name} — ${categoryName} Handbag | FÉROCE`,
-    description: product.description + ` Shop now at FÉROCE. ${priceStr}.`,
+    description: truncateMeta(product.description + ` Shop now at FÉROCE. ${priceStr}.`),
     keywords: [
       product.name,
       'FÉROCE handbag',
