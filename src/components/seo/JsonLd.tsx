@@ -75,6 +75,25 @@ export function ProductJsonLd({
       priceCurrency,
       availability,
       url,
+      itemCondition: 'https://schema.org/NewCondition',
+      // Values mirror the checkout/shipping policies — keep in sync if they change.
+      shippingDetails: {
+        '@type': 'OfferShippingDetails',
+        shippingDestination: { '@type': 'DefinedRegion', addressCountry: 'US' },
+        shippingRate: { '@type': 'MonetaryAmount', value: '15.00', currency: 'USD' },
+        freeShippingThreshold: { '@type': 'MonetaryAmount', value: '200', currency: 'USD' },
+        deliveryTime: {
+          '@type': 'ShippingDeliveryTime',
+          handlingTime: { '@type': 'QuantitativeValue', minValue: 1, maxValue: 2, unitCode: 'DAY' },
+          transitTime: { '@type': 'QuantitativeValue', minValue: 5, maxValue: 7, unitCode: 'DAY' },
+        },
+      },
+      hasMerchantReturnPolicy: {
+        '@type': 'MerchantReturnPolicy',
+        applicableCountry: 'US',
+        returnPolicyCategory: 'https://schema.org/MerchantReturnNotPermitted',
+        returnPolicyUrl: new URL('/shipping', url).toString(),
+      },
     },
     aggregateRating,
   }
