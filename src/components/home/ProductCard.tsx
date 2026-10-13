@@ -80,11 +80,6 @@ export function ProductCard({ product }: ProductCardProps) {
               Preorder
             </span>
           )}
-          {product.compare_at_price && !product.preorder && (
-            <span className="bg-red-600 px-2.5 py-1 sm:px-3 sm:py-1.5 text-[8px] sm:text-[9px] font-bold uppercase tracking-wider text-white">
-              Sale
-            </span>
-          )}
         </div>
 
                 {/* Wishlist heart */}
@@ -182,11 +177,6 @@ export function ProductCard({ product }: ProductCardProps) {
           <p className="text-[11px] sm:text-xs font-medium text-navy tracking-wide">
             {formatPrice(product.price)}
           </p>
-          {product.compare_at_price && product.compare_at_price > product.price && (
-            <p className="text-[10px] sm:text-[11px] text-navy/30 line-through">
-              {formatPrice(product.compare_at_price)}
-            </p>
-          )}
         </div>
         {product.preorder && (
           <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] text-gold font-medium">
