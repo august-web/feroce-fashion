@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const faqs = [
   {
     q: 'How do I purchase a Feroce bag?',
-    a: 'All purchases are made through our secure Stripe checkout. Browse the collection, select your preferred color, and click "Buy Now" to be redirected to Stripe\'s secure payment page where you can pay by card, Apple Pay, or Google Pay.',
+    a: 'All purchases are made through our secure Stripe checkout. Browse the collection, select your preferred color, and click "Add to Cart" to be redirected to Stripe\'s secure payment page where you can pay by card, Apple Pay, or Google Pay.',
   },
   {
     q: 'What payment methods do you accept?',
@@ -35,7 +35,7 @@ const faqs = [
   },
   {
     q: 'Are the bags handmade?',
-    a: 'Yes. Every Feroce bag is handcrafted using premium Italian calfskin leather and 24K gold-plated hardware. Each piece is hand-stitched in our Dallas atelier.',
+    a: 'Yes. Every Féroce bag is handcrafted in small batches and finished with gold-tone hardware. Each piece is designed in Dallas and made to order.',
   },
   {
     q: 'How can I contact you?',
