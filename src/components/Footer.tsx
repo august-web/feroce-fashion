@@ -105,16 +105,24 @@ export function Footer() {
             © 2026 Féroce Fashion. All rights reserved. Designed in Dallas.
           </span>
 
-          {/* Right — Payment icons */}
-          <div className="flex items-center gap-2">
+          {/* Right — Payment marks */}
+          <div className="flex items-center gap-2" aria-label="Visa, Mastercard, American Express accepted">
             <div className="flex h-6 items-center rounded border border-[#d1cec7] bg-white px-1.5">
-              <span className="text-[8px] font-bold italic text-[#1a1f71]">VISA</span>
+              <svg viewBox="0 0 36 12" className="h-3 w-9" role="img" aria-label="Visa">
+                <text x="18" y="9.5" textAnchor="middle" fontFamily="Arial, Helvetica, sans-serif" fontSize="10" fontWeight="bold" fontStyle="italic" fill="#1a1f71" letterSpacing="0.5">VISA</text>
+              </svg>
             </div>
             <div className="flex h-6 items-center rounded border border-[#d1cec7] bg-white px-1.5">
-              <span className="text-[8px] font-bold text-[#eb001b]">MC</span>
+              <svg viewBox="0 0 26 16" className="h-4 w-6.5" role="img" aria-label="Mastercard">
+                <circle cx="9" cy="8" r="6" fill="#eb001b" />
+                <circle cx="17" cy="8" r="6" fill="#f79e1b" fillOpacity="0.9" />
+              </svg>
             </div>
             <div className="flex h-6 items-center rounded border border-[#d1cec7] bg-white px-1.5">
-              <span className="text-[7px] font-bold text-[#006fcf]">AMEX</span>
+              <svg viewBox="0 0 30 16" className="h-4 w-7.5" role="img" aria-label="American Express">
+                <rect width="30" height="16" rx="2" fill="#2e77bc" />
+                <text x="15" y="11" textAnchor="middle" fontFamily="Arial, Helvetica, sans-serif" fontSize="6.5" fontWeight="bold" fill="#ffffff" letterSpacing="0.4">AMEX</text>
+              </svg>
             </div>
           </div>
         </div>
