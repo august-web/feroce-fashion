@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import Link from 'next/link'
 import { formatPrice } from '@/lib/types'
 import { useCartStore } from '@/store/cart'
 
@@ -133,6 +134,15 @@ export function OrderSummary() {
 
         </div>
       </div>
+
+      {/* Guest checkout */}
+      <p className="mt-4 text-center text-[10px] text-navy/50 font-sans">
+        No account needed — checkout as guest.{' '}
+        <Link href="/register" className="text-gold hover:text-navy transition-colors underline underline-offset-2">Create one</Link>
+        {' '}or{' '}
+        <Link href="/login" className="text-gold hover:text-navy transition-colors underline underline-offset-2">sign in</Link>
+        {' '}for faster checkout next time.
+      </p>
 
 
 
