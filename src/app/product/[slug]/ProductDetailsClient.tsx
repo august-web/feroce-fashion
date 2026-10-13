@@ -7,7 +7,6 @@ import { useCartStore } from '@/store/cart'
 import { useWishlistStore } from '@/store/wishlist'
 import { Heart } from 'lucide-react'
 import { useToastStore } from '@/components/Toast'
-import { useAuth } from '@/hooks/useAuth'
 import { ColorSwatches } from '@/components/product/ColorSwatches'
 import { SizeSelector } from '@/components/product/SizeSelector'
 import { QuantitySelector } from '@/components/product/QuantitySelector'
@@ -19,26 +18,19 @@ interface ProductDetailsClientProps {
   selectedColor: string
   onColorChange: (color: string) => void
   onOpenMiniCart: () => void
-  onOpenAuthPrompt: () => void
 }
 
-export function ProductDetailsClient({ product, selectedColor, onColorChange, onOpenMiniCart, onOpenAuthPrompt }: ProductDetailsClientProps) {
+export function ProductDetailsClient({ product, selectedColor, onColorChange, onOpenMiniCart }: ProductDetailsClientProps) {
   const [selectedSize, setSelectedSize] = useState(product.sizes[0]?.label || 'One Size')
   const [quantity, setQuantity] = useState(1)
   const addItem = useCartStore((s) => s.addItem)
   const toast = useToastStore((s) => s.add)
-  const { isAuthenticated, loading } = useAuth()
   const { toggleItem, isInWishlist } = useWishlistStore()
   const inWishlist = isInWishlist(product.id)
 
   const activeVariant = product.variants.find((v) => v.color === selectedColor) || product.variants[0]
 
   const handleAddToCart = () => {
-    if (!loading && !isAuthenticated) {
-      onOpenAuthPrompt()
-      return
-    }
-
     for (let i = 0; i < quantity; i++) {
       addItem({
         productId: product.id,
@@ -55,7 +47,6 @@ export function ProductDetailsClient({ product, selectedColor, onColorChange, on
   }
 
   const subtotal = product.price * quantity
-  const hasSale = !!product.compare_at_price && product.compare_at_price > product.price
 
   const accordionItems = [
     { title: 'Materials & Fit', content: product.materials },
@@ -63,8 +54,8 @@ export function ProductDetailsClient({ product, selectedColor, onColorChange, on
     {
       title: 'Shipping & Returns',
       content: product.preorder
-        ? 'Preorder items ship within 4–8 weeks of purchase. Complimentary standard shipping on orders over $200. All sales are final — no refunds, returns, or exchanges of delivery. Items must be unused with tags attached.'
-        : 'Complimentary standard shipping on orders over $200. Express shipping available at checkout. All sales are final — no refunds, returns, or exchanges of delivery. Items must be unused with tags attached.',
+        ? 'Made to order — ships within 4–8 weeks of purchase. Complimentary standard shipping (5–7 business days) on US orders over $200; a flat $15 applies below. Express (2–3 business days) available at checkout. All sales are final. If your piece arrives damaged or defective, contact us within 48 hours of delivery at Ferocefashionff@gmail.com with your order number and photos.'
+        : 'Standard shipping (5–7 business days) is complimentary on US orders over $200; a flat $15 applies below. Express (2–3 business days) available at checkout. All sales are final. If your piece arrives damaged or defective, contact us within 48 hours of delivery at Ferocefashionff@gmail.com with your order number and photos.',
     },
   ]
 
@@ -80,8 +71,7 @@ export function ProductDetailsClient({ product, selectedColor, onColorChange, on
 
       <button
         onClick={handleAddToCart}
-        disabled={loading}
-        className="w-full btn-primary py-4 text-center min-h-[48px] group relative overflow-hidden disabled:opacity-50"
+        className="w-full btn-primary py-4 text-center min-h-[48px] group relative overflow-hidden"
       >
         <span className="relative z-10">
           {product.preorder ? 'PREORDER' : 'ADD TO CART'} — {formatPrice(subtotal)}
