@@ -1,7 +1,6 @@
 import { fetchProducts } from '@/lib/shop-data'
 import { HeroSection } from '@/components/home/HeroSection'
 import { VideoGrid } from '@/components/home/VideoGrid'
-import { FounderSection } from '@/components/home/FounderSection'
 import { EditSection } from '@/components/home/EditSection'
 import { MemberBanner } from '@/components/home/MemberBanner'
 
@@ -19,7 +18,6 @@ export default async function HomePage() {
     <>
       <HeroSection />
       <VideoGrid />
-      <FounderSection />
       <EditSection products={edit} />
       <MemberBanner />
     </>
