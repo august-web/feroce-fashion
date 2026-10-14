@@ -1,48 +1,26 @@
-import { fetchCategories, fetchProducts } from '@/lib/shop-data'
+import { fetchProducts } from '@/lib/shop-data'
 import { HeroSection } from '@/components/home/HeroSection'
-import { Marquee } from '@/components/home/Marquee'
-import { CategoryIcons } from '@/components/home/CategoryIcons'
-import { EditSection } from '@/components/home/EditSection'
-import { LifestyleStrip } from '@/components/home/LifestyleStrip'
-import { MemberBanner } from '@/components/home/MemberBanner'
 import { VideoGrid } from '@/components/home/VideoGrid'
-import { FeaturedInfluencer } from '@/components/home/FeaturedInfluencer'
-import { PopularSearches } from '@/components/home/PopularSearches'
+import { FounderSection } from '@/components/home/FounderSection'
+import { EditSection } from '@/components/home/EditSection'
+import { MemberBanner } from '@/components/home/MemberBanner'
 
 export const dynamic = 'force-dynamic'
 
-
-// ── Product counts per category ──
-
-async function getProductCounts(categories: { id: string; slug: string }[]): Promise<Record<string, number>> {
-  // Since we're using seed data fallback, just count from the products
-  const products = await fetchProducts()
-  const counts: Record<string, number> = {}
-  for (const cat of categories) {
-    counts[cat.slug] = products.filter((p) => p.category_id === cat.id).length
-  }
-  return counts
-}
-
-// ── Page Component ──
+const EDIT_COLLECTIONS = new Set(['Naji', 'Denim De Ville'])
 
 export default async function HomePage() {
-  const [categories, allProducts] = await Promise.all([fetchCategories(), fetchProducts()])
-  const productCounts = await getProductCounts(categories)
+  const products = await fetchProducts()
 
-  // Only show first 4 products on homepage
-  const products = allProducts
+  const signature = products.filter(p => p.collection && EDIT_COLLECTIONS.has(p.collection))
+  const edit = (signature.length >= 2 ? signature : products).slice(0, 4)
 
   return (
     <>
       <HeroSection />
-      <Marquee />
-      <FeaturedInfluencer />
-      <CategoryIcons categories={categories} productCounts={productCounts} />
       <VideoGrid />
-      <EditSection products={products} />
-      <PopularSearches />
-      <LifestyleStrip />
+      <FounderSection />
+      <EditSection products={edit} />
       <MemberBanner />
     </>
   )
