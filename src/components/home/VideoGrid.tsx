@@ -74,8 +74,8 @@ export function VideoGrid() {
           ref={ref}
           className={'text-center mb-10 transition-all duration-700 ' + (visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6')}
         >
-          <p className='font-label text-[11px] uppercase tracking-[0.3em] text-gold mb-3'>Discover</p>
           <h2 className='font-serif text-3xl md:text-4xl text-navy'>The World of Féroce</h2>
+          <div className='mx-auto mt-4 h-px w-16 bg-gold/40' />
         </div>
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6'>
           {videos.map((v) => (
