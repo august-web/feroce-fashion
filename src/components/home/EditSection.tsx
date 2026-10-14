@@ -16,7 +16,6 @@ export function EditSection({ products }: EditSectionProps) {
         {/* Section header */}
         <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
           <div className="mb-10 sm:mb-14 text-center">
-            <p className="label mb-3">Curated for You</p>
             <h2 className="font-serif text-2xl font-semibold text-navy md:text-3xl">
               The Féroce Edit
             </h2>
