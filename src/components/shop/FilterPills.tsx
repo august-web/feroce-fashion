@@ -10,27 +10,27 @@ interface FilterPillsProps {
 
 export function FilterPills({ categories, activeSlug }: FilterPillsProps) {
   return (
-    <div className="flex gap-2 overflow-x-auto scrollbar-hide pb-2 sm:pb-0">
+    <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide py-1">
       {/* All pill */}
       <Link
         href="/shop"
-        className={`flex-shrink-0 px-4 py-2.5 text-[10px] sm:text-[11px] font-sans uppercase tracking-luxury border transition-all duration-300 min-h-[48px] flex items-center ${
+        className={`flex-shrink-0 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all duration-300 ${
           !activeSlug
-            ? 'bg-navy text-white border-navy'
-            : 'bg-white text-navy border-line hover:border-navy/30'
+            ? 'bg-[#4A4D52] hover:bg-navy text-white shadow-sm'
+            : 'bg-[#F6F6F8] hover:bg-gray-200/80 text-navy/70 border border-gray-200/60'
         }`}
       >
-        All
+        All Pieces
       </Link>
 
       {categories.map((cat) => (
         <Link
           key={cat.id}
           href={`/shop/${cat.slug}`}
-          className={`flex-shrink-0 px-4 py-2.5 text-[10px] sm:text-[11px] font-sans uppercase tracking-luxury border transition-all duration-300 min-h-[48px] flex items-center ${
+          className={`flex-shrink-0 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase transition-all duration-300 ${
             activeSlug === cat.slug
-              ? 'bg-navy text-white border-navy'
-              : 'bg-white text-navy border-line hover:border-navy/30'
+              ? 'bg-[#4A4D52] hover:bg-navy text-white shadow-sm'
+              : 'bg-[#F6F6F8] hover:bg-gray-200/80 text-navy/70 border border-gray-200/60'
           }`}
         >
           {cat.name}
