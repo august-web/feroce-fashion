@@ -6,6 +6,9 @@ import type { CartItem } from '@/lib/types'
 
 interface CartState {
   items: CartItem[]
+  isMiniCartOpen: boolean
+  openMiniCart: () => void
+  closeMiniCart: () => void
   addItem: (item: Omit<CartItem, 'quantity'>) => void
   removeItem: (productId: string, color?: string) => void
   updateQuantity: (productId: string, quantity: number, color?: string) => void
@@ -18,6 +21,10 @@ export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({
       items: [],
+      isMiniCartOpen: false,
+
+      openMiniCart: () => set({ isMiniCartOpen: true }),
+      closeMiniCart: () => set({ isMiniCartOpen: false }),
 
       addItem: (item) => {
         set((state) => {
@@ -31,9 +38,13 @@ export const useCartStore = create<CartState>()(
                   ? { ...i, quantity: i.quantity + 1 }
                   : i,
               ),
+              isMiniCartOpen: true,
             }
           }
-          return { items: [...state.items, { ...item, quantity: 1 }] }
+          return {
+            items: [...state.items, { ...item, quantity: 1 }],
+            isMiniCartOpen: true,
+          }
         })
       },
 
@@ -65,6 +76,11 @@ export const useCartStore = create<CartState>()(
     }),
     // v1: prices moved from cents to dollars — old persisted carts are
     // wiped once rather than rendering 100x prices.
-    { name: 'feroce-cart', version: 1, migrate: () => ({ items: [] }) },
+    {
+      name: 'feroce-cart',
+      version: 1,
+      migrate: () => ({ items: [], isMiniCartOpen: false }),
+      partialize: (state) => ({ items: state.items }),
+    },
   ),
 )
