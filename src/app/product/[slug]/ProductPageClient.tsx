@@ -6,6 +6,7 @@ import { formatPrice } from '@/lib/types'
 import { ImageGallery } from '@/components/product/ImageGallery'
 import { ProductDetailsClient } from './ProductDetailsClient'
 import { MiniCartDrawer } from '@/components/MiniCartDrawer'
+import { InstallmentPill } from '@/components/product/InstallmentPill'
 
 interface ProductPageClientProps {
   product: ShopProduct
@@ -53,11 +54,19 @@ export function ProductPageClient({ product }: ProductPageClientProps) {
               </h1>
             </div>
 
-            {/* Price */}
-            <div className="flex items-center gap-3">
-              <p className="text-lg font-sans font-medium text-navy tracking-wide">
-                {formatPrice(product.price)}
-              </p>
+            {/* Price & Installments (Glamaholic style) */}
+            <div>
+              <div className="flex items-center gap-3">
+                <p className="text-xl font-sans font-semibold text-navy tracking-wide">
+                  {formatPrice(product.price)}
+                </p>
+                {product.compare_at_price && product.compare_at_price > product.price && (
+                  <span className="text-sm text-navy/40 line-through">
+                    {formatPrice(product.compare_at_price)}
+                  </span>
+                )}
+              </div>
+              <InstallmentPill price={product.price} />
             </div>
 
             {product.preorder && (
