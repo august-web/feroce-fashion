@@ -10,9 +10,6 @@ interface ShopFiltersProps {
 
 /**
  * Mobile-only filter entry point: toggle button + slide-in drawer.
- * The desktop sidebar lives in <DesktopFilterSidebar /> so each is
- * rendered exactly once (a previous double-render put a stray toggle
- * button beside the product grid on mobile).
  */
 export function ShopFilters({ categories }: ShopFiltersProps) {
   const [mobileOpen, setMobileOpen] = useState(false)
@@ -21,20 +18,34 @@ export function ShopFilters({ categories }: ShopFiltersProps) {
     <>
       <button
         onClick={() => setMobileOpen(true)}
-        className="flex items-center gap-2 text-[11px] font-sans uppercase tracking-[0.15em] text-navy/60 hover:text-navy transition-colors min-h-[44px] lg:hidden"
+        className="flex items-center gap-2 text-[11px] font-sans uppercase tracking-[0.15em] text-navy/70 hover:text-navy transition-colors min-h-[44px] px-3 py-2 border border-line bg-white shadow-sm lg:hidden"
       >
-        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
+        <svg className="w-4 h-4 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
           <line x1="4" y1="6" x2="20" y2="6" /><line x1="8" y1="12" x2="20" y2="12" /><line x1="12" y1="18" x2="20" y2="18" />
         </svg>
-        Filters
+        <span>Filters</span>
       </button>
 
-      <FilterSidebar categories={categories} open={mobileOpen} onClose={() => setMobileOpen(false)} />
+      <FilterSidebar
+        categories={categories}
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        isMobileDrawer={true}
+      />
     </>
   )
 }
 
-/** Desktop-only filter sidebar (renders nothing below lg). */
+/** Desktop-only filter sidebar (rendered only on lg+ viewports). */
 export function DesktopFilterSidebar({ categories }: { categories: Category[] }) {
-  return <FilterSidebar categories={categories} open={false} onClose={() => {}} />
+  return (
+    <aside className="hidden lg:block w-56 flex-shrink-0">
+      <FilterSidebar
+        categories={categories}
+        open={false}
+        onClose={() => {}}
+        isMobileDrawer={false}
+      />
+    </aside>
+  )
 }
