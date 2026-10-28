@@ -97,7 +97,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
+    <html lang="en" className="overflow-x-hidden w-full">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -119,7 +119,7 @@ export default function RootLayout({
           description="Fierce elegance, structured utility. Luxury handbags designed in Dallas."
         />
       </head>
-      <body className="min-h-screen bg-cream font-sans text-navy antialiased">
+      <body className="min-h-screen bg-cream font-sans text-navy antialiased overflow-x-hidden w-full">
         <GoogleAnalytics />
         <SmoothScroll><StoreShell><PageTransition>{children}</PageTransition></StoreShell></SmoothScroll>
         <ToastContainer />
