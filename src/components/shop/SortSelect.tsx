@@ -2,9 +2,10 @@
 
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useTransition } from 'react'
+import { ChevronDown } from 'lucide-react'
 
 const SORT_OPTIONS = [
-  { value: 'newest', label: 'Newest' },
+  { value: 'newest', label: 'Newest Releases' },
   { value: 'price-low', label: 'Price: Low → High' },
   { value: 'price-high', label: 'Price: High → Low' },
 ]
@@ -31,18 +32,12 @@ export function SortSelect({ currentSort }: SortSelectProps) {
   }
 
   return (
-    <div className="flex items-center gap-2">
-      <span className="text-[10px] uppercase tracking-luxury text-navy/40 font-sans hidden sm:inline">Sort by</span>
+    <div className="relative inline-flex items-center">
       <select
         value={currentSort}
         onChange={(e) => handleChange(e.target.value)}
         disabled={isPending}
-        className="appearance-none bg-white border border-line px-4 py-2.5 pr-8 text-[11px] font-sans uppercase tracking-luxury text-navy focus:outline-none focus:border-navy/30 cursor-pointer min-h-[48px] disabled:opacity-50"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%230A1128' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
-          backgroundRepeat: 'no-repeat',
-          backgroundPosition: 'right 12px center',
-        }}
+        className="appearance-none bg-white border border-gray-200 hover:border-gray-300 rounded-full pl-5 pr-10 py-2.5 sm:py-3 text-xs font-semibold text-navy focus:outline-none focus:ring-2 focus:ring-navy/5 focus:border-navy cursor-pointer transition-all duration-200 shadow-sm disabled:opacity-50"
       >
         {SORT_OPTIONS.map((opt) => (
           <option key={opt.value} value={opt.value}>
@@ -50,6 +45,7 @@ export function SortSelect({ currentSort }: SortSelectProps) {
           </option>
         ))}
       </select>
+      <ChevronDown className="w-3.5 h-3.5 text-navy/60 pointer-events-none absolute right-4" />
     </div>
   )
 }
