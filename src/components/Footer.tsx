@@ -2,128 +2,132 @@ import Link from 'next/link'
 import { NewsletterForm } from './NewsletterForm'
 
 const FOOTER_LINKS = {
-  Shop: [
-    { label: "Women's", href: '/shop/womens' },
-    { label: "Men's", href: '/shop/mens' },
-    { label: 'Denim De Ville', href: '/product/denim-de-ville-blue-gold' },
-    { label: 'Naji', href: '/product/naji-gold-fur-xl' },
+  Collections: [
+    { label: 'Denim De Ville', href: '/shop/womens' },
+    { label: 'The Naji Fur Edit', href: '/shop/womens' },
+    { label: 'Luxury Fanny Packs', href: '/shop/mens' },
+    { label: 'Signature Satchels', href: '/shop/mens' },
+    { label: 'View All Handbags', href: '/shop' },
   ],
-  Company: [
-    { label: 'About', href: '/about' },
-    { label: 'FAQ', href: '/faq' },
-    { label: 'Contact', href: '/contact' },
+  ClientConcierge: [
+    { label: 'Order Status & Pre-Orders', href: '/account' },
+    { label: 'Shipping & Production Timeline', href: '/shipping' },
+    { label: 'Care & Maintenance Guide', href: '/faq' },
+    { label: 'Contact Client Concierge', href: '/contact' },
   ],
-  Support: [
-    { label: 'Shipping & Returns', href: '/shipping' },
+  TheHouse: [
+    { label: 'About Féroce', href: '/about' },
+    { label: 'The Dallas Atelier', href: '/about' },
+    { label: 'Sustainability & Materials', href: '/about' },
+    { label: 'Private Membership', href: '/register' },
   ],
   Legal: [
     { label: 'Privacy Policy', href: '/privacy' },
-    { label: 'Terms & Conditions', href: '/terms' },
-    { label: 'Accessibility', href: '/accessibility' },
+    { label: 'Terms of Service', href: '/terms' },
+    { label: 'Accessibility Statement', href: '/accessibility' },
   ],
 }
 
 export function Footer() {
   return (
     <footer className="border-t border-line bg-white">
-      <div className="mx-auto max-w-7xl px-5 py-10 sm:px-6 sm:py-14 md:px-8">
-        {/* ── Newsletter ── */}
-        <div className="mb-8 sm:mb-10 text-center">
-          <p className="label mb-3">Stay in the Loop</p>
-          <p className="mb-4 text-xs text-navy/60 px-4">
-            Get new arrivals, restocks, and Féroce stories delivered to your inbox.
+      <div className="mx-auto max-w-7xl px-5 py-14 sm:px-6 sm:py-20 md:px-8">
+        {/* Newsletter Section */}
+        <div className="mb-14 sm:mb-16 text-center max-w-xl mx-auto">
+          <p className="text-[10px] uppercase font-sans tracking-[0.3em] text-gold font-semibold mb-2">
+            The Féroce Dispatch
+          </p>
+          <h3 className="font-serif text-2xl sm:text-3xl font-semibold text-navy mb-3">
+            Stay in the Inner Circle
+          </h3>
+          <p className="mb-6 text-xs text-navy/60 leading-relaxed font-light">
+            Receive exclusive drop alerts, private Dallas atelier pre-orders, and invitation-only releases.
           </p>
           <NewsletterForm />
         </div>
 
-        {/* ── Link columns — 2-col mobile, 4-col desktop ── */}
-        <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
-          {Object.entries(FOOTER_LINKS).map(([title, links]) => (
-            <div key={title}>
-              <h4
-                className="mb-4 text-[11px] font-sans font-semibold uppercase text-navy"
-                style={{ letterSpacing: '0.15em' }}
-              >
-                {title}
-              </h4>
-              <ul className="space-y-0.5">
-                {links.map((link) => (
-                  <li key={link.label}>
-                    <Link
-                      href={link.href}
-                      className="flex items-center text-xs text-[#6b6b6b] hover:text-gold transition-colors min-h-[36px]"
-                    >
-                      {link.label}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-        {/* ── Divider ── */}
-        <div className="mt-8 sm:mt-10 h-px bg-[#c8c5be]" />
-
-        {/* ── Bottom bar ── */}
-        <div className="mt-5 sm:mt-6 flex flex-col items-center justify-between gap-4 md:flex-row">
-          {/* Left — Logo + social icons */}
-          <div className="flex items-center gap-5">
-            <span className="font-serif text-sm font-semibold text-navy tracking-tight">FÉROCE</span>
-            <div className="flex items-center gap-3">
-              {/* Instagram */}
-              <a
-                href="https://www.instagram.com/ferocefashion_ff?igsi=ZDNlZDc0MzIxNw=="
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-                className="text-[#6b6b6b] hover:text-gold transition-colors"
-              >
-                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="2" y="2" width="20" height="20" rx="5" />
-                  <circle cx="12" cy="12" r="5" />
-                  <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-                </svg>
-              </a>
-              {/* TikTok */}
-              <a
-                href="https://www.tiktok.com/@ferocefashion_ff"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="TikTok"
-                className="text-[#6b6b6b] hover:text-gold transition-colors"
-              >
-                <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.48V13.2a8.19 8.19 0 005.58 2.17V12a4.85 4.85 0 01-5.58-2.71V6.69h5.58z" />
-                </svg>
-              </a>
-            </div>
+        {/* Link Columns */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-10 pb-12 border-b border-line">
+          <div>
+            <h4 className="mb-4 text-[11px] font-sans font-bold uppercase tracking-[0.2em] text-navy">
+              Collections
+            </h4>
+            <ul className="space-y-2">
+              {FOOTER_LINKS.Collections.map((link) => (
+                <li key={link.label}>
+                  <Link href={link.href} className="text-xs text-navy/60 hover:text-gold transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* Center — Copyright */}
-          <span className="text-[10px] text-[#6b6b6b] text-center order-last md:order-none">
-            © 2026 Féroce Fashion. All rights reserved. Designed in Dallas.
-          </span>
+          <div>
+            <h4 className="mb-4 text-[11px] font-sans font-bold uppercase tracking-[0.2em] text-navy">
+              Client Concierge
+            </h4>
+            <ul className="space-y-2">
+              {FOOTER_LINKS.ClientConcierge.map((link) => (
+                <li key={link.label}>
+                  <Link href={link.href} className="text-xs text-navy/60 hover:text-gold transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-          {/* Right — Payment marks */}
-          <div className="flex items-center gap-2" aria-label="Visa, Mastercard, American Express accepted">
-            <div className="flex h-6 items-center rounded border border-[#d1cec7] bg-white px-1.5">
-              <svg viewBox="0 0 36 12" className="h-3 w-9" role="img" aria-label="Visa">
-                <text x="18" y="9.5" textAnchor="middle" fontFamily="Arial, Helvetica, sans-serif" fontSize="10" fontWeight="bold" fontStyle="italic" fill="#1a1f71" letterSpacing="0.5">VISA</text>
-              </svg>
-            </div>
-            <div className="flex h-6 items-center rounded border border-[#d1cec7] bg-white px-1.5">
-              <svg viewBox="0 0 26 16" className="h-4 w-6.5" role="img" aria-label="Mastercard">
-                <circle cx="9" cy="8" r="6" fill="#eb001b" />
-                <circle cx="17" cy="8" r="6" fill="#f79e1b" fillOpacity="0.9" />
-              </svg>
-            </div>
-            <div className="flex h-6 items-center rounded border border-[#d1cec7] bg-white px-1.5">
-              <svg viewBox="0 0 30 16" className="h-4 w-7.5" role="img" aria-label="American Express">
-                <rect width="30" height="16" rx="2" fill="#2e77bc" />
-                <text x="15" y="11" textAnchor="middle" fontFamily="Arial, Helvetica, sans-serif" fontSize="6.5" fontWeight="bold" fill="#ffffff" letterSpacing="0.4">AMEX</text>
-              </svg>
-            </div>
+          <div>
+            <h4 className="mb-4 text-[11px] font-sans font-bold uppercase tracking-[0.2em] text-navy">
+              The House
+            </h4>
+            <ul className="space-y-2">
+              {FOOTER_LINKS.TheHouse.map((link) => (
+                <li key={link.label}>
+                  <Link href={link.href} className="text-xs text-navy/60 hover:text-gold transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="mb-4 text-[11px] font-sans font-bold uppercase tracking-[0.2em] text-navy">
+              Legal
+            </h4>
+            <ul className="space-y-2">
+              {FOOTER_LINKS.Legal.map((link) => (
+                <li key={link.label}>
+                  <Link href={link.href} className="text-xs text-navy/60 hover:text-gold transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* Bottom Bar */}
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex items-center gap-3">
+            <img src="/images/feroce-emblem.png" alt="FÉROCE" className="w-7 h-7 object-contain" />
+            <span className="font-sans text-base font-bold tracking-[0.14em] text-navy">FÉROCE</span>
+            <span className="text-[10px] text-navy/45 uppercase tracking-[0.2em] font-semibold">Fashion</span>
+          </div>
+
+          <div className="text-[11px] text-navy/50 text-center order-last md:order-none">
+            © {new Date().getFullYear()} FÉROCE Fashion LLC. All rights reserved. Handcrafted luxury.
+          </div>
+
+          {/* Payment Marks Row */}
+          <div className="flex items-center gap-2 flex-wrap justify-center text-[10px] text-navy/60">
+            <span className="px-2 py-1 bg-cream border border-line font-mono font-semibold">VISA</span>
+            <span className="px-2 py-1 bg-cream border border-line font-mono font-semibold">MC</span>
+            <span className="px-2 py-1 bg-cream border border-line font-mono font-semibold">AMEX</span>
+            <span className="px-2 py-1 bg-cream border border-line font-sans font-semibold">APPLE PAY</span>
+            <span className="px-2 py-1 bg-cream border border-line font-sans font-semibold">KLARNA</span>
           </div>
         </div>
       </div>
