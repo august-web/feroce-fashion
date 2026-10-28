@@ -1,56 +1,54 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'framer-motion'
+import { Sparkles, ArrowUpRight } from 'lucide-react'
 
 export function MemberBanner() {
   return (
-    <section className="relative overflow-hidden min-h-[500px] sm:min-h-[560px] md:min-h-[600px] py-16 sm:py-20 md:py-24">
-      {/* Background photo with dark overlay */}
-      <div className="absolute inset-0">
-        <img
-          src="/images/products/Denim De Ville Collection/Cream & Gold/Preview 3.jpg"
-          alt=""
-          className="h-full w-full object-cover object-[center_20%]"
-        />
-        <div className="absolute inset-0 bg-navy/80" />
-      </div>
+    <section className="bg-white py-10 sm:py-16">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
+        <div className="relative rounded-[32px] sm:rounded-[44px] overflow-hidden bg-navy text-white py-16 sm:py-24 px-6 sm:px-12 text-center shadow-xl">
+          {/* Subtle Atelier Photography Backdrop */}
+          <div className="absolute inset-0 pointer-events-none">
+            <img
+              src="/images/products/Denim De Ville Collection/Cream & Gold/Preview 3.jpg"
+              alt="Féroce Inner Circle"
+              className="h-full w-full object-cover object-center filter brightness-[0.28]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-navy via-navy/85 to-navy/70" />
+          </div>
 
-      {/* Subtle gold dot texture */}
-      <div className="absolute inset-0 opacity-[0.04]" style={{
-        backgroundImage: 'radial-gradient(circle, #D4AF37 1px, transparent 1px)',
-        backgroundSize: '24px 24px',
-      }} />
+          <div className="relative z-10 max-w-2xl mx-auto space-y-6">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white/10 border border-white/20 rounded-full text-[10px] font-sans font-semibold uppercase tracking-wider text-gold">
+              <Sparkles size={13} />
+              <span>Private Client Allocations</span>
+            </div>
 
-      {/* Gold accent lines */}
-      <div className="absolute top-0 left-0 h-full w-px bg-gradient-to-b from-transparent via-gold/20 to-transparent" />
-      <div className="absolute top-0 right-0 h-full w-px bg-gradient-to-b from-transparent via-gold/20 to-transparent" />
+            <h2 className="font-sans text-3xl sm:text-5xl font-bold tracking-tight text-white leading-[1.1]">
+              Become Part of the Féroce Circle.
+            </h2>
 
-      <div className="relative z-10 mx-auto max-w-3xl px-5 sm:px-6 text-center">
-        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
-          <p className="mb-4 text-[10px] uppercase font-sans tracking-[0.3em] text-gold">
-            Join the Inner Circle
-          </p>
-          <h2 className="font-serif text-xl sm:text-2xl font-semibold text-white md:text-4xl">
-            Become Part of the{' '}
-            <span className="italic">Féroce</span>{' '}
-            Circle
-          </h2>
-          <p className="mt-5 max-w-lg mx-auto text-sm leading-relaxed text-[#c9c9c9]">
-            Early access to new collections, exclusive offers, and insider content.
-            The attitude is Féroce — now make it yours.
-          </p>
-          <Link
-            href="/register"
-            className="mt-8 sm:mt-9 inline-flex items-center gap-2 bg-white text-navy uppercase font-sans font-medium text-[11px] px-8 sm:px-10 py-3.5 sm:py-4 min-h-[48px] rounded-lg transition-all duration-150 hover:bg-gold hover:text-navy hover:scale-[1.03] hover:shadow-[0_4px_20px_rgba(212,175,55,0.3)] active:scale-[0.98]"
-            style={{ letterSpacing: '0.2em' }}
-          >
-            Become a Member
-            <svg className="h-3.5 w-3.5 transition-transform duration-150 group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </Link>
-        </motion.div>
+            <p className="font-sans text-xs sm:text-sm text-white/75 leading-relaxed max-w-lg mx-auto font-normal">
+              Receive priority allocations on upcoming artisan handbag drops, private invitations to Dallas studio releases, and bespoke styling concierges.
+            </p>
+
+            <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+              <Link
+                href="/register"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-gold hover:bg-white text-navy font-sans font-semibold text-xs uppercase px-8 py-4 rounded-full tracking-wider transition-all duration-300 shadow-md"
+              >
+                <span>Join The Circle</span>
+                <ArrowUpRight size={16} />
+              </Link>
+              <Link
+                href="/about"
+                className="w-full sm:w-auto inline-flex items-center justify-center text-xs font-sans font-semibold text-white/80 hover:text-white py-3.5 px-6 rounded-full border border-white/25 hover:bg-white/10 transition-colors"
+              >
+                The Atelier Story →
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   )
