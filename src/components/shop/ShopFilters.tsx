@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { SlidersHorizontal } from 'lucide-react'
 import type { Category } from '@/lib/types'
 import { FilterSidebar } from './FilterSidebar'
 
@@ -18,12 +19,10 @@ export function ShopFilters({ categories }: ShopFiltersProps) {
     <>
       <button
         onClick={() => setMobileOpen(true)}
-        className="flex items-center gap-2 text-[11px] font-sans uppercase tracking-[0.15em] text-navy/70 hover:text-navy transition-colors min-h-[44px] px-3 py-2 border border-line bg-white shadow-sm lg:hidden"
+        className="flex items-center gap-2 rounded-full px-5 py-2.5 sm:py-3 text-xs font-semibold text-navy bg-white border border-gray-200 hover:border-gray-300 transition-all duration-200 shadow-sm lg:hidden"
       >
-        <svg className="w-4 h-4 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round">
-          <line x1="4" y1="6" x2="20" y2="6" /><line x1="8" y1="12" x2="20" y2="12" /><line x1="12" y1="18" x2="20" y2="18" />
-        </svg>
-        <span>Filters</span>
+        <SlidersHorizontal className="w-3.5 h-3.5 text-gold" />
+        <span>Filter Archive</span>
       </button>
 
       <FilterSidebar
@@ -39,7 +38,7 @@ export function ShopFilters({ categories }: ShopFiltersProps) {
 /** Desktop-only filter sidebar (rendered only on lg+ viewports). */
 export function DesktopFilterSidebar({ categories }: { categories: Category[] }) {
   return (
-    <aside className="hidden lg:block w-56 flex-shrink-0">
+    <aside className="hidden lg:block w-64 flex-shrink-0">
       <FilterSidebar
         categories={categories}
         open={false}
