@@ -1,88 +1,89 @@
-'use client';
+'use client'
 
-import { useRef, useState } from 'react';
-import { useScrollReveal } from '@/hooks/useScrollReveal';
+import { useRef, useState } from 'react'
+import { Play, Pause } from 'lucide-react'
 
-const videos = [
+const VIDEOS = [
   {
     src: '/videos/hero-1.mp4',
-    label: 'THE COLLECTION',
-    description: 'Structured utility meets fierce elegance.',
+    title: 'The Collection',
+    desc: 'Structured utility meets fierce elegance.',
   },
   {
     src: '/videos/hero-2.mp4',
-    label: 'THE CRAFT',
-    description: 'Handcrafted in our Dallas atelier.',
+    title: 'The Atelier Craft',
+    desc: 'Handcrafted in limited production batches.',
   },
-];
+]
 
-function VideoCard({ src, label, description }: { src: string; label: string; description: string }) {
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const { ref, visible } = useScrollReveal();
-  const [playing, setPlaying] = useState(true);
+function VideoCard({ src, title, desc }: { src: string; title: string; desc: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null)
+  const [playing, setPlaying] = useState(true)
 
   const togglePlay = () => {
-    if (!videoRef.current) return;
+    if (!videoRef.current) return
     if (playing) {
-      videoRef.current.pause();
+      videoRef.current.pause()
     } else {
-      videoRef.current.play();
+      videoRef.current.play()
     }
-    setPlaying(!playing);
-  };
+    setPlaying(!playing)
+  }
 
   return (
     <div
-      ref={ref}
-      className={'relative overflow-hidden bg-navy transition-all duration-700 ' + (visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8')}
+      onClick={togglePlay}
+      className="group relative aspect-[4/5] sm:aspect-[16/10] rounded-[28px] sm:rounded-[36px] overflow-hidden bg-navy shadow-sm cursor-pointer"
     >
-      <div className='aspect-[4/5] md:aspect-video relative cursor-pointer' onClick={togglePlay}>
-        <video
-          ref={videoRef}
-          src={src}
-          className='absolute inset-0 h-full w-full object-cover'
-          autoPlay
-          loop
-          muted
-          playsInline
-          preload='metadata'
-        />
-        <div className='absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent' />
-        <div className='absolute bottom-0 left-0 p-6 md:p-8'>
-          <p className='font-label text-[11px] uppercase tracking-[0.3em] text-gold mb-1'>{label}</p>
-          <p className='font-serif text-lg md:text-xl text-white'>{description}</p>
+      <video
+        ref={videoRef}
+        src={src}
+        className="absolute inset-0 h-full w-full object-cover group-hover:scale-102 transition-transform duration-700 ease-out"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="metadata"
+      />
+      <div className="absolute inset-0 bg-gradient-to-t from-navy/60 via-transparent to-transparent pointer-events-none" />
+
+      {/* Signature Floating Frosted Glass Capsule at Bottom */}
+      <div className="absolute bottom-5 inset-x-5 sm:inset-x-6 backdrop-blur-md bg-white/80 border border-white/70 rounded-full px-5 py-3.5 flex items-center justify-between shadow-[0_8px_30px_rgba(0,0,0,0.12)]">
+        <div className="min-w-0 pr-3">
+          <p className="font-sans text-xs sm:text-sm font-bold text-navy truncate">
+            {title}
+          </p>
+          <p className="text-[10px] text-navy/60 font-sans truncate">
+            {desc}
+          </p>
         </div>
-        <div className='absolute top-4 right-4 flex h-10 w-10 items-center justify-center bg-navy/40 backdrop-blur-sm text-white transition-opacity hover:bg-navy/60'>
-          {playing ? (
-            <svg className='h-4 w-4' viewBox='0 0 24 24' fill='currentColor'><rect x='6' y='4' width='4' height='16' /><rect x='14' y='4' width='4' height='16' /></svg>
-          ) : (
-            <svg className='h-4 w-4' viewBox='0 0 24 24' fill='currentColor'><polygon points='5,3 19,12 5,21' /></svg>
-          )}
+        <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-navy text-white hover:bg-gold hover:text-navy flex items-center justify-center transition-all duration-300 shadow-sm shrink-0">
+          {playing ? <Pause size={15} /> : <Play size={15} className="ml-0.5" />}
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export function VideoGrid() {
-  const { ref, visible } = useScrollReveal();
-
   return (
-    <section className='bg-white px-4 py-16 md:py-24'>
-      <div className='max-w-7xl mx-auto'>
-        <div
-          ref={ref}
-          className={'text-center mb-10 transition-all duration-700 ' + (visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6')}
-        >
-          <h2 className='font-serif text-3xl md:text-4xl text-navy'>The World of Féroce</h2>
-          <div className='mx-auto mt-4 h-px w-16 bg-gold/40' />
+    <section className="bg-white py-16 sm:py-24 border-b border-gray-100">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
+        <div className="mb-10 sm:mb-14">
+          <span className="text-xs font-sans font-semibold uppercase tracking-[0.2em] text-gold block mb-2">
+            Dallas Atelier Craftsmanship
+          </span>
+          <h2 className="font-sans text-3xl sm:text-5xl font-bold tracking-tight text-navy leading-[1.1]">
+            Motion & Heritage
+          </h2>
         </div>
-        <div className='grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6'>
-          {videos.map((v) => (
-            <VideoCard key={v.src} {...v} />
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+          {VIDEOS.map((v, i) => (
+            <VideoCard key={i} src={v.src} title={v.title} desc={v.desc} />
           ))}
         </div>
       </div>
     </section>
-  );
+  )
 }
