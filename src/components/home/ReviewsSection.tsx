@@ -10,7 +10,7 @@ const REVIEWS = [
     location: 'Dallas, TX',
     product: 'Denim De Ville - Cream & Gold',
     rating: 5,
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&h=120&q=80',
+    avatar: '/images/avatars/avatar-1.jpg',
   },
   {
     quote:
@@ -19,7 +19,7 @@ const REVIEWS = [
     location: 'Houston, TX',
     product: 'Denim De Ville - Blue & Gold',
     rating: 5,
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=120&h=120&q=80',
+    avatar: '/images/avatars/avatar-2.jpg',
   },
   {
     quote:
@@ -28,7 +28,7 @@ const REVIEWS = [
     location: 'Atlanta, GA',
     product: 'Naji - Gold Fur (XL)',
     rating: 5,
-    avatar: 'https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=120&h=120&q=80',
+    avatar: '/images/avatars/avatar-3.jpg',
   },
 ]
 
