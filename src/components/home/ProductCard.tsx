@@ -2,21 +2,20 @@
 
 import Link from 'next/link'
 import { useState } from 'react'
-import { Heart } from 'lucide-react'
+import { Heart, ShoppingBag, Check } from 'lucide-react'
 import { useWishlistStore } from '@/store/wishlist'
-import Image from 'next/image'
-import { Share2, Copy, Check, X } from 'lucide-react'
+import { useCartStore } from '@/store/cart'
 import type { Product } from '@/lib/types'
-import { formatPrice } from '@/lib/types'
 
 interface ProductCardProps {
   product: Product
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const [showShare, setShowShare] = useState(false)
-  const [copied, setCopied] = useState(false)
+  const [added, setAdded] = useState(false)
   const { toggleItem, isInWishlist } = useWishlistStore()
+  const addItem = useCartStore((s) => s.addItem)
+  const openMiniCart = useCartStore((s) => s.openMiniCart)
   const inWishlist = isInWishlist(product.id)
 
   const modelImage =
@@ -24,166 +23,110 @@ export function ProductCard({ product }: ProductCardProps) {
       ? product.model_image_urls[0]
       : null
 
-  const productUrl = `https://www.ferocefashionff.com/product/${product.slug}`
-  const shareText = `Check out the ${product.name} from FÉROCE — luxury handbags designed in Dallas.`
+  const mainImage =
+    product.image_urls && product.image_urls.length > 0
+      ? product.image_urls[0]
+      : '/images/products/Denim De Ville Collection/Blue & Gold/Denim De Ville Collection --Blue & Gold.jpg'
 
-  const handleShare = (e: React.MouseEvent) => {
+  const handleQuickAdd = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    setShowShare(!showShare)
+    addItem({
+      productId: product.id,
+      name: product.name,
+      slug: product.slug,
+      price: product.price,
+      image: mainImage,
+      color: product.color,
+    })
+    setAdded(true)
+    openMiniCart()
+    setTimeout(() => setAdded(false), 2000)
   }
 
-  const copyLink = (e: React.MouseEvent) => {
+  const handleWishlist = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    navigator.clipboard.writeText(productUrl).then(() => {
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+    toggleItem({
+      productId: product.id,
+      name: product.name,
+      price: product.price,
+      image: mainImage,
+      slug: product.slug,
+      color: product.color || 'Default',
     })
   }
 
-  const shareTo = (platform: string, e: React.MouseEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setShowShare(false)
-    const urls: Record<string, string> = {
-      whatsapp: `https://wa.me/?text=${encodeURIComponent(shareText + ' ' + productUrl)}`,
-      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(productUrl)}`,
-      twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(productUrl)}`,
-      pinterest: `https://pinterest.com/pin/create/button/?url=${encodeURIComponent(productUrl)}&description=${encodeURIComponent(shareText)}`,
-    }
-    if (urls[platform]) window.open(urls[platform], '_blank', 'width=600,height=400')
-  }
-
   return (
-    <Link
-      href={`/product/${product.slug}`}
-      className="group block min-h-[48px]"
-    >
-      {/* Image container */}
-      <div className="relative aspect-[4/5] overflow-hidden border border-line bg-white">
-        <Image src={product.image_urls[0] || "/images/products/Denim De Ville Collection/Blue & Gold/Denim De Ville Collection --Blue & Gold.jpg"} alt={product.name} width={600} height={750} sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw" className="absolute inset-0 h-full w-full object-cover transition-all duration-700 group-hover:scale-[1.03]" />
+    <div className="group relative block aspect-[3/4] sm:aspect-[4/5] rounded-[28px] sm:rounded-[36px] overflow-hidden bg-[#ECECEE] shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:shadow-[0_16px_36px_rgba(0,0,0,0.08)] transition-all duration-500">
+      <Link href={`/product/${product.slug}`} className="block h-full w-full">
+        {/* Main Product Image */}
+        <img
+          src={mainImage}
+          alt={product.name}
+          className="h-full w-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out"
+          loading="lazy"
+        />
 
+        {/* Hover Model Crossfade Image */}
         {modelImage && (
-          <Image src={modelImage} alt={product.name + " — worn"} width={600} height={750} sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw" className="absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity duration-700 group-hover:opacity-100" />
+          <img
+            src={modelImage}
+            alt={`${product.name} on figure`}
+            className="absolute inset-0 h-full w-full object-cover object-center opacity-0 group-hover:opacity-100 transition-opacity duration-500 ease-out"
+            loading="lazy"
+          />
         )}
+      </Link>
 
-{/* Badges — top left */}
-        <div className="absolute left-2.5 top-2.5 sm:left-3 sm:top-3 z-10 flex flex-col gap-1.5">
-          {product.is_new && (
-            <span className="bg-gold px-2.5 py-1 sm:px-3 sm:py-1.5 text-[8px] sm:text-[9px] font-bold uppercase tracking-wider text-navy">
-              New
-            </span>
-          )}
-          {product.preorder && (
-            <span className="bg-navy px-2.5 py-1 sm:px-3 sm:py-1.5 text-[8px] sm:text-[9px] font-bold uppercase tracking-wider text-gold">
-              Preorder
-            </span>
-          )}
-        </div>
-
-                {/* Wishlist heart */}
-        <button
-          onClick={(e) => {
-            e.preventDefault()
-            e.stopPropagation()
-            toggleItem({
-              productId: product.id,
-              name: product.name,
-              slug: product.slug,
-              price: product.price,
-              image: product.image_urls[0] || '',
-              color: product.color,
-            })
-          }}
-          className={"absolute right-2.5 top-2.5 sm:right-3 sm:top-3 z-20 w-8 h-8 flex items-center justify-center backdrop-blur-sm transition-all duration-150 " + (inWishlist ? 'bg-red-500 text-white' : 'bg-white/90 text-navy/60 hover:text-red-500 hover:bg-white')}
-          aria-label={inWishlist ? "Remove from wishlist" : "Add to wishlist"}
-        >
-          <Heart size={14} strokeWidth={1.5} fill={inWishlist ? "currentColor" : "none"} />
-        </button>
-
-{/* Share icon — below the wishlist heart so the two never overlap */}
-        <button
-          onClick={handleShare}
-          className="absolute right-2.5 top-[3.25rem] sm:right-3 sm:top-[3.75rem] z-20 w-8 h-8 flex items-center justify-center bg-white/90 backdrop-blur-sm text-navy/60 hover:text-navy hover:bg-white transition-all duration-150"
-          aria-label={`Share ${product.name}`}
-        >
-          <Share2 size={14} strokeWidth={1.5} />
-        </button>
-
-        {/* Share dropdown */}
-        {showShare && (
-          <div
-            className="absolute right-2.5 top-[5.75rem] sm:right-3 sm:top-[6.25rem] z-30 w-48 bg-white border border-[#E2DFD8] shadow-lg"
-            onClick={(e) => { e.preventDefault(); e.stopPropagation() }}
-          >
-            <div className="flex items-center justify-between px-3 py-2 border-b border-[#E2DFD8]">
-              <span className="text-[9px] uppercase tracking-[0.2em] text-navy/60 font-medium">Share</span>
-              <button onClick={(e) => { e.preventDefault(); setShowShare(false) }} className="text-navy/40 hover:text-navy">
-                <X size={12} />
-              </button>
-            </div>
-            <div className="py-1">
-              {[
-                { name: 'WhatsApp', key: 'whatsapp' },
-                { name: 'Facebook', key: 'facebook' },
-                { name: 'Twitter / X', key: 'twitter' },
-                { name: 'Pinterest', key: 'pinterest' },
-              ].map((opt) => (
-                <button
-                  key={opt.key}
-                  onClick={(e) => shareTo(opt.key, e)}
-                  className="w-full text-left px-3 py-2 text-[11px] text-navy/70 hover:bg-cream hover:text-navy transition-colors"
-                >
-                  {opt.name}
-                </button>
-              ))}
-            </div>
-            <div className="border-t border-[#E2DFD8] px-3 py-2">
-              <button onClick={copyLink} className="flex items-center gap-1.5 w-full text-[11px] text-navy/70 hover:text-navy transition-colors">
-                {copied ? (
-                  <>
-                    <Check size={12} className="text-green-600" />
-                    <span className="text-green-600 uppercase tracking-wider">Copied!</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy size={12} strokeWidth={1.5} />
-                    <span className="uppercase tracking-[0.15em]">Copy link</span>
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-        )}
-
-        {/* Quick view bar */}
-        <div className="absolute inset-x-0 bottom-0 bg-navy/90 md:translate-y-full md:transition-transform md:duration-400 md:group-hover:translate-y-0">
-          <p className="py-2.5 sm:py-3 text-center text-[9px] sm:text-[10px] font-sans uppercase tracking-[0.2em] text-white">
-            {modelImage ? 'View' : 'Quick View'}
-          </p>
-        </div>
-      </div>
-
-      {/* Details */}
-      <div className="mt-3 sm:mt-4 space-y-1 sm:space-y-1.5">
-        <h3 className="font-serif text-[13px] sm:text-sm font-medium text-navy transition-colors group-hover:text-gold leading-tight">
-          {product.name}
-        </h3>
-        <p className="line-clamp-1 sm:line-clamp-2 text-[10px] sm:text-[11px] leading-relaxed text-navy/45">
-          {product.description}
-        </p>
-        <div className="flex items-center gap-2">
-          <p className="text-[11px] sm:text-xs font-medium text-navy tracking-wide">
-            {formatPrice(product.price)}
-          </p>
-        </div>
+      {/* Top Left Status Badge */}
+      <div className="absolute top-4 left-4 z-10 flex flex-col gap-1.5 pointer-events-none">
         {product.preorder && (
-          <p className="text-[9px] sm:text-[10px] uppercase tracking-[0.15em] text-gold font-medium">
-            Preorder — ships in 4–8 weeks
-          </p>
+          <span className="backdrop-blur-md bg-navy/85 text-white text-[9px] font-sans font-semibold tracking-wider uppercase px-3 py-1 rounded-full shadow-xs">
+            Pre-Order
+          </span>
+        )}
+        {product.is_new && !product.preorder && (
+          <span className="backdrop-blur-md bg-gold text-navy text-[9px] font-sans font-bold tracking-wider uppercase px-3 py-1 rounded-full shadow-xs">
+            New
+          </span>
         )}
       </div>
-    </Link>
+
+      {/* Top Right Wishlist Heart Button */}
+      <button
+        type="button"
+        onClick={handleWishlist}
+        aria-label="Add to wishlist"
+        className="absolute top-4 right-4 z-10 w-9 h-9 rounded-full backdrop-blur-md bg-white/75 hover:bg-white text-navy flex items-center justify-center transition-all duration-200 shadow-xs"
+      >
+        <Heart
+          size={16}
+          className={inWishlist ? 'fill-gold text-gold' : 'text-navy/80 hover:text-navy'}
+        />
+      </button>
+
+      {/* ── Signature Floating Frosted Glass Capsule Pill (Matching Reference) ── */}
+      <div className="absolute bottom-4 inset-x-4 sm:bottom-5 sm:inset-x-5 backdrop-blur-md bg-white/75 border border-white/70 rounded-full px-4 sm:px-5 py-2.5 sm:py-3 flex items-center justify-between shadow-[0_8px_30px_rgba(0,0,0,0.06)] group-hover:bg-white/95 transition-all z-10">
+        <div className="min-w-0 pr-2">
+          <p className="font-sans text-xs sm:text-sm font-bold text-navy tracking-tight truncate">
+            ${product.price.toFixed(2)}
+          </p>
+          <p className="text-[10px] text-navy/55 font-sans truncate -mt-0.5">
+            {product.name}
+          </p>
+        </div>
+
+        {/* Quick Add Action Button */}
+        <button
+          type="button"
+          onClick={handleQuickAdd}
+          aria-label={`Add ${product.name} to bag`}
+          className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-navy text-white hover:bg-gold hover:text-navy flex items-center justify-center transition-all duration-300 shadow-sm shrink-0"
+        >
+          {added ? <Check size={16} /> : <ShoppingBag size={16} strokeWidth={1.8} />}
+        </button>
+      </div>
+    </div>
   )
 }
