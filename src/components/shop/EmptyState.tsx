@@ -1,24 +1,26 @@
 import Link from 'next/link'
+import { Sparkles, ArrowUpRight } from 'lucide-react'
 
 export function EmptyState({ query }: { query?: string }) {
   return (
-    <div className="flex flex-col items-center justify-center py-20 text-center">
-      <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full border border-line bg-white">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-8 h-8 text-navy/30">
-          <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
-          <circle cx="12" cy="7" r="4" />
-        </svg>
+    <div className="rounded-[32px] sm:rounded-[44px] bg-[#F6F6F8] border border-gray-100 p-10 sm:p-16 text-center max-w-2xl mx-auto my-12">
+      <div className="mb-6 mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-white border border-gray-200/80 shadow-sm">
+        <Sparkles className="w-6 h-6 text-gold" />
       </div>
-      <h3 className="font-serif text-xl font-semibold text-navy mb-2">
-        No products found
+      <h3 className="text-2xl sm:text-3xl font-sans font-bold text-navy tracking-tight mb-3">
+        No Pieces Found
       </h3>
-      <p className="text-sm text-navy/50 max-w-sm mb-8">
+      <p className="text-sm text-navy/60 max-w-md mx-auto mb-8 leading-relaxed font-normal">
         {query
-          ? `We couldn't find anything matching "${query}". Try a different filter or browse all products.`
-          : 'This collection is being curated. Check back soon for new arrivals.'}
+          ? `We couldn't find any creations matching "${query}". Adjust your filters to explore our full Dallas atelier collection.`
+          : 'Our atelier is curating new releases. Reset filters or explore our complete catalog.'}
       </p>
-      <Link href="/shop" className="btn-primary">
-        View All Products
+      <Link
+        href="/shop"
+        className="inline-flex items-center gap-2 bg-[#4A4D52] hover:bg-navy text-white text-xs font-semibold px-8 py-4 rounded-full transition-all duration-300 tracking-wider uppercase shadow-sm group"
+      >
+        View All Creations
+        <ArrowUpRight className="w-3.5 h-3.5 text-white/80 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
       </Link>
     </div>
   )
