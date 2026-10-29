@@ -4,7 +4,7 @@ import Link from 'next/link'
 import type { CartItem } from '@/lib/types'
 import { formatPrice } from '@/lib/types'
 import { useCartStore } from '@/store/cart'
-import { Plus, Minus, Trash2 } from 'lucide-react'
+import { Plus, Minus, Trash2, Sparkles, Check } from 'lucide-react'
 
 interface BagItemProps {
   item: CartItem
@@ -43,6 +43,26 @@ export function BagItem({ item }: BagItemProps) {
               {item.color}
             </div>
           )}
+
+          {/* Pre-Order vs In-Stock Luxury Atelier Status */}
+          <div className="pt-0.5">
+            {item.preorder ? (
+              <div className="inline-flex flex-wrap items-center gap-1.5">
+                <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 bg-amber-50 border border-amber-200/80 text-[10px] font-bold uppercase tracking-wider text-amber-900 shadow-2xs">
+                  <Sparkles size={10} className="text-amber-600" />
+                  Atelier Pre-Order · Est. 3–4 Wks
+                </span>
+                <span className="text-[10px] text-navy/45 font-medium hidden sm:inline">
+                  $0 Due Today Reservation Available
+                </span>
+              </div>
+            ) : (
+              <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 bg-emerald-50 border border-emerald-200/80 text-[10px] font-bold uppercase tracking-wider text-emerald-800 shadow-2xs">
+                <Check size={10} strokeWidth={2.5} className="text-emerald-600" />
+                In Stock · Ready to Ship (24–48h)
+              </span>
+            )}
+          </div>
 
           <div className="pt-1">
             <button
