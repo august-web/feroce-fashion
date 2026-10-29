@@ -57,7 +57,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 FÉROCE
               </span>
               <span className="text-[8px] font-sans uppercase tracking-[0.32em] text-navy/60 font-semibold mt-1">
-                Atelier Admin
+                Fashion Admin
               </span>
             </div>
           </Link>
@@ -66,7 +66,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <div className="flex items-center gap-2 mt-4 px-3 py-1.5 rounded-full bg-[#F6F6F8] border border-gray-200/70 w-fit">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-[9px] font-sans uppercase tracking-wider font-semibold text-navy/70">
-              Dallas Atelier HQ · Active
+              Dallas Fashion HQ · Active
             </span>
           </div>
         </div>
@@ -136,7 +136,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               FÉROCE
             </span>
             <span className="text-[7px] font-sans uppercase tracking-[0.28em] text-navy/60 font-semibold mt-0.5">
-              Atelier Admin
+              Fashion Admin
             </span>
           </div>
         </Link>
