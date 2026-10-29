@@ -1,6 +1,9 @@
 import type { NextConfig } from 'next'
+import path from 'path'
 
 const nextConfig: NextConfig = {
+  outputFileTracingRoot: path.resolve(__dirname),
+  serverExternalPackages: ['@supabase/ssr', '@supabase/supabase-js'],
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'picsum.photos' },
