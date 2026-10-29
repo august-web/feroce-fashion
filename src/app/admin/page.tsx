@@ -10,17 +10,15 @@ import {
   Package,
   Sparkles,
   ArrowRight,
-  Clock,
-  CheckCircle2,
-  AlertCircle,
   Truck,
+  CheckCircle2,
 } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Atelier Dashboard — FÉROCE Admin',
-  description: 'Féroce Dallas atelier operations and performance command center.',
+  description: 'FÉROCE Dallas atelier operations and performance command center.',
 }
 
 async function getStats() {
@@ -30,7 +28,9 @@ async function getStats() {
     supabase.from('products').select('id, name, stock, active, preorder', { count: 'exact' }),
     supabase
       .from('orders')
-      .select('id, total, status, payment_method, created_at, shipping_address, notes', { count: 'exact' })
+      .select('id, total, status, payment_method, created_at, shipping_address, notes', {
+        count: 'exact',
+      })
       .order('created_at', { ascending: false }),
     supabase.from('profiles').select('id', { count: 'exact' }),
   ] as any[])
@@ -68,14 +68,17 @@ async function getStats() {
       const key = String(it.order_id)
       const list = itemsByOrder[key] ?? (itemsByOrder[key] = [])
       const existing = list.find((i) => i.name === label)
-      if (existing) existing.quantity += Number(it.quantity)
-      else list.push({ name: label, quantity: Number(it.quantity) })
+      if (existing) {
+        existing.quantity += Number(it.quantity) || 1
+      } else {
+        list.push({ name: label, quantity: Number(it.quantity) || 1 })
+      }
     }
   }
 
   const totalRevenue = orders
     .filter((o) => o.status === 'paid' || o.status === 'shipped')
-    .reduce((sum, o) => sum + o.total, 0)
+    .reduce((sum, o) => sum + (Number(o.total) || 0), 0)
 
   const preorderOrders = orders.filter(
     (o) =>
@@ -133,26 +136,38 @@ export default async function AdminDashboard() {
   ]
 
   return (
-    <div className="p-5 sm:p-8 lg:p-10 space-y-10 max-w-7xl mx-auto">
+    <div className="p-5 sm:p-8 lg:p-12 space-y-10 max-w-[1440px] mx-auto">
       {/* ── Page Header ── */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-        <div>
-          <div className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 bg-[#F6F6F8] border border-gray-200/80 text-[11px] font-semibold tracking-wider uppercase text-navy/70 mb-3 shadow-2xs">
-            <span className="w-1.5 h-1.5 rounded-full bg-gold" />
-            • DALLAS ATELIER HQ · COMMAND OVERVIEW
+      <div className="pb-8 sm:pb-10 border-b border-gray-100 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+        <div className="max-w-3xl">
+          {/* Pill Badge */}
+          <div className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 bg-[#F6F6F8] border border-gray-200/80 text-[11px] font-semibold tracking-wider uppercase text-navy/70 mb-4 sm:mb-5 shadow-xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-gold inline-block" />
+            Atelier Management · Dallas, TX
           </div>
-          <h1 className="font-sans font-bold text-navy text-2xl sm:text-4xl tracking-[-0.035em]">
+
+          {/* Large display heading */}
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-sans font-bold text-navy tracking-[-0.035em] leading-[1.05]">
             Atelier Operations & Performance
           </h1>
-          <p className="text-xs sm:text-sm text-navy/60 font-sans mt-1">
-            Real-time workshop activity, pre-order reservation allocations, and inventory dispatch status.
+
+          <p className="mt-4 text-sm sm:text-base text-navy/60 max-w-2xl leading-relaxed font-normal">
+            Real-time Dallas workshop activity, pre-order reservation allocations, and client dispatch registry.
           </p>
         </div>
 
-        <div className="flex items-center gap-2.5">
+        {/* Right side stats pill & meta */}
+        <div className="flex flex-wrap items-center lg:flex-col lg:items-end gap-3 pt-2 lg:pt-0">
+          <div className="backdrop-blur-md bg-[#F6F6F8] border border-gray-200/80 rounded-full px-5 py-2.5 shadow-xs inline-flex items-center gap-2.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-xs font-bold text-navy tracking-tight">
+              Dallas Backoffice Active
+            </span>
+          </div>
+
           <Link
             href="/admin/products"
-            className="inline-flex items-center gap-2 bg-[#4A4D52] hover:bg-navy text-white text-xs font-semibold uppercase tracking-wider rounded-full px-5 py-2.5 transition-all shadow-xs"
+            className="inline-flex items-center gap-2 bg-[#4A4D52] hover:bg-navy text-white text-xs font-semibold uppercase tracking-wider rounded-full px-6 py-2.5 transition-all duration-300 shadow-sm hover:shadow-md hover:scale-[1.01]"
           >
             <Package size={14} className="text-gold" />
             <span>Manage Catalog</span>
@@ -167,23 +182,23 @@ export default async function AdminDashboard() {
           return (
             <div
               key={card.label}
-              className="rounded-[28px] sm:rounded-[32px] bg-white border border-gray-200/80 p-6 shadow-[0_4px_24px_rgba(0,0,0,0.02)] transition-all hover:shadow-[0_8px_32px_rgba(0,0,0,0.05)] hover:border-gray-300"
+              className="rounded-[32px] sm:rounded-[36px] bg-[#F6F6F8] border border-gray-200/80 p-6 sm:p-7 shadow-[0_4px_24px_rgba(0,0,0,0.02)] transition-all hover:shadow-[0_8px_32px_rgba(0,0,0,0.05)] hover:border-gray-300"
             >
               <div className="flex items-center justify-between mb-4">
-                <div className="w-10 h-10 rounded-full bg-[#F6F6F8] border border-gray-100 flex items-center justify-center text-navy shadow-2xs">
+                <div className="w-11 h-11 rounded-2xl bg-white border border-gray-200/70 flex items-center justify-center text-navy shadow-2xs">
                   <Icon size={18} className="text-gold" />
                 </div>
-                <span className="rounded-full px-2.5 py-0.5 bg-[#F6F6F8] border border-gray-200 text-[10px] font-bold uppercase tracking-wider text-navy/60">
+                <span className="rounded-full px-3 py-1 bg-white border border-gray-200/80 text-[10px] font-bold uppercase tracking-wider text-navy/70 shadow-2xs">
                   {card.pill}
                 </span>
               </div>
-              <p className="text-[11px] font-semibold uppercase tracking-wider text-navy/50 font-sans">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-navy/50 font-sans">
                 {card.label}
               </p>
-              <p className="font-sans font-bold text-2xl sm:text-3xl text-navy tracking-tight mt-1">
+              <p className="font-sans font-bold text-3xl sm:text-4xl text-navy tracking-tight mt-1.5">
                 {card.value}
               </p>
-              <p className="text-[11px] text-navy/55 font-sans mt-1.5">
+              <p className="text-xs text-navy/60 font-sans mt-1.5">
                 {card.subtext}
               </p>
             </div>
@@ -193,24 +208,24 @@ export default async function AdminDashboard() {
 
       {/* ── Ready to Pack & Dispatch Section (If Any) ── */}
       {stats.readyToPack.length > 0 && (
-        <div className="rounded-[32px] sm:rounded-[40px] bg-white border border-emerald-200/80 p-6 sm:p-8 shadow-[0_4px_24px_rgba(0,0,0,0.02)] space-y-5">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-emerald-50 text-emerald-700 flex items-center justify-center">
-                <Truck size={16} />
+        <div className="rounded-[32px] sm:rounded-[40px] bg-white border border-emerald-200/80 p-6 sm:p-8 shadow-[0_4px_24px_rgba(0,0,0,0.02)] space-y-6">
+          <div className="flex items-center justify-between border-b border-gray-100 pb-5">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center border border-emerald-200/60 shadow-2xs">
+                <Truck size={18} />
               </div>
               <div>
                 <h2 className="font-sans font-bold text-lg text-navy tracking-tight">
                   Ready to Pack & Ship
                 </h2>
-                <p className="text-xs text-navy/55 font-sans">
+                <p className="text-xs text-navy/55 font-sans mt-0.5">
                   {stats.readyToPack.length} paid orders ready for signature dust bag boxing and white-glove dispatch.
                 </p>
               </div>
             </div>
             <Link
               href="/admin/orders"
-              className="text-xs font-semibold text-navy hover:text-gold uppercase tracking-wider flex items-center gap-1"
+              className="text-xs font-semibold text-navy hover:text-gold uppercase tracking-wider flex items-center gap-1.5 py-1 px-3 rounded-full hover:bg-[#F6F6F8] transition-colors"
             >
               <span>View All</span>
               <ArrowRight size={13} />
@@ -224,7 +239,7 @@ export default async function AdminDashboard() {
               return (
                 <div
                   key={order.id}
-                  className="rounded-[24px] bg-[#F6F6F8] border border-gray-200/80 p-4.5 space-y-3"
+                  className="rounded-[28px] bg-[#F6F6F8] border border-gray-200/80 p-5 space-y-3.5 hover:border-gray-300 transition-all shadow-xs"
                 >
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-xs font-bold text-navy">
@@ -237,10 +252,10 @@ export default async function AdminDashboard() {
 
                   <div>
                     <p className="font-sans font-bold text-sm text-navy">{addr?.fullName || addr?.name || 'Client'}</p>
-                    <p className="text-[11px] text-navy/55">{addr?.city || 'Dallas'}, {addr?.state || 'TX'}</p>
+                    <p className="text-[11px] text-navy/55 mt-0.5">{addr?.city || 'Dallas'}, {addr?.state || 'TX'}</p>
                   </div>
 
-                  <div className="text-[11px] text-navy/70 border-t border-gray-200/60 pt-2 space-y-0.5">
+                  <div className="text-[11px] text-navy/70 border-t border-gray-200/60 pt-2.5 space-y-0.5">
                     {items.length === 0 ? (
                       <span>1× Handcrafted Piece</span>
                     ) : (
@@ -252,7 +267,7 @@ export default async function AdminDashboard() {
                     )}
                   </div>
 
-                  <div className="pt-2 border-t border-gray-200/60 flex items-center justify-between">
+                  <div className="pt-2.5 border-t border-gray-200/60 flex items-center justify-between">
                     <span className="font-sans font-bold text-sm text-navy">
                       {formatPrice(order.total)}
                     </span>
@@ -267,7 +282,7 @@ export default async function AdminDashboard() {
 
       {/* ── Recent Atelier Orders & Pre-Order Allocations Table ── */}
       <div className="rounded-[32px] sm:rounded-[40px] bg-white border border-gray-200/80 p-6 sm:p-8 shadow-[0_8px_32px_rgba(0,0,0,0.02)] space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-5 border-b border-gray-100">
           <div>
             <div className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 bg-[#F6F6F8] border border-gray-200 text-[10px] font-bold tracking-wider uppercase text-navy/60 mb-2 shadow-2xs">
               <Sparkles size={11} className="text-gold" />
@@ -280,7 +295,7 @@ export default async function AdminDashboard() {
 
           <Link
             href="/admin/orders"
-            className="rounded-full px-4 py-2 bg-[#F6F6F8] hover:bg-gray-200/70 text-xs font-semibold uppercase tracking-wider text-navy transition-colors inline-flex items-center gap-1.5"
+            className="rounded-full px-4 py-2 bg-[#F6F6F8] hover:bg-gray-200/70 text-xs font-semibold uppercase tracking-wider text-navy transition-colors inline-flex items-center gap-1.5 shadow-2xs"
           >
             <span>View All Orders</span>
             <ArrowRight size={13} />
@@ -291,7 +306,7 @@ export default async function AdminDashboard() {
         <div className="overflow-x-auto rounded-[24px] border border-gray-200/80">
           <table className="w-full text-left text-sm font-sans">
             <thead>
-              <tr className="bg-[#F6F6F8] border-b border-gray-200/80 text-[10px] font-bold uppercase tracking-wider text-navy/55">
+              <tr className="bg-[#F6F6F8] border-b border-gray-200/80 text-[10px] font-bold uppercase tracking-[0.14em] text-navy/55">
                 <th className="px-5 py-4">Manifest ID</th>
                 <th className="px-5 py-4">Client / Destination</th>
                 <th className="px-5 py-4 hidden md:table-cell">Pieces</th>
@@ -341,7 +356,7 @@ export default async function AdminDashboard() {
                         {isPreorder ? (
                           <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 bg-amber-50 border border-amber-200/80 text-[10px] font-bold uppercase tracking-wider text-amber-900 shadow-2xs">
                             <Sparkles size={10} className="text-amber-600" />
-                            Pre-Order
+                            ✦ Pre-Order
                           </span>
                         ) : (
                           <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 bg-emerald-50 border border-emerald-200/80 text-[10px] font-bold uppercase tracking-wider text-emerald-800 shadow-2xs">
