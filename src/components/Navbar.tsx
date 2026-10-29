@@ -72,7 +72,7 @@ export function Navbar() {
 
         const isAdmin = profileData?.role === 'admin'
         setAccountHref(isAdmin ? '/admin' : '/account')
-        setAccountLabel(isAdmin ? 'Atelier Admin' : 'The Circle')
+        setAccountLabel(isAdmin ? 'Fashion Admin' : 'The Circle')
         setAccountRole(isAdmin ? 'admin' : 'customer')
         setAccountName(profileData?.full_name || null)
         setAccountAvatar(profileData?.avatar_url || null)
@@ -444,7 +444,7 @@ export function Navbar() {
                 FÉROCE
               </span>
               <span className="text-[7px] font-sans uppercase tracking-[0.32em] text-navy/60 font-semibold mt-1">
-                Dallas Atelier
+                Fashion
               </span>
             </div>
           </Link>
@@ -461,11 +461,11 @@ export function Navbar() {
 
         {/* ── 2. Scrollable Body ── */}
         <div className="flex-1 overflow-y-auto px-5 py-5 space-y-5">
-          {/* Atelier Operational Status Pill */}
+          {/* Fashion Operational Status Pill */}
           <div className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 bg-[#F6F6F8] border border-gray-200/80 text-[10px] font-semibold tracking-wider uppercase text-navy/70 shadow-2xs w-full justify-between">
             <span className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-              Dallas Atelier HQ · Active
+              Dallas Fashion HQ · Active
             </span>
             <span className="text-[9px] text-navy/40 font-mono">TX · US</span>
           </div>
@@ -515,7 +515,7 @@ export function Navbar() {
                   </div>
                   <div className="min-w-0">
                     <span className="text-xs font-bold text-navy block truncate">
-                      Atelier Director
+                      Fashion Director
                     </span>
                     <span className="text-[10px] text-navy/55 block truncate font-sans">
                       Dallas Backoffice Operations
@@ -580,7 +580,7 @@ export function Navbar() {
           {/* ── Main Navigation Links ── */}
           <div className="space-y-2">
             <span className="text-[10px] uppercase font-sans tracking-[0.2em] text-navy/40 font-bold block px-2">
-              Atelier Archive
+              Fashion Archive
             </span>
 
             {/* 1. Home Link Card */}
@@ -624,7 +624,7 @@ export function Navbar() {
                         onClick={() => setMenuOpen(false)}
                         className="text-xs font-bold uppercase tracking-wider text-navy hover:text-gold flex items-center gap-1"
                       >
-                        Women&apos;s Atelier <ArrowUpRight size={11} className="text-navy/40" />
+                        Women&apos;s Collection <ArrowUpRight size={11} className="text-navy/40" />
                       </Link>
                     </div>
 
@@ -666,7 +666,7 @@ export function Navbar() {
                         onClick={() => setMenuOpen(false)}
                         className="text-xs font-bold uppercase tracking-wider text-navy hover:text-gold flex items-center gap-1"
                       >
-                        Men&apos;s Atelier <ArrowUpRight size={11} className="text-navy/40" />
+                        Men&apos;s Collection <ArrowUpRight size={11} className="text-navy/40" />
                       </Link>
                     </div>
 
@@ -715,7 +715,7 @@ export function Navbar() {
               onClick={() => setMenuOpen(false)}
               className="flex items-center justify-between p-3.5 rounded-2xl bg-[#F6F6F8] hover:bg-gray-200/60 border border-gray-200/70 text-xs font-bold text-navy transition-all shadow-2xs"
             >
-              <span>About FÉROCE Atelier</span>
+              <span>About FÉROCE Fashion</span>
               <ChevronRight size={14} className="text-navy/40" />
             </Link>
           </div>
