@@ -13,6 +13,7 @@ import {
   Sparkles,
   Users,
   Search,
+  Code2,
 } from 'lucide-react'
 
 interface Customer {
@@ -153,37 +154,53 @@ export default function AdminEmailsPage() {
   const btnDisabled = sending || !subject.trim() || !body.trim()
 
   return (
-    <div className="space-y-8">
-      {/* Header */}
-      <div>
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold/10 text-gold-dark text-[10px] font-mono uppercase tracking-[0.2em] font-semibold mb-2">
-          <Sparkles className="w-3 h-3 text-gold" />
-          <span>Atelier Dispatches & Communications</span>
+    <div className="p-5 sm:p-8 lg:p-12 space-y-10 max-w-[1440px] mx-auto font-sans">
+      {/* ── Page Header ── */}
+      <div className="pb-8 sm:pb-10 border-b border-gray-100 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+        <div className="max-w-3xl">
+          {/* Pill Badge */}
+          <div className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 bg-[#F6F6F8] border border-gray-200/80 text-[11px] font-semibold tracking-wider uppercase text-navy/70 mb-4 sm:mb-5 shadow-xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-gold inline-block" />
+            Atelier Communications · Dallas, TX
+          </div>
+
+          {/* Large display heading */}
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-sans font-bold text-navy tracking-[-0.035em] leading-[1.05]">
+            Client Broadcasts & Gazettes
+          </h1>
+
+          <p className="mt-4 text-sm sm:text-base text-navy/60 max-w-2xl leading-relaxed font-normal">
+            Broadcast VIP releases, seasonal lookbooks, and bespoke updates to registered clientele.
+          </p>
         </div>
-        <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-navy tracking-tight">
-          Client Broadcasts & Gazettes
-        </h1>
-        <p className="text-xs sm:text-sm text-navy/60 mt-1 max-w-xl">
-          Broadcast VIP releases, seasonal lookbooks, and bespoke updates to registered clientele.
-        </p>
+
+        {/* Right side stats pill */}
+        <div className="flex items-center lg:flex-col lg:items-end gap-3 pt-2 lg:pt-0">
+          <div className="backdrop-blur-md bg-[#F6F6F8] border border-gray-200/80 rounded-full px-5 py-2.5 shadow-xs inline-flex items-center gap-2.5">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-xs font-bold text-navy tracking-tight">
+              Direct Dispatch Gateway Active
+            </span>
+          </div>
+        </div>
       </div>
 
       {/* Alert Banner */}
       {sent && (
         <div
-          className={`p-4 rounded-[24px] border flex items-center justify-between shadow-sm animate-in fade-in ${
+          className={`p-5 rounded-[28px] border flex items-center justify-between shadow-xs animate-in fade-in ${
             sent.success
-              ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
-              : 'bg-rose-50 border-rose-200 text-rose-800'
+              ? 'bg-emerald-50 border-emerald-200 text-emerald-900'
+              : 'bg-rose-50 border-rose-200 text-rose-900'
           }`}
         >
           <div className="flex items-center gap-3">
             {sent.success ? (
-              <CheckCircle className="w-5 h-5 text-emerald-600 shrink-0" />
+              <CheckCircle size={20} className="text-emerald-600 shrink-0" />
             ) : (
-              <AlertCircle className="w-5 h-5 text-rose-600 shrink-0" />
+              <AlertCircle size={20} className="text-rose-600 shrink-0" />
             )}
-            <span className="text-xs font-mono uppercase tracking-wider font-semibold">
+            <span className="text-xs font-bold uppercase tracking-wider">
               {sent.success
                 ? `Dispatched successfully to ${sent.count} recipient${sent.count !== 1 ? 's' : ''}`
                 : sent.error}
@@ -191,22 +208,22 @@ export default function AdminEmailsPage() {
           </div>
           <button
             onClick={() => setSent(null)}
-            className="text-xs font-mono opacity-60 hover:opacity-100 px-2 py-1"
+            className="text-xs font-bold uppercase opacity-60 hover:opacity-100 px-3 py-1 cursor-pointer"
           >
-            DISMISS
+            Dismiss
           </button>
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8">
         {/* Left Column: Composer */}
         <div className="lg:col-span-2 space-y-6">
           {/* Dispatch Type Selector */}
-          <div className="bg-white rounded-[32px] sm:rounded-[36px] border border-gray-200/80 p-6 shadow-sm">
-            <label className="block text-[10px] font-mono uppercase tracking-[0.16em] text-navy/50 font-semibold mb-4">
+          <div className="bg-[#F6F6F8] rounded-[32px] sm:rounded-[36px] border border-gray-200/80 p-6 sm:p-7 shadow-xs">
+            <label className="block text-[11px] font-sans uppercase tracking-[0.14em] text-navy/60 font-semibold mb-4">
               Select Dispatch Format
             </label>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5">
               {EMAIL_TYPES.map((type) => {
                 const IconComponent = type.icon
                 const isSelected = selectedType === type.value
@@ -215,25 +232,25 @@ export default function AdminEmailsPage() {
                     key={type.value}
                     type="button"
                     onClick={() => handleTypeChange(type.value)}
-                    className={`p-4 rounded-2xl text-left border transition-all ${
+                    className={`p-5 rounded-[24px] text-left border transition-all cursor-pointer ${
                       isSelected
-                        ? 'border-gold bg-gold/5 shadow-sm'
-                        : 'border-gray-200/80 hover:border-navy/30 bg-[#FBFBFC]'
+                        ? 'border-gold bg-white shadow-sm ring-2 ring-gold/20'
+                        : 'border-gray-200/80 hover:border-navy/30 bg-white/70'
                     }`}
                   >
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <IconComponent
-                        className={`w-4 h-4 ${isSelected ? 'text-gold-dark' : 'text-navy/50'}`}
-                      />
+                    <div className="flex items-center gap-2 mb-2">
+                      <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${isSelected ? 'bg-gold/15 text-gold-dark' : 'bg-[#F6F6F8] text-navy/50'}`}>
+                        <IconComponent size={16} />
+                      </div>
                       <span
-                        className={`text-xs font-mono uppercase tracking-wider font-semibold ${
+                        className={`text-xs font-bold uppercase tracking-wider ${
                           isSelected ? 'text-navy' : 'text-navy/70'
                         }`}
                       >
                         {type.label}
                       </span>
                     </div>
-                    <p className="text-[11px] text-navy/50 leading-relaxed">{type.desc}</p>
+                    <p className="text-[11px] text-navy/55 leading-relaxed font-sans">{type.desc}</p>
                   </button>
                 )
               })}
@@ -241,8 +258,8 @@ export default function AdminEmailsPage() {
           </div>
 
           {/* Subject Line */}
-          <div className="bg-white rounded-[32px] sm:rounded-[36px] border border-gray-200/80 p-6 shadow-sm">
-            <label className="block text-[10px] font-mono uppercase tracking-[0.16em] text-navy/50 font-semibold mb-2">
+          <div className="bg-[#F6F6F8] rounded-[32px] sm:rounded-[36px] border border-gray-200/80 p-6 sm:p-7 shadow-xs">
+            <label className="block text-[11px] font-sans uppercase tracking-[0.14em] text-navy/60 font-semibold mb-2.5">
               Dispatch Subject Line
             </label>
             <input
@@ -250,34 +267,35 @@ export default function AdminEmailsPage() {
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
               placeholder="e.g. Atelier Seasonal Dispatch — FÉROCE Dallas"
-              className="w-full rounded-2xl border border-gray-200/90 bg-[#FBFBFC] px-4 py-3 text-sm text-navy placeholder:text-gray-400 focus:bg-white focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all font-sans"
+              className="w-full rounded-2xl border border-gray-200/90 bg-white px-5 py-3.5 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all font-sans shadow-2xs"
             />
           </div>
 
           {/* Content & Live Preview */}
-          <div className="bg-white rounded-[32px] sm:rounded-[36px] border border-gray-200/80 p-6 shadow-sm">
-            <div className="flex items-center justify-between mb-4">
-              <label className="block text-[10px] font-mono uppercase tracking-[0.16em] text-navy/50 font-semibold">
+          <div className="bg-[#F6F6F8] rounded-[32px] sm:rounded-[36px] border border-gray-200/80 p-6 sm:p-7 shadow-xs space-y-4">
+            <div className="flex items-center justify-between">
+              <label className="block text-[11px] font-sans uppercase tracking-[0.14em] text-navy/60 font-semibold">
                 Correspondence Body (HTML Supported)
               </label>
               <button
                 type="button"
                 onClick={() => setShowPreview(!showPreview)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-mono uppercase tracking-wider bg-gray-100 hover:bg-gray-200 text-navy transition-all"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold uppercase tracking-wider bg-white hover:bg-gray-100 border border-gray-200 text-navy transition-all cursor-pointer shadow-2xs"
               >
-                <Eye className="w-3.5 h-3.5" />
-                <span>{showPreview ? 'Switch to Code' : 'Live Preview'}</span>
+                {showPreview ? <Code2 size={14} /> : <Eye size={14} />}
+                <span>{showPreview ? 'Switch to Editor' : 'Digital Paper Preview'}</span>
               </button>
             </div>
 
             {showPreview ? (
-              <div className="rounded-2xl border border-gray-200 p-6 bg-[#FBFBFC] min-h-[340px]">
-                <div className="text-[10px] font-mono uppercase tracking-wider text-navy/40 mb-3 pb-2 border-b border-gray-200">
-                  Dallas Atelier Digital Paper Preview
+              <div className="rounded-[24px] border border-gray-200 p-6 bg-white min-h-[340px] shadow-xs">
+                <div className="text-[10px] uppercase tracking-wider font-semibold text-navy/40 mb-3 pb-2 border-b border-gray-100 flex items-center justify-between">
+                  <span>Dallas Atelier Digital Paper Preview</span>
+                  <span className="font-mono text-emerald-600">Formatted Ready</span>
                 </div>
-                <div className="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 max-w-xl mx-auto">
+                <div className="bg-[#FDFDFD] p-8 rounded-2xl border border-gray-100 max-w-xl mx-auto shadow-xs">
                   <div className="text-xs font-mono text-navy/40 mb-1">
-                    Subject: <span className="text-navy font-semibold">{subject || '(Untitled)'}</span>
+                    Subject: <span className="text-navy font-bold">{subject || '(Untitled)'}</span>
                   </div>
                   <div className="text-xs font-mono text-navy/40 mb-4 pb-3 border-b border-gray-100">
                     From: FEROCE Dallas &lt;hello@ferocefashionff.com&gt;
@@ -292,7 +310,7 @@ export default function AdminEmailsPage() {
                 onChange={(e) => setBody(e.target.value)}
                 rows={12}
                 placeholder="Write your email content in HTML or plain text..."
-                className="w-full rounded-2xl border border-gray-200/90 bg-[#FBFBFC] p-4 text-xs font-mono text-navy placeholder:text-gray-400 focus:bg-white focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all resize-y"
+                className="w-full rounded-[24px] border border-gray-200/90 bg-white p-5 text-xs font-mono text-navy placeholder:text-gray-400 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all resize-y shadow-2xs"
               />
             )}
           </div>
@@ -301,33 +319,33 @@ export default function AdminEmailsPage() {
         {/* Right Column: Audience & Dispatch */}
         <div className="space-y-6">
           {/* Audience Filter */}
-          <div className="bg-white rounded-[32px] sm:rounded-[36px] border border-gray-200/80 p-6 shadow-sm">
+          <div className="bg-[#F6F6F8] rounded-[32px] sm:rounded-[36px] border border-gray-200/80 p-6 sm:p-7 shadow-xs">
             <div className="flex items-center gap-2 mb-4">
-              <Users className="w-4 h-4 text-gold-dark" />
-              <label className="text-[10px] font-mono uppercase tracking-[0.16em] text-navy/50 font-semibold">
+              <Users size={16} className="text-gold-dark" />
+              <label className="text-[11px] font-sans uppercase tracking-[0.14em] text-navy/60 font-semibold">
                 Audience Selection
               </label>
             </div>
 
-            <div className="space-y-2 mb-4">
+            <div className="space-y-2.5 mb-4">
               {(['all', 'has_orders', 'specific'] as const).map((opt) => (
                 <label
                   key={opt}
-                  className={`flex items-center justify-between p-3.5 rounded-2xl border cursor-pointer transition-all ${
+                  className={`flex items-center justify-between p-4 rounded-2xl border cursor-pointer transition-all ${
                     recipientFilter === opt
-                      ? 'border-gold bg-gold/5 shadow-sm'
-                      : 'border-gray-200/80 hover:border-navy/30 bg-[#FBFBFC]'
+                      ? 'border-gold bg-white shadow-xs ring-2 ring-gold/20'
+                      : 'border-gray-200/80 hover:border-navy/30 bg-white/70'
                   }`}
                 >
-                  <div className="flex items-center gap-2.5">
+                  <div className="flex items-center gap-3">
                     <input
                       type="radio"
                       name="recipientFilter"
                       checked={recipientFilter === opt}
                       onChange={() => setRecipientFilter(opt)}
-                      className="accent-[#D4AF37]"
+                      className="accent-[#D4AF37] cursor-pointer"
                     />
-                    <span className="text-xs font-mono uppercase tracking-wider font-medium text-navy">
+                    <span className="text-xs font-bold uppercase tracking-wider text-navy">
                       {opt === 'all'
                         ? 'All Circle Members'
                         : opt === 'has_orders'
@@ -335,7 +353,7 @@ export default function AdminEmailsPage() {
                         : 'Specific Accounts'}
                     </span>
                   </div>
-                  <span className="text-[11px] font-mono text-navy/50">
+                  <span className="text-xs font-bold text-navy/50 font-mono">
                     {opt === 'specific' ? selectedEmails.length : customers.length}
                   </span>
                 </label>
@@ -343,23 +361,23 @@ export default function AdminEmailsPage() {
             </div>
 
             {recipientFilter === 'specific' && (
-              <div className="rounded-2xl border border-gray-200 p-4 bg-[#FBFBFC] animate-in fade-in">
-                <div className="relative mb-3">
-                  <Search className="w-3.5 h-3.5 text-navy/40 absolute left-3 top-3" />
+              <div className="rounded-2xl border border-gray-200 p-4 bg-white animate-in fade-in space-y-3">
+                <div className="relative">
+                  <Search size={14} className="text-navy/40 absolute left-3.5 top-3.5" />
                   <input
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search by email..."
-                    className="w-full rounded-xl border border-gray-200 pl-8 pr-3 py-2 text-xs focus:outline-none focus:border-gold font-sans"
+                    placeholder="Search by client email..."
+                    className="w-full rounded-xl border border-gray-200 pl-9 pr-3 py-2.5 text-xs focus:outline-none focus:border-gold font-sans"
                   />
                 </div>
-                <div className="flex items-center justify-between mb-2 pb-1 border-b border-gray-200 text-[10px] font-mono">
-                  <span className="text-navy/50">{fc.length} found</span>
+                <div className="flex items-center justify-between text-[11px] border-b border-gray-100 pb-2">
+                  <span className="text-navy/50">{fc.length} clients found</span>
                   <button
                     type="button"
                     onClick={selAll}
-                    className="text-gold-dark hover:underline font-semibold"
+                    className="text-gold-dark hover:underline font-bold cursor-pointer uppercase tracking-wider"
                   >
                     Select All
                   </button>
@@ -368,7 +386,7 @@ export default function AdminEmailsPage() {
                   {fc.map((c) => (
                     <label
                       key={c.id}
-                      className="flex items-center gap-2 p-1.5 rounded-lg hover:bg-white cursor-pointer transition-colors"
+                      className="flex items-center gap-2.5 p-2 rounded-lg hover:bg-[#F6F6F8] cursor-pointer transition-colors"
                     >
                       <input
                         type="checkbox"
@@ -385,22 +403,22 @@ export default function AdminEmailsPage() {
           </div>
 
           {/* Send Summary & Trigger */}
-          <div className="bg-white rounded-[32px] sm:rounded-[36px] border border-gray-200/80 p-6 shadow-sm">
-            <div className="text-[10px] font-mono uppercase tracking-[0.16em] text-navy/50 font-semibold mb-4">
+          <div className="bg-[#F6F6F8] rounded-[32px] sm:rounded-[36px] border border-gray-200/80 p-6 sm:p-7 shadow-xs">
+            <div className="text-[11px] font-sans uppercase tracking-[0.14em] text-navy/60 font-semibold mb-4">
               Dispatch Summary
             </div>
-            <div className="space-y-3 text-xs font-mono">
-              <div className="flex justify-between items-center py-1 border-b border-gray-100">
-                <span className="text-navy/50">Format</span>
-                <span className="text-navy font-semibold">{currentTypeObj?.label}</span>
+            <div className="space-y-3 text-xs">
+              <div className="flex justify-between items-center py-1.5 border-b border-gray-200/60">
+                <span className="text-navy/50 uppercase tracking-wider">Format</span>
+                <span className="text-navy font-bold">{currentTypeObj?.label}</span>
               </div>
-              <div className="flex justify-between items-center py-1 border-b border-gray-100">
-                <span className="text-navy/50">Recipients</span>
-                <span className="text-navy font-bold text-sm">{est} clients</span>
+              <div className="flex justify-between items-center py-1.5 border-b border-gray-200/60">
+                <span className="text-navy/50 uppercase tracking-wider">Audience Count</span>
+                <span className="text-navy font-bold text-sm font-mono">{est} clients</span>
               </div>
-              <div className="flex justify-between items-center py-1 border-b border-gray-100">
-                <span className="text-navy/50">Subject</span>
-                <span className="text-navy font-medium truncate max-w-[150px]">
+              <div className="flex justify-between items-center py-1.5 border-b border-gray-200/60">
+                <span className="text-navy/50 uppercase tracking-wider">Subject</span>
+                <span className="text-navy font-semibold truncate max-w-[150px]">
                   {subject || '—'}
                 </span>
               </div>
@@ -409,11 +427,11 @@ export default function AdminEmailsPage() {
             <button
               onClick={handleSend}
               disabled={btnDisabled}
-              className="w-full mt-6 flex items-center justify-center gap-2 bg-[#4A4D52] hover:bg-navy text-white text-xs font-mono uppercase tracking-[0.16em] py-3.5 rounded-full transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+              className="w-full mt-6 flex items-center justify-center gap-2 bg-[#4A4D52] hover:bg-navy text-white text-xs font-semibold uppercase tracking-wider py-3.5 rounded-full transition-all duration-300 shadow-sm hover:shadow-md hover:scale-[1.01] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
             >
               {sending ? (
                 <>
-                  <svg className="w-3.5 h-3.5 animate-spin" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24">
                     <circle
                       className="opacity-25"
                       cx="12"
@@ -433,19 +451,19 @@ export default function AdminEmailsPage() {
                 </>
               ) : (
                 <>
-                  <Send className="w-3.5 h-3.5" />
+                  <Send size={14} className="text-gold" />
                   <span>Transmit Dispatch</span>
                 </>
               )}
             </button>
           </div>
 
-          {/* Tips Card */}
-          <div className="bg-[#FBFBFC] rounded-[32px] border border-gray-200/80 p-6 shadow-sm">
-            <div className="text-[10px] font-mono uppercase tracking-[0.16em] text-navy/50 font-semibold mb-3">
+          {/* Editorial Guidelines Card */}
+          <div className="bg-white rounded-[32px] border border-gray-200/80 p-6 shadow-xs">
+            <div className="text-[11px] font-sans uppercase tracking-[0.14em] text-navy/60 font-semibold mb-3">
               Editorial Guidelines
             </div>
-            <ul className="space-y-2 text-xs text-navy/60 font-sans">
+            <ul className="space-y-2.5 text-xs text-navy/60 font-sans">
               <li className="flex items-start gap-2">
                 <span className="text-gold font-bold">•</span>
                 <span>Use standard inline HTML tags like &lt;h2&gt;, &lt;p&gt;, and &lt;a&gt;.</span>
