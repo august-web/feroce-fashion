@@ -32,9 +32,9 @@ function toShopProduct(p: DBRow): ShopProduct {
       images: (p.image_urls as string[]) || [],
       modelImages: (p.model_image_urls as string[]) || [],
       stripe_checkout_url: (p.stripe_checkout_url as string) || '',
-      inStock: (p.stock as number) > 0,
+      inStock: (p.stock as number) > 0 || Boolean(p.preorder),
     }],
-    sizes: [{ label: 'One Size', available: (p.stock as number) > 0 }],
+    sizes: [{ label: 'One Size', available: (p.stock as number) > 0 || Boolean(p.preorder) }],
   }
 }
 
