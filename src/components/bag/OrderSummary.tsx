@@ -15,6 +15,16 @@ export function OrderSummary({ items: propItems }: { items?: CartItem[] } = {}) 
   const [promoApplied, setPromoApplied] = useState(false)
   const [checkingOut, setCheckingOut] = useState(false)
 
+  const hasPreorders = items.some((i) => i.preorder)
+  const allPreorders = items.length > 0 && items.every((i) => i.preorder)
+
+  const inStockSubtotal = items
+    .filter((i) => !i.preorder)
+    .reduce((sum, i) => sum + i.price * i.quantity, 0)
+  const preorderSubtotal = items
+    .filter((i) => i.preorder)
+    .reduce((sum, i) => sum + i.price * i.quantity, 0)
+
   // All amounts in DOLLARS. Free shipping over $200, standard shipping $15.
   const subtotalDollars = propItems
     ? propItems.reduce((acc, i) => acc + i.price * i.quantity, 0)
@@ -77,12 +87,43 @@ export function OrderSummary({ items: propItems }: { items?: CartItem[] } = {}) 
         </h2>
       </div>
 
+      {/* Pre-Order Atelier Allocation Banner */}
+      {hasPreorders && (
+        <div className="rounded-[24px] bg-amber-50/90 border border-amber-200/80 p-4 space-y-2">
+          <div className="flex items-center gap-2">
+            <Sparkles size={14} className="text-amber-600 shrink-0" />
+            <p className="text-xs font-bold text-amber-900 font-sans uppercase tracking-wider">
+              Dallas Atelier Pre-Order Included
+            </p>
+          </div>
+          <p className="text-[11px] text-amber-900/80 leading-relaxed font-sans">
+            Pre-order pieces are custom handcrafted in our Dallas atelier. At checkout, you can choose to <strong>reserve your allocation today with $0 down</strong>, billed only when your piece completes bench crafting.
+          </p>
+        </div>
+      )}
+
       {/* Breakdown */}
       <div className="space-y-3.5 text-sm font-sans">
-        <div className="flex justify-between items-center text-navy/70">
-          <span>Subtotal ({items.length} {items.length === 1 ? 'piece' : 'pieces'})</span>
-          <span className="font-bold text-navy">{formatPrice(subtotalDollars)}</span>
-        </div>
+        {hasPreorders && !allPreorders ? (
+          <>
+            <div className="flex justify-between items-center text-navy/70">
+              <span>Ready to Ship ({items.filter((i) => !i.preorder).length} pieces)</span>
+              <span className="font-bold text-navy">{formatPrice(inStockSubtotal)}</span>
+            </div>
+            <div className="flex justify-between items-center text-amber-800">
+              <span className="flex items-center gap-1.5">
+                <Sparkles size={12} className="text-amber-600" />
+                Pre-Order Allocation ({items.filter((i) => i.preorder).length} pieces)
+              </span>
+              <span className="font-bold">{formatPrice(preorderSubtotal)}</span>
+            </div>
+          </>
+        ) : (
+          <div className="flex justify-between items-center text-navy/70">
+            <span>Subtotal ({items.length} {items.length === 1 ? 'piece' : 'pieces'})</span>
+            <span className="font-bold text-navy">{formatPrice(subtotalDollars)}</span>
+          </div>
+        )}
 
         <div className="flex justify-between items-center text-navy/70">
           <span>Shipping</span>
@@ -110,6 +151,11 @@ export function OrderSummary({ items: propItems }: { items?: CartItem[] } = {}) 
               {formatPrice(totalDollars)}
             </span>
           </div>
+          {hasPreorders && (
+            <p className="text-[10px] text-amber-800/80 font-medium font-sans mt-1">
+              * Pre-order items can be reserved with $0 due today at checkout.
+            </p>
+          )}
         </div>
       </div>
 
@@ -141,27 +187,20 @@ export function OrderSummary({ items: propItems }: { items?: CartItem[] } = {}) 
 
       {/* Checkout Primary Capsule CTA */}
       <div>
-        <button
-          onClick={handleCheckout}
-          disabled={!items.length || checkingOut}
-          className="w-full bg-[#4A4D52] hover:bg-navy text-white rounded-full py-4 text-xs font-semibold uppercase tracking-wider transition-all duration-300 shadow-[0_4px_16px_rgba(0,0,0,0.08)] flex items-center justify-center gap-2 min-h-[50px] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
+        <Link
+          href="/checkout"
+          className="w-full bg-[#4A4D52] hover:bg-navy text-white rounded-full py-4 text-xs font-semibold uppercase tracking-wider transition-all duration-300 shadow-[0_4px_16px_rgba(0,0,0,0.08)] flex items-center justify-center gap-2 min-h-[50px] cursor-pointer"
         >
-          {checkingOut ? (
-            <span className="flex items-center justify-center gap-2">
-              <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-              </svg>
-              Starting Secure Checkout…
-            </span>
-          ) : (
-            <>
-              <Lock size={13} />
-              <span>Proceed to Checkout</span>
-              <ArrowRight size={14} />
-            </>
-          )}
-        </button>
+          <Lock size={13} />
+          <span>
+            {allPreorders
+              ? 'Reserve Pre-Order Allocation'
+              : hasPreorders
+              ? 'Proceed to Pre-Order Checkout'
+              : 'Proceed to Checkout'}
+          </span>
+          <ArrowRight size={14} />
+        </Link>
       </div>
 
       {/* Guest Checkout Notice */}
