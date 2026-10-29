@@ -1,11 +1,11 @@
 'use client'
 
 import { useState } from 'react'
+import { ShoppingBag, ArrowUpRight, Heart, ShieldCheck, Clock, Award } from 'lucide-react'
 import type { ShopProduct } from '@/lib/shop-data'
 import { formatPrice } from '@/lib/types'
 import { useCartStore } from '@/store/cart'
 import { useWishlistStore } from '@/store/wishlist'
-import { Heart } from 'lucide-react'
 import { useToastStore } from '@/components/Toast'
 import { ColorSwatches } from '@/components/product/ColorSwatches'
 import { SizeSelector } from '@/components/product/SizeSelector'
@@ -22,7 +22,12 @@ interface ProductDetailsClientProps {
   onOpenMiniCart: () => void
 }
 
-export function ProductDetailsClient({ product, selectedColor, onColorChange, onOpenMiniCart }: ProductDetailsClientProps) {
+export function ProductDetailsClient({
+  product,
+  selectedColor,
+  onColorChange,
+  onOpenMiniCart,
+}: ProductDetailsClientProps) {
   const [selectedSize, setSelectedSize] = useState(product.sizes[0]?.label || 'One Size')
   const [quantity, setQuantity] = useState(1)
   const addItem = useCartStore((s) => s.addItem)
@@ -30,7 +35,8 @@ export function ProductDetailsClient({ product, selectedColor, onColorChange, on
   const { toggleItem, isInWishlist } = useWishlistStore()
   const inWishlist = isInWishlist(product.id)
 
-  const activeVariant = product.variants.find((v) => v.color === selectedColor) || product.variants[0]
+  const activeVariant =
+    product.variants.find((v) => v.color === selectedColor) || product.variants[0]
 
   const handleAddToCart = () => {
     for (let i = 0; i < quantity; i++) {
@@ -51,87 +57,116 @@ export function ProductDetailsClient({ product, selectedColor, onColorChange, on
   const subtotal = product.price * quantity
 
   const accordionItems = [
-    { title: 'Materials & Fit', content: product.materials },
-    { title: 'Care Instructions', content: product.careInstructions },
+    { title: 'Materials & Handcrafted Artistry', content: product.materials },
+    { title: 'Care & Preservation Instructions', content: product.careInstructions },
     {
-      title: 'Shipping & Returns',
+      title: 'Complimentary Shipping & Atelier Warranty',
       content: product.preorder
-        ? 'Made to order — ships within 4–8 weeks of purchase. Complimentary standard shipping (5–7 business days) on US orders over $200; a flat $15 applies below. Express (2–3 business days) available at checkout. All sales are final. If your piece arrives damaged or defective, contact us within 48 hours of delivery at Ferocefashionff@gmail.com with your order number and photos.'
-        : 'Standard shipping (5–7 business days) is complimentary on US orders over $200; a flat $15 applies below. Express (2–3 business days) available at checkout. All sales are final. If your piece arrives damaged or defective, contact us within 48 hours of delivery at Ferocefashionff@gmail.com with your order number and photos.',
+        ? 'Made to order in Dallas atelier — ships within 4–8 weeks with tracked express courier. Complimentary standard delivery on US orders over $200. All sales are final. If your piece arrives with any damage or defect, contact us within 48 hours at Ferocefashionff@gmail.com for priority concierge support.'
+        : 'Handcrafted precision. Complimentary tracked delivery on US orders over $200. All sales are final. If your piece arrives with any defect, notify us within 48 hours for immediate replacement.',
     },
   ]
 
   return (
-    <>
+    <div className="space-y-6 pt-2">
+      {/* 1. Color Swatches */}
       {product.variants.length > 0 && (
-        <ColorSwatches variants={product.variants} activeColor={selectedColor} onSelect={onColorChange} />
+        <ColorSwatches
+          variants={product.variants}
+          activeColor={selectedColor}
+          onSelect={onColorChange}
+        />
       )}
+
+      {/* 2. Size Selector */}
       {product.sizes.length > 0 && (
-        <SizeSelector sizes={product.sizes} activeSize={selectedSize} onSelect={setSelectedSize} />
+        <SizeSelector
+          sizes={product.sizes}
+          activeSize={selectedSize}
+          onSelect={setSelectedSize}
+        />
       )}
-      <QuantitySelector quantity={quantity} onChange={setQuantity} />
 
-      <button
-        id="primary-buy-button"
-        onClick={handleAddToCart}
-        className="w-full btn-primary py-4 text-center min-h-[48px] group relative overflow-hidden"
-      >
-        <span className="relative z-10">
-          {product.preorder ? 'PREORDER' : 'ADD TO BAG'} — {formatPrice(subtotal)}
-        </span>
-        <div className="absolute inset-0 bg-gold/20 translate-y-full transition-transform duration-300 group-hover:translate-y-0" />
-      </button>
+      {/* 3. Quantity & Action Buttons */}
+      <div className="flex flex-col sm:flex-row sm:items-end gap-4 pt-1">
+        <QuantitySelector quantity={quantity} onChange={setQuantity} />
 
-      {/* Dallas Artisan Trust Pillars */}
-      <div className="space-y-2.5 bg-cream/40 p-4 border border-line/70">
-        {product.preorder && (
-          <div className="flex items-center gap-2.5">
-            <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 text-gold flex-shrink-0">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-            </svg>
-            <span className="text-[11px] text-navy/80 font-medium">Limited Pre-Order Batch — Handcrafted in Dallas, TX (Ships in 4–8 wks)</span>
-          </div>
-        )}
-        <div className="flex items-center gap-2.5">
-          <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 text-gold flex-shrink-0">
-            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-          </svg>
-          <span className="text-[11px] text-navy/70">
-            {product.preorder ? 'Reserve now with guaranteed priority production allocation' : 'Complimentary shipping on orders over $200'}
-          </span>
-        </div>
-        <div className="flex items-center gap-2.5">
-          <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 text-gold flex-shrink-0">
-            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-          </svg>
-          <span className="text-[11px] text-navy/70">Authenticity & craftsmanship guaranteed. Damage replacement guarantee within 48h.</span>
+        <div className="flex-1">
+          <button
+            id="primary-buy-button"
+            onClick={handleAddToCart}
+            className="w-full bg-[#4A4D52] hover:bg-navy text-white text-xs sm:text-sm font-semibold rounded-full py-4 px-8 tracking-wider uppercase shadow-md transition-all duration-300 inline-flex items-center justify-center gap-3 min-h-[52px] group"
+          >
+            <ShoppingBag className="w-4 h-4 text-gold transition-transform group-hover:scale-110" />
+            <span>
+              {product.preorder ? 'Pre-Order Allocation' : 'Add to Bag'} — {formatPrice(subtotal)}
+            </span>
+            <ArrowUpRight className="w-4 h-4 text-white/80 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </button>
         </div>
       </div>
 
-      <div className="flex items-center gap-4 border-t border-[#E2DFD8] pt-3">
+      {/* 4. Dallas Atelier Trust Pillars */}
+      <div className="rounded-[24px] bg-[#F6F6F8] p-5 sm:p-6 border border-gray-100 space-y-3">
+        {product.preorder && (
+          <div className="flex items-start gap-3">
+            <Clock className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
+            <p className="text-xs text-navy/80 font-medium leading-relaxed">
+              <strong>Limited Atelier Batch:</strong> Handcrafted in Dallas, TX. Priority production allocation reserved instantly (Ships in 4–8 weeks).
+            </p>
+          </div>
+        )}
+        <div className="flex items-start gap-3">
+          <Award className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
+          <p className="text-xs text-navy/70 leading-relaxed">
+            Authenticity and 24K gold-plated monogram hardware craftsmanship guaranteed by FÉROCE Dallas.
+          </p>
+        </div>
+        <div className="flex items-start gap-3">
+          <ShieldCheck className="w-4 h-4 text-gold flex-shrink-0 mt-0.5" />
+          <p className="text-xs text-navy/70 leading-relaxed">
+            Complimentary express delivery on US orders over $200. Dedicated 48-hour concierge support.
+          </p>
+        </div>
+      </div>
+
+      {/* 5. Wishlist & Share Pills */}
+      <div className="flex items-center gap-3 pt-1">
         <button
-          onClick={() => toggleItem({ productId: product.id, name: product.name, slug: product.slug, price: product.price, image: product.image_urls[0] || '', color: selectedColor })}
-          className={"flex items-center gap-2 text-[11px] font-sans uppercase tracking-[0.1em] transition-colors " + (inWishlist ? 'text-red-500' : 'text-navy/50 hover:text-red-500')}
+          onClick={() =>
+            toggleItem({
+              productId: product.id,
+              name: product.name,
+              slug: product.slug,
+              price: product.price,
+              image: product.image_urls[0] || '',
+              color: selectedColor,
+            })
+          }
+          className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-semibold border transition-all duration-200 ${
+            inWishlist
+              ? 'border-red-200 bg-red-50 text-red-600'
+              : 'border-gray-200 bg-white text-navy/70 hover:text-navy hover:border-gray-300'
+          }`}
         >
-          <Heart size={14} strokeWidth={1.5} fill={inWishlist ? 'currentColor' : 'none'} />
-          {inWishlist ? 'In Wishlist' : 'Add to Wishlist'}
+          <Heart size={14} fill={inWishlist ? 'currentColor' : 'none'} />
+          <span>{inWishlist ? 'Saved in Wishlist' : 'Add to Wishlist'}</span>
         </button>
+
         <ShareButton name={product.name} slug={product.slug} />
       </div>
 
-      {/* Glamaholic "What Fits Inside" + Dimensions Guide */}
+      {/* 6. What Fits Inside & Accordions */}
       <WhatFitsAccordion />
-
-      {/* Product Accordions */}
       <Accordions items={accordionItems} />
 
-      {/* Mobile Sticky Buy Rail */}
+      {/* 7. Mobile Sticky Buy Rail */}
       <StickyATC
         product={product}
         selectedColor={selectedColor}
         targetTriggerId="primary-buy-button"
         onAddToCart={handleAddToCart}
       />
-    </>
+    </div>
   )
 }
