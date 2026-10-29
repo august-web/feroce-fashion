@@ -1,32 +1,47 @@
 'use client'
 
 import Link from 'next/link'
+import { Sparkles, ArrowUpRight } from 'lucide-react'
 
 export function AnnouncementBar() {
   return (
-    <div className="bg-navy text-white border-b border-navy/40 relative z-50 overflow-hidden py-2 px-3 sm:px-4 w-full">
-      <div className="mx-auto max-w-7xl flex items-center justify-center sm:justify-between w-full overflow-hidden">
-        <div className="hidden md:flex items-center gap-2 text-white/60 shrink-0 text-[10px] uppercase font-sans tracking-[0.2em]">
-          <span className="inline-block w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
-          <span>FÉROCE Fashion · Dallas</span>
+    <div className="bg-[#0A1128] text-white border-b border-white/10 relative z-50 overflow-hidden py-2 sm:py-2.5 px-3 sm:px-6 w-full font-sans">
+      <div className="mx-auto max-w-7xl flex items-center justify-between gap-4">
+        {/* ── Left: Location & Studio Pill ── */}
+        <div className="hidden lg:flex items-center gap-2 shrink-0">
+          <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-white/10 backdrop-blur-md border border-white/15 text-[10px] font-semibold tracking-wider uppercase text-white/80 shadow-2xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
+            <span>FÉROCE Fashion · Dallas, TX</span>
+          </div>
         </div>
 
-        <div className="text-center truncate max-w-full px-2">
-          <p className="truncate text-[9px] sm:text-[10px] uppercase font-sans tracking-[0.14em] sm:tracking-[0.2em] font-medium">
-            <span className="text-gold font-bold">LIMITED PRE-ORDER BATCH OPEN</span>
-            <span className="hidden sm:inline text-white/40 mx-2">•</span>
-            <span className="hidden sm:inline text-white/90">Free US Express Shipping over $200</span>
+        {/* ── Center: Announcement Capsule ── */}
+        <div className="flex-1 flex items-center justify-center min-w-0">
+          <div className="inline-flex items-center gap-2 sm:gap-2.5 rounded-full px-3.5 sm:px-4 py-1 sm:py-1.5 bg-white/10 backdrop-blur-md border border-white/15 text-[10px] tracking-wider uppercase max-w-full shadow-2xs">
+            <span className="text-[8px] sm:text-[9px] font-bold px-2 py-0.5 bg-gold text-navy rounded-full shadow-2xs shrink-0 tracking-widest">
+              PRE-ORDER OPEN
+            </span>
+            <span className="text-white/90 truncate font-medium text-[9px] sm:text-[10px] tracking-wider">
+              Complimentary US Express Shipping over $200
+            </span>
             <Link
               href="/shop"
-              className="hidden lg:inline underline underline-offset-2 decoration-gold text-gold hover:text-white transition-colors ml-2"
+              className="inline-flex items-center gap-0.5 text-gold hover:text-white font-bold transition-colors pl-1 shrink-0 text-[9px] sm:text-[10px] group"
             >
-              Shop The Drop →
+              <span className="underline decoration-gold/60 underline-offset-2 group-hover:decoration-white">
+                Shop Drop
+              </span>
+              <ArrowUpRight size={11} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </Link>
-          </p>
+          </div>
         </div>
 
-        <div className="hidden md:flex items-center gap-3 text-white/60 shrink-0 text-[10px] uppercase font-sans tracking-[0.2em]">
-          <span>Pay in 4 with Klarna</span>
+        {/* ── Right: Klarna & Concierge Pill ── */}
+        <div className="hidden lg:flex items-center gap-2 shrink-0">
+          <div className="inline-flex items-center gap-2 rounded-full px-3 py-1 bg-white/10 backdrop-blur-md border border-white/15 text-[10px] font-semibold tracking-wider uppercase text-white/80 shadow-2xs">
+            <Sparkles size={10} className="text-gold" />
+            <span>Pay in 4 with Klarna</span>
+          </div>
         </div>
       </div>
     </div>
