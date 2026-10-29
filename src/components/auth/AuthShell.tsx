@@ -31,12 +31,12 @@ export function AuthShell({ children }: AuthShellProps) {
               className="w-7 h-7 object-contain"
             />
             <span className="font-sans font-bold text-base sm:text-lg tracking-tight text-navy">
-              FÉROCE
+              FÉROCE Fashion
             </span>
           </Link>
 
           <div className="hidden sm:inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 bg-[#F6F6F8] text-[10px] font-semibold tracking-widest uppercase text-navy/60">
-            Dallas Atelier
+            Dallas, TX
           </div>
         </div>
       </header>
