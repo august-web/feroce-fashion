@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { ShoppingBag } from 'lucide-react'
 import { formatPrice } from '@/lib/types'
 
 interface StickyATCProps {
@@ -16,7 +17,12 @@ interface StickyATCProps {
   onAddToCart: () => void
 }
 
-export function StickyATC({ product, selectedColor, targetTriggerId, onAddToCart }: StickyATCProps) {
+export function StickyATC({
+  product,
+  selectedColor,
+  targetTriggerId,
+  onAddToCart,
+}: StickyATCProps) {
   const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
@@ -37,25 +43,26 @@ export function StickyATC({ product, selectedColor, targetTriggerId, onAddToCart
 
   return (
     <div
-      className={`md:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-line px-4 py-3 transition-transform duration-300 ease-out shadow-[0_-4px_20px_rgba(10,17,40,0.08)] ${
+      className={`lg:hidden fixed bottom-0 inset-x-0 z-40 backdrop-blur-md bg-white/95 border-t border-gray-100 px-4 py-3 transition-transform duration-300 ease-out shadow-[0_-8px_30px_rgba(0,0,0,0.08)] ${
         isVisible ? 'translate-y-0' : 'translate-y-full'
       }`}
     >
-      <div className="flex items-center justify-between gap-3 max-w-md mx-auto">
+      <div className="flex items-center justify-between gap-3 max-w-lg mx-auto">
         <div className="min-w-0 flex-1">
-          <p className="text-xs font-serif text-navy truncate font-medium">{product.name}</p>
+          <p className="text-xs font-bold text-navy truncate tracking-tight">{product.name}</p>
           <div className="flex items-center gap-2 mt-0.5">
-            <span className="text-xs font-semibold text-navy">{formatPrice(product.price)}</span>
+            <span className="text-xs font-bold text-navy">{formatPrice(product.price)}</span>
             {selectedColor && (
-              <span className="text-[10px] text-navy/40 truncate">/ {selectedColor}</span>
+              <span className="text-[11px] text-navy/50 truncate">· {selectedColor}</span>
             )}
           </div>
         </div>
         <button
           onClick={onAddToCart}
-          className="btn-primary min-h-[44px] px-5 text-[10px] uppercase tracking-luxury shrink-0"
+          className="bg-[#4A4D52] hover:bg-navy text-white text-xs font-semibold rounded-full px-5 py-2.5 uppercase tracking-wider shadow-sm shrink-0 inline-flex items-center gap-2"
         >
-          {product.preorder ? 'Preorder Now' : 'Add to Bag'}
+          <ShoppingBag className="w-3.5 h-3.5 text-gold" />
+          <span>{product.preorder ? 'Pre-Order' : 'Add to Bag'}</span>
         </button>
       </div>
     </div>
