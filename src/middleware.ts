@@ -53,10 +53,6 @@ export async function middleware(request: NextRequest) {
 
   // Protect /admin — check auth + admin role
   if (request.nextUrl.pathname.startsWith('/admin')) {
-    if (process.env.NODE_ENV === 'development' && request.nextUrl.searchParams.get('preview') === 'atelier_local') {
-      return supabaseResponse
-    }
-
     if (!user) {
       const url = request.nextUrl.clone()
       url.pathname = '/login'
