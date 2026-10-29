@@ -47,6 +47,7 @@ export function ProductDetailsClient({
         price: product.price,
         image: product.image_urls[0] || '',
         color: selectedColor,
+        preorder: Boolean(product.preorder),
         stripe_checkout_url: activeVariant?.stripe_checkout_url,
       })
     }
@@ -141,6 +142,7 @@ export function ProductDetailsClient({
               price: product.price,
               image: product.image_urls[0] || '',
               color: selectedColor,
+              preorder: Boolean(product.preorder),
             })
           }
           className={`flex items-center gap-2 rounded-full px-5 py-2.5 text-xs font-semibold border transition-all duration-200 ${
