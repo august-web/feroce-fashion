@@ -16,8 +16,8 @@ const FOOTER_LINKS = {
     { label: 'Contact Client Concierge', href: '/contact' },
   ],
   TheHouse: [
-    { label: 'About Féroce', href: '/about' },
-    { label: 'The Dallas Atelier', href: '/about' },
+    { label: 'About Féroce Fashion', href: '/about' },
+    { label: 'Dallas Design Studio', href: '/about' },
     { label: 'Sustainability & Materials', href: '/about' },
     { label: 'Private Membership', href: '/register' },
   ],
