@@ -24,18 +24,8 @@ export function AuthShell({ children }: AuthShellProps) {
             Back to Boutique
           </Link>
 
-          <Link href="/" className="inline-flex items-center gap-2.5">
-            <img
-              src="/images/feroce-emblem.png"
-              alt="FÉROCE Emblem"
-              className="w-7 h-7 object-contain"
-            />
-            <span className="font-sans font-bold text-base sm:text-lg tracking-tight text-navy">
-              FÉROCE Fashion
-            </span>
-          </Link>
-
-          <div className="hidden sm:inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 bg-[#F6F6F8] text-[10px] font-semibold tracking-widest uppercase text-navy/60">
+          <div className="hidden sm:inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 bg-[#F6F6F8] border border-gray-200/70 text-[10px] font-semibold tracking-widest uppercase text-navy/60">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             Dallas, TX
           </div>
         </div>
@@ -58,7 +48,7 @@ export function AuthShell({ children }: AuthShellProps) {
                 {/* Top Badge */}
                 <div className="absolute top-6 left-6 z-10">
                   <span className="backdrop-blur-md bg-white/80 border border-white/60 text-navy text-[10px] font-sans font-semibold tracking-wider uppercase px-4 py-1.5 rounded-full shadow-xs">
-                    • Dallas Atelier Vault
+                    • Dallas Fashion Vault
                   </span>
                 </div>
 
@@ -104,7 +94,7 @@ export function AuthShell({ children }: AuthShellProps) {
                 {/* Security Tag */}
                 <div className="mt-8 pt-6 border-t border-gray-200/60 flex items-center justify-center gap-2 text-[10px] font-medium uppercase tracking-widest text-navy/45">
                   <ShieldCheck size={13} className="text-navy/50" />
-                  <span>256-Bit Encrypted Atelier Access</span>
+                  <span>256-Bit Encrypted Client Access</span>
                 </div>
               </div>
             </div>
