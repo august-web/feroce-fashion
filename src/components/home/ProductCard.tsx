@@ -38,6 +38,7 @@ export function ProductCard({ product }: ProductCardProps) {
       price: product.price,
       image: mainImage,
       color: product.color,
+      preorder: Boolean(product.preorder),
     })
     setAdded(true)
     openMiniCart()
@@ -54,6 +55,7 @@ export function ProductCard({ product }: ProductCardProps) {
       image: mainImage,
       slug: product.slug,
       color: product.color || 'Default',
+      preorder: Boolean(product.preorder),
     })
   }
 
