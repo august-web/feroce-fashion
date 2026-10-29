@@ -82,23 +82,25 @@ export function ChangePasswordForm() {
   }
 
   const inputClass =
-    'w-full rounded-2xl border border-gray-200/90 bg-[#FBFBFC] px-4 py-3 text-sm text-navy placeholder:text-gray-400 focus:bg-white focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all font-sans'
+    'w-full rounded-2xl border border-gray-200/90 bg-white px-5 py-3.5 text-sm text-navy placeholder:text-gray-400 focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all font-sans shadow-2xs'
   const labelClass =
-    'block text-[10px] font-mono uppercase tracking-[0.16em] text-navy/60 font-semibold mb-1.5'
+    'block text-[11px] font-sans uppercase tracking-[0.14em] text-navy/60 font-semibold mb-2'
 
   return (
-    <div className="bg-white rounded-[32px] sm:rounded-[40px] border border-gray-200/80 p-6 sm:p-8 max-w-xl shadow-sm">
-      <div className="flex items-center justify-between pb-6 border-b border-gray-100 mb-6">
+    <div className="bg-[#F6F6F8] rounded-[32px] sm:rounded-[40px] border border-gray-200/80 p-6 sm:p-8 max-w-xl shadow-xs space-y-6">
+      <div className="flex items-center justify-between pb-5 border-b border-gray-200/70">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-gold/10 text-gold-dark flex items-center justify-center">
-            <KeyRound className="w-5 h-5 text-gold" />
+          <div className="w-11 h-11 rounded-2xl bg-white text-gold border border-gray-200/70 flex items-center justify-center shadow-2xs">
+            <KeyRound size={20} />
           </div>
           <div>
-            <h2 className="font-serif text-lg font-semibold text-navy">Update Director Passkey</h2>
-            <p className="text-xs text-navy/50 mt-0.5">
-              Active account:{' '}
-              <span className="font-mono text-navy font-medium">{email || '...'}</span>
-            </p>
+            <h2 className="font-sans font-bold text-lg text-navy tracking-tight">Update Director Passkey</h2>
+            <div className="flex items-center gap-1.5 mt-0.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              <p className="text-xs text-navy/60 font-sans">
+                Active account: <strong className="text-navy">{email || '...'}</strong>
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -134,7 +136,7 @@ export function ChangePasswordForm() {
             className={inputClass}
             required
           />
-          <p className="mt-1.5 text-[10px] text-navy/40 font-mono">
+          <p className="mt-2 text-xs text-navy/50 font-sans">
             Requires at least {MIN_LENGTH} characters with numbers and symbols.
           </p>
         </div>
@@ -157,14 +159,14 @@ export function ChangePasswordForm() {
 
         {error && (
           <div className="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-xs text-rose-700 flex items-center gap-2.5 animate-in fade-in">
-            <AlertCircle className="w-4 h-4 shrink-0" />
+            <AlertCircle size={16} className="shrink-0" />
             <span>{error}</span>
           </div>
         )}
 
         {success && (
           <div className="rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-xs text-emerald-700 flex items-center gap-2.5 animate-in fade-in">
-            <CheckCircle2 className="w-4 h-4 shrink-0" />
+            <CheckCircle2 size={16} className="shrink-0" />
             <span>Master credentials updated successfully. Please retain your new passkey.</span>
           </div>
         )}
@@ -173,11 +175,11 @@ export function ChangePasswordForm() {
           <button
             type="submit"
             disabled={saving}
-            className="w-full bg-[#4A4D52] hover:bg-navy text-white text-xs font-mono uppercase tracking-[0.16em] py-3.5 rounded-full transition-all shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed font-medium flex items-center justify-center gap-2"
+            className="w-full bg-[#4A4D52] hover:bg-navy text-white text-xs font-semibold uppercase tracking-wider py-3.5 rounded-full transition-all duration-300 shadow-sm hover:shadow-md hover:scale-[1.01] disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer flex items-center justify-center gap-2"
           >
             {saving ? (
               <>
-                <svg className="w-3.5 h-3.5 animate-spin" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 animate-spin" viewBox="0 0 24 24">
                   <circle
                     className="opacity-25"
                     cx="12"
@@ -197,7 +199,7 @@ export function ChangePasswordForm() {
               </>
             ) : (
               <>
-                <Lock className="w-3.5 h-3.5" />
+                <Lock size={14} className="text-gold" />
                 <span>Save New Passkey</span>
               </>
             )}
