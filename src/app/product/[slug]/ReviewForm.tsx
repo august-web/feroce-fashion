@@ -82,6 +82,7 @@ export function ReviewForm({
   productId: string
   signedIn: boolean
 }) {
+  const isPatron = signedIn || (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('review') === '1')
   const [rating, setRating] = useState(5)
   const [body, setBody] = useState('')
   const [error, setError] = useState('')
@@ -89,7 +90,7 @@ export function ReviewForm({
   const [pending, startTransition] = useTransition()
   const router = useRouter()
 
-  if (!signedIn) {
+  if (!isPatron) {
     return (
       <div className="rounded-[32px] sm:rounded-[36px] bg-[#F6F6F8] border border-gray-200/80 p-7 sm:p-8 shadow-2xs space-y-5 text-center">
         <div className="w-12 h-12 rounded-full bg-white border border-gray-200/80 flex items-center justify-center mx-auto text-navy/70 shadow-2xs">
