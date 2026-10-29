@@ -53,6 +53,25 @@ export function Navbar() {
     return () => { document.body.style.overflow = '' }
   }, [menuOpen])
 
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        setSearchOpen((prev) => !prev)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+
+    if (typeof window !== 'undefined') {
+      const params = new URLSearchParams(window.location.search)
+      if (params.get('search') === '1' || params.get('q')) {
+        setSearchOpen(true)
+      }
+    }
+
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
   const displayCount = hydrated ? totalCount : 0
   const displayWishlist = hydrated ? wishlistCount : 0
 
@@ -267,11 +286,13 @@ export function Navbar() {
             {/* Search */}
             <button
               type="button"
-              aria-label="Search"
+              aria-label="Search archive"
               onClick={() => setSearchOpen(true)}
-              className="flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center text-navy/80 hover:text-navy transition-colors rounded-full hover:bg-cream"
+              className="flex items-center gap-2 h-9 sm:h-10 px-2.5 sm:px-3 text-navy/80 hover:text-navy transition-colors rounded-full hover:bg-[#F6F6F8] group cursor-pointer"
             >
-              <Search size={18} strokeWidth={1.5} />
+              <Search size={18} strokeWidth={1.7} className="group-hover:scale-105 transition-transform" />
+              <span className="hidden xl:inline text-xs font-sans text-navy/55 font-medium">Search</span>
+              <kbd className="hidden xl:inline-flex items-center justify-center rounded-full px-2 py-0.5 bg-[#F6F6F8] border border-gray-200/80 text-[10px] text-navy/40 font-mono">⌘K</kbd>
             </button>
 
             {/* Sign In / Account Link with Label */}
