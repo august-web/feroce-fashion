@@ -16,8 +16,8 @@ export function SizeSelector({ sizes, activeSize, onSelect }: SizeSelectorProps)
 
   return (
     <div>
-      <p className="label mb-3">
-        Size — <span className="normal-case tracking-normal">{activeSize}</span>
+      <p className="text-[11px] font-bold uppercase tracking-wider text-navy/60 mb-2.5">
+        Silhouette Size — <span className="text-navy font-semibold">{activeSize}</span>
       </p>
       <div className="flex flex-wrap gap-2">
         {sizes.map((s) => (
@@ -25,14 +25,13 @@ export function SizeSelector({ sizes, activeSize, onSelect }: SizeSelectorProps)
             key={s.label}
             onClick={() => s.available && onSelect(s.label)}
             disabled={!s.available}
-            className={`min-h-[44px] min-w-[44px] px-5 py-2.5 text-[11px] font-sans uppercase tracking-luxury border transition-all duration-300 ${
+            className={`rounded-full px-5 py-2.5 text-xs font-semibold tracking-wider uppercase transition-all duration-300 ${
               activeSize === s.label
-                ? 'bg-navy text-white border-navy'
+                ? 'bg-navy text-white shadow-sm'
                 : s.available
-                  ? 'bg-white text-navy border-line hover:border-navy/40'
-                  : 'bg-white text-navy/30 border-line cursor-not-allowed line-through'
+                  ? 'bg-[#F6F6F8] text-navy/70 border border-gray-200/60 hover:border-gray-300 hover:text-navy'
+                  : 'bg-gray-100 text-gray-400 cursor-not-allowed line-through'
             }`}
-            style={{ letterSpacing: '0.2em' }}
           >
             {s.label}
           </button>
