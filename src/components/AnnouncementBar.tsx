@@ -8,7 +8,7 @@ export function AnnouncementBar() {
       <div className="mx-auto max-w-7xl flex items-center justify-center sm:justify-between w-full overflow-hidden">
         <div className="hidden md:flex items-center gap-2 text-white/60 shrink-0 text-[10px] uppercase font-sans tracking-[0.2em]">
           <span className="inline-block w-1.5 h-1.5 rounded-full bg-gold animate-pulse" />
-          <span>Dallas Atelier</span>
+          <span>FÉROCE Fashion · Dallas</span>
         </div>
 
         <div className="text-center truncate max-w-full px-2">
