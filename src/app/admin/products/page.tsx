@@ -2,7 +2,7 @@ import type { Metadata } from 'next'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { formatPrice } from '@/lib/types'
 import { ProductActions } from './ProductActions'
-import { Sparkles, Package, Check, Layers, AlertCircle } from 'lucide-react'
+import { Sparkles, Package, Check, Layers } from 'lucide-react'
 
 export const dynamic = 'force-dynamic'
 
@@ -63,42 +63,80 @@ export default async function AdminProductsPage() {
   const totalStockUnits = products.reduce((sum, p) => sum + (p.stock || 0), 0)
 
   return (
-    <div className="p-5 sm:p-8 lg:p-10 space-y-8 max-w-7xl mx-auto">
+    <div className="p-5 sm:p-8 lg:p-12 space-y-10 max-w-[1440px] mx-auto font-sans">
       {/* ── Page Header ── */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-        <div>
-          <div className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 bg-[#F6F6F8] border border-gray-200/80 text-[11px] font-semibold tracking-wider uppercase text-navy/70 mb-3 shadow-2xs">
-            <span className="w-1.5 h-1.5 rounded-full bg-gold" />
-            • ATELIER PIECES & INVENTORY CONTROL
+      <div className="pb-8 sm:pb-10 border-b border-gray-100 flex flex-col lg:flex-row lg:items-end justify-between gap-6">
+        <div className="max-w-3xl">
+          {/* Pill Badge */}
+          <div className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 bg-[#F6F6F8] border border-gray-200/80 text-[11px] font-semibold tracking-wider uppercase text-navy/70 mb-4 sm:mb-5 shadow-xs">
+            <span className="w-1.5 h-1.5 rounded-full bg-gold inline-block" />
+            Atelier Archive & Inventory · Dallas, TX
           </div>
-          <h1 className="font-sans font-bold text-navy text-2xl sm:text-4xl tracking-[-0.035em]">
-            Products & Inventory
+
+          {/* Large display heading */}
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-sans font-bold text-navy tracking-[-0.035em] leading-[1.05]">
+            Products & Workshop Inventory
           </h1>
-          <p className="text-xs sm:text-sm text-navy/60 font-sans mt-1">
+
+          <p className="mt-4 text-sm sm:text-base text-navy/60 max-w-2xl leading-relaxed font-normal">
             Manage your Dallas atelier handbag silhouettes, pricing, inventory stock, and pre-order drops.
           </p>
         </div>
 
-        <div>
+        <div className="flex flex-wrap items-center lg:flex-col lg:items-end gap-3 pt-2 lg:pt-0">
+          <div className="backdrop-blur-md bg-[#F6F6F8] border border-gray-200/80 rounded-full px-5 py-2.5 shadow-xs inline-flex items-center gap-2.5">
+            <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
+            <span className="text-xs font-bold text-navy tracking-tight">
+              {products.length} Handcrafted Silhouettes
+            </span>
+          </div>
+
           <ProductActions mode="create" categories={categories} />
         </div>
       </div>
 
       {/* ── Summary Micro Pills ── */}
-      <div className="flex flex-wrap items-center gap-3">
-        <div className="rounded-full px-4 py-2 bg-white border border-gray-200/80 text-xs font-semibold text-navy shadow-2xs">
-          ✦ <strong>{products.length}</strong> Total Silhouettes
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="rounded-[28px] bg-[#F6F6F8] border border-gray-200/80 p-5 shadow-xs">
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-navy/50">
+            Total Catalog
+          </div>
+          <div className="text-2xl sm:text-3xl font-bold text-navy tracking-tight mt-1">
+            {products.length} Pieces
+          </div>
+          <div className="text-xs text-navy/50 mt-1">All silhouettes created</div>
         </div>
-        <div className="rounded-full px-4 py-2 bg-amber-50 border border-amber-200/70 text-xs font-semibold text-amber-900 shadow-2xs flex items-center gap-1.5">
-          <Sparkles size={13} className="text-amber-600" />
-          <span><strong>{preorderCount}</strong> Made-to-Order Pre-Orders</span>
+
+        <div className="rounded-[28px] bg-amber-50/70 border border-amber-200/80 p-5 shadow-xs">
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-amber-800 flex items-center gap-1.5">
+            <Sparkles size={13} className="text-amber-600" />
+            <span>Pre-Orders</span>
+          </div>
+          <div className="text-2xl sm:text-3xl font-bold text-amber-950 tracking-tight mt-1">
+            {preorderCount} Silhouettes
+          </div>
+          <div className="text-xs text-amber-800/70 mt-1">Made-to-order craft</div>
         </div>
-        <div className="rounded-full px-4 py-2 bg-emerald-50 border border-emerald-200/70 text-xs font-semibold text-emerald-900 shadow-2xs flex items-center gap-1.5">
-          <Check size={13} className="text-emerald-600" />
-          <span><strong>{inStockCount}</strong> Ready-to-Ship Pieces</span>
+
+        <div className="rounded-[28px] bg-emerald-50/70 border border-emerald-200/80 p-5 shadow-xs">
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-emerald-800 flex items-center gap-1.5">
+            <Check size={13} className="text-emerald-600" />
+            <span>Ready-to-Ship</span>
+          </div>
+          <div className="text-2xl sm:text-3xl font-bold text-emerald-950 tracking-tight mt-1">
+            {inStockCount} In Stock
+          </div>
+          <div className="text-xs text-emerald-800/70 mt-1">Immediate dispatch</div>
         </div>
-        <div className="rounded-full px-4 py-2 bg-white border border-gray-200/80 text-xs font-semibold text-navy/60 shadow-2xs">
-          <strong>{totalStockUnits}</strong> Total Recorded Workshop Units
+
+        <div className="rounded-[28px] bg-[#F6F6F8] border border-gray-200/80 p-5 shadow-xs">
+          <div className="text-[11px] font-semibold uppercase tracking-wider text-navy/50">
+            Recorded Units
+          </div>
+          <div className="text-2xl sm:text-3xl font-bold text-navy tracking-tight mt-1">
+            {totalStockUnits} Units
+          </div>
+          <div className="text-xs text-navy/50 mt-1">Total workshop volume</div>
         </div>
       </div>
 
@@ -107,7 +145,7 @@ export default async function AdminProductsPage() {
         <div className="overflow-x-auto rounded-[24px] border border-gray-200/80">
           <table className="w-full text-left text-sm font-sans">
             <thead>
-              <tr className="bg-[#F6F6F8] border-b border-gray-200/80 text-[10px] font-bold uppercase tracking-wider text-navy/55">
+              <tr className="bg-[#F6F6F8] border-b border-gray-200/80 text-[10px] font-bold uppercase tracking-[0.14em] text-navy/55">
                 <th className="px-5 py-4">Piece</th>
                 <th className="px-5 py-4">Title & Collection</th>
                 <th className="px-5 py-4">Price</th>
@@ -128,7 +166,7 @@ export default async function AdminProductsPage() {
                   <tr key={product.id} className="hover:bg-[#FBFBFC] transition-colors">
                     {/* Thumbnail */}
                     <td className="px-5 py-4">
-                      <div className="w-14 h-16 rounded-[16px] overflow-hidden bg-[#ECECEE] border border-gray-100 shrink-0">
+                      <div className="w-14 h-16 rounded-[18px] overflow-hidden bg-[#ECECEE] border border-gray-200 shrink-0 shadow-2xs">
                         <img
                           src={image}
                           alt={product.name}
@@ -140,12 +178,12 @@ export default async function AdminProductsPage() {
                     {/* Title & Details */}
                     <td className="px-5 py-4">
                       <p className="font-bold text-sm text-navy">{product.name}</p>
-                      <div className="flex items-center gap-2 mt-0.5">
+                      <div className="flex items-center gap-2 mt-1">
                         {product.color && (
                           <span className="text-[11px] text-navy/55">{product.color}</span>
                         )}
                         {product.collection && (
-                          <span className="rounded-full px-2 py-0.5 bg-[#F6F6F8] text-[9px] font-semibold text-navy/60 uppercase">
+                          <span className="rounded-full px-2.5 py-0.5 bg-[#F6F6F8] border border-gray-200/60 text-[9px] font-semibold text-navy/60 uppercase">
                             {product.collection}
                           </span>
                         )}
@@ -170,18 +208,18 @@ export default async function AdminProductsPage() {
                     <td className="px-5 py-4">
                       <div className="flex flex-wrap items-center gap-1.5">
                         {product.preorder ? (
-                          <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 bg-amber-50 border border-amber-200/80 text-[10px] font-bold uppercase tracking-wider text-amber-900 shadow-2xs">
-                            <Sparkles size={10} className="text-amber-600" />
-                            Pre-Order Allocation
+                          <span className="inline-flex items-center gap-1 rounded-full px-3 py-1 bg-amber-50 border border-amber-200/80 text-[10px] font-bold uppercase tracking-wider text-amber-900 shadow-2xs">
+                            <Sparkles size={11} className="text-amber-600" />
+                            ✦ Pre-Order Allocation
                           </span>
                         ) : (
-                          <span className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 bg-emerald-50 border border-emerald-200/80 text-[10px] font-bold uppercase tracking-wider text-emerald-800 shadow-2xs">
-                            <Check size={10} strokeWidth={2.5} className="text-emerald-600" />
+                          <span className="inline-flex items-center gap-1 rounded-full px-3 py-1 bg-emerald-50 border border-emerald-200/80 text-[10px] font-bold uppercase tracking-wider text-emerald-800 shadow-2xs">
+                            <Check size={11} strokeWidth={2.5} className="text-emerald-600" />
                             In Stock
                           </span>
                         )}
                         {product.is_new && (
-                          <span className="rounded-full px-2 py-0.5 bg-gold/15 text-navy text-[9px] font-bold uppercase tracking-wider">
+                          <span className="rounded-full px-2.5 py-0.5 bg-gold/15 text-navy text-[9px] font-bold uppercase tracking-wider">
                             New
                           </span>
                         )}
@@ -199,7 +237,7 @@ export default async function AdminProductsPage() {
                     {/* Visibility */}
                     <td className="px-5 py-4">
                       <span
-                        className={`inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider ${
+                        className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-wider ${
                           product.active
                             ? 'bg-emerald-50 text-emerald-800 border border-emerald-200/70'
                             : 'bg-gray-100 text-gray-500 border border-gray-200'
