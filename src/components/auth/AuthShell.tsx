@@ -101,11 +101,6 @@ export function AuthShell({ children }: AuthShellProps) {
           </div>
         </div>
       </main>
-
-      {/* ── Footer Link ── */}
-      <footer className="border-t border-gray-100 py-6 text-center text-xs text-navy/40">
-        <p>© {new Date().getFullYear()} FÉROCE Fashion. All rights reserved. Dallas, Texas.</p>
-      </footer>
     </div>
   )
 }
