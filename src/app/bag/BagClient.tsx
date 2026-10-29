@@ -21,6 +21,7 @@ const DEMO_ITEMS: CartItem[] = [
     image: '/images/products/Naji Collection/Gold Fur Bag/Naji Collection -- Golden Fur.jpg',
     color: 'Gold Fur',
     quantity: 1,
+    preorder: false,
   },
   {
     productId: 'demo-2',
@@ -30,6 +31,7 @@ const DEMO_ITEMS: CartItem[] = [
     image: '/images/products/Satchel/Mens -- Satchel bag.jpg',
     color: 'Classic Monogram',
     quantity: 1,
+    preorder: true,
   },
 ]
 
@@ -46,6 +48,7 @@ const RELATED: Product[] = [
     stock: 5,
     active: true,
     is_new: true,
+    preorder: false,
     created_at: new Date().toISOString(),
   },
   {
@@ -60,6 +63,7 @@ const RELATED: Product[] = [
     stock: 8,
     active: true,
     is_new: false,
+    preorder: true,
     created_at: new Date().toISOString(),
   },
   {
@@ -74,6 +78,7 @@ const RELATED: Product[] = [
     stock: 4,
     active: true,
     is_new: true,
+    preorder: true,
     created_at: new Date().toISOString(),
   },
   {
@@ -88,6 +93,7 @@ const RELATED: Product[] = [
     stock: 6,
     active: true,
     is_new: false,
+    preorder: true,
     created_at: new Date().toISOString(),
   },
 ]
@@ -103,6 +109,8 @@ export default function BagClient() {
   const currentSubtotal = displayItems.reduce((acc, i) => acc + i.price * i.quantity, 0)
   const freeShippingDelta = FREE_SHIPPING_THRESHOLD - currentSubtotal
   const shippingProgress = Math.min(100, Math.max(0, (currentSubtotal / FREE_SHIPPING_THRESHOLD) * 100))
+  const hasPreorders = displayItems.some((i) => i.preorder)
+  const hasInStock = displayItems.some((i) => !i.preorder)
 
   return (
     <div className="bg-white min-h-screen text-navy antialiased">
@@ -164,6 +172,31 @@ export default function BagClient() {
                       />
                     </div>
                   </div>
+
+                  {/* Split Shipment Notice if Bag contains both Pre-Order & In-Stock */}
+                  {hasPreorders && hasInStock && (
+                    <div className="rounded-[28px] bg-amber-50/80 border border-amber-200/80 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs">
+                      <div className="flex items-start gap-3">
+                        <div className="w-8 h-8 rounded-full bg-amber-100 flex items-center justify-center shrink-0 mt-0.5">
+                          <Sparkles size={16} className="text-amber-700" />
+                        </div>
+                        <div>
+                          <h4 className="font-sans font-bold text-xs sm:text-sm text-amber-950 uppercase tracking-wider">
+                            Split Shipment & Pre-Order Allocation
+                          </h4>
+                          <p className="text-[11px] text-amber-900/80 font-sans mt-0.5 leading-relaxed">
+                            Your bag contains ready-to-ship inventory and made-to-order Dallas atelier pre-orders. At checkout, you can reserve pre-orders with <strong>$0 down today</strong>, or complete payment for all items together.
+                          </p>
+                        </div>
+                      </div>
+                      <Link
+                        href="/checkout"
+                        className="shrink-0 bg-navy hover:bg-[#4A4D52] text-white text-[10px] font-semibold uppercase tracking-wider px-4 py-2.5 rounded-full transition-all duration-200 shadow-2xs"
+                      >
+                        Checkout Options →
+                      </Link>
+                    </div>
+                  )}
 
                   {/* List of Cart Items */}
                   <div className="space-y-4">
