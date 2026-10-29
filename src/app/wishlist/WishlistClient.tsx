@@ -16,6 +16,7 @@ const DEMO_ITEMS: WishlistItem[] = [
     price: 443.0,
     image: '/images/products/Naji Collection/Gold Fur Bag/Naji Collection -- Golden Fur.jpg',
     color: 'Gold Fur',
+    preorder: false,
   },
   {
     productId: 'demo-2',
@@ -24,6 +25,7 @@ const DEMO_ITEMS: WishlistItem[] = [
     price: 300.0,
     image: '/images/products/Satchel/Mens -- Satchel bag.jpg',
     color: 'Classic Monogram',
+    preorder: true,
   },
   {
     productId: 'demo-3',
@@ -32,6 +34,7 @@ const DEMO_ITEMS: WishlistItem[] = [
     price: 250.0,
     image: '/images/products/Denim De Ville Collection/Cream & Gold/Preview 1.jpg',
     color: 'Cream & Gold',
+    preorder: true,
   },
 ]
 
@@ -56,6 +59,7 @@ export default function WishlistClient() {
       price: item.price,
       image: item.image,
       color: item.color || 'Default',
+      preorder: item.preorder,
     })
     setAddedIds((prev) => ({ ...prev, [item.productId]: true }))
     openMiniCart()
@@ -73,6 +77,7 @@ export default function WishlistClient() {
         price: item.price,
         image: item.image,
         color: item.color || 'Default',
+        preorder: item.preorder,
       })
     })
     openMiniCart()
