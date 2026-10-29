@@ -5,6 +5,7 @@ import { createPortal } from 'react-dom'
 import Link from 'next/link'
 import { useCartStore } from '@/store/cart'
 import { formatPrice } from '@/lib/types'
+import { ShoppingBag, X, Plus, Minus, Trash2, ArrowRight, Sparkles, ShieldCheck } from 'lucide-react'
 
 interface MiniCartDrawerProps {
   open?: boolean
@@ -40,157 +41,169 @@ export function MiniCartDrawer({ open: propOpen, onClose: propOnClose }: MiniCar
   const freeShippingDelta = FREE_SHIPPING_THRESHOLD - currentSubtotal
   const shippingProgress = Math.min(100, Math.max(0, (currentSubtotal / FREE_SHIPPING_THRESHOLD) * 100))
 
-  // Always render nothing when not mounted to avoid SSR issues
   if (typeof window === 'undefined') return null
 
   return createPortal(
     <>
-      {/* Backdrop */}
+      {/* ── Modern Frosted Backdrop ── */}
       <div
-        style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 9998,
-          backgroundColor: 'rgba(10, 17, 40, 0.55)',
-          backdropFilter: 'blur(6px)',
-          transition: 'opacity 300ms ease',
-          opacity: open ? 1 : 0,
-          pointerEvents: open ? 'auto' : 'none',
-        }}
+        className={`fixed inset-0 z-[9998] bg-navy/40 backdrop-blur-md transition-opacity duration-300 ${
+          open ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+        }`}
         onClick={onClose}
         aria-hidden="true"
       />
 
-      {/* Drawer */}
+      {/* ── Drawer with Elegant Rounded Edge ── */}
       <div
         ref={drawerRef}
-        style={{
-          position: 'fixed',
-          top: 0,
-          right: 0,
-          zIndex: 9999,
-          height: '100dvh',
-          width: 'min(90vw, 25rem)',
-          maxWidth: '25rem',
-          backgroundColor: '#fff',
-          boxShadow: open ? '-8px 0 32px rgba(10,17,40,0.2)' : 'none',
-          transform: open ? 'translateX(0)' : 'translateX(100%)',
-          transition: 'transform 320ms cubic-bezier(0.16, 1, 0.3, 1)',
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
+        className={`fixed top-0 right-0 z-[9999] h-[100dvh] w-full max-w-[420px] bg-white rounded-l-[32px] sm:rounded-l-[40px] shadow-[-16px_0_48px_rgba(10,17,40,0.18)] flex flex-col overflow-hidden transition-transform duration-300 ease-out ${
+          open ? 'translate-x-0' : 'translate-x-full'
+        }`}
       >
-        {/* Header */}
-        <div className="flex items-center justify-between border-b border-line px-5 py-4 flex-shrink-0 bg-white">
-          <div className="flex items-center gap-2">
-            <svg className="w-4 h-4 text-navy" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4H6zM3 6h18M16 10a4 4 0 01-8 0" />
-            </svg>
-            <h2 className="font-serif text-base font-semibold tracking-tight text-navy">
-              Shopping Bag ({totalItems})
+        {/* ── Top Header ── */}
+        <div className="flex items-center justify-between border-b border-gray-100 px-6 py-5 shrink-0 bg-white">
+          <div>
+            <div className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 bg-[#F6F6F8] text-[10px] font-semibold uppercase tracking-wider text-navy/60 mb-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-gold" />
+              Dallas Atelier
+            </div>
+            <h2 className="font-sans font-bold text-lg text-navy tracking-tight flex items-center gap-2">
+              <span>Shopping Bag</span>
+              <span className="rounded-full px-2.5 py-0.5 bg-[#F6F6F8] text-xs font-semibold text-navy/70">
+                {totalItems}
+              </span>
             </h2>
           </div>
+
           <button
             onClick={onClose}
-            className="flex h-10 w-10 items-center justify-center text-navy/50 hover:text-navy transition-colors rounded-full hover:bg-cream"
-            aria-label="Close cart"
+            className="w-10 h-10 rounded-full bg-[#F6F6F8] hover:bg-gray-200/80 flex items-center justify-center text-navy/60 hover:text-navy transition-colors cursor-pointer"
+            aria-label="Close cart drawer"
           >
-            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
+            <X size={18} />
           </button>
         </div>
 
-        {/* Free Shipping Progress Indicator (Glamaholic style) */}
-        <div className="px-5 py-3.5 bg-cream/50 border-b border-line flex-shrink-0">
-          <p className="text-[11px] font-sans font-medium text-navy/80">
+        {/* ── Free Shipping Progress Bar ── */}
+        <div className="px-6 py-3.5 bg-[#F6F6F8] border-b border-gray-100 shrink-0">
+          <div className="flex items-center justify-between text-[11px] font-sans font-semibold mb-2">
             {freeShippingDelta <= 0 ? (
-              <span className="text-gold font-semibold">✨ You’ve unlocked Complimentary Shipping</span>
+              <span className="text-emerald-700 flex items-center gap-1">
+                <Sparkles size={12} className="text-gold" />
+                Complimentary Express Shipping Unlocked
+              </span>
             ) : (
-              <span>Add <strong className="text-navy">${freeShippingDelta.toFixed(2)}</strong> more for Complimentary Express Shipping</span>
+              <span className="text-navy/70">
+                Add <strong className="text-navy">${freeShippingDelta.toFixed(2)}</strong> for Free Express Delivery
+              </span>
             )}
-          </p>
-          <div className="mt-2 h-1.5 w-full bg-line/70 rounded-full overflow-hidden">
+            <span className="text-[10px] text-navy/40 font-mono">
+              {Math.round(shippingProgress)}%
+            </span>
+          </div>
+          <div className="h-1.5 w-full bg-gray-200 rounded-full overflow-hidden">
             <div
-              className="h-full bg-gold transition-all duration-400 ease-out"
+              className="h-full bg-gold transition-all duration-500 ease-out rounded-full"
               style={{ width: `${shippingProgress}%` }}
             />
           </div>
         </div>
 
-        {/* Items */}
+        {/* ── Content: Empty State or Items List ── */}
         {items.length === 0 ? (
-          <div className="flex-1 flex flex-col items-center justify-center py-16 px-6 text-center">
-            <div className="w-16 h-16 rounded-full bg-cream flex items-center justify-center mb-4">
-              <svg className="w-6 h-6 text-navy/30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M16 10a4 4 0 01-8 0" />
-                <path d="M3.103 6.034h17.794" />
-                <path d="M3.4 5.467a2 2 0 00-.4 1.2V20a2 2 0 002 2h14a2 2 0 002-2V6.667a2 2 0 00-.4-1.2l-2-2.667A2 2 0 0017 2H7a2 2 0 00-1.6.8z" />
-              </svg>
+          <div className="flex-1 flex flex-col items-center justify-center p-8 text-center">
+            <div className="w-20 h-20 rounded-full bg-[#F6F6F8] border border-gray-200/80 flex items-center justify-center mb-5 shadow-xs">
+              <ShoppingBag className="w-9 h-9 text-gold" strokeWidth={1.5} />
             </div>
-            <p className="font-serif text-base text-navy font-medium mb-1.5">Your bag is empty</p>
-            <p className="text-xs text-navy/50 max-w-xs mb-6">Explore our latest Dallas-designed luxury handbag drops and signature pieces.</p>
+            <h3 className="font-sans font-bold text-xl text-navy tracking-tight mb-2">
+              Your Bag is Empty
+            </h3>
+            <p className="text-xs text-navy/60 max-w-xs mb-8 font-sans leading-relaxed">
+              Explore our signature Dallas-crafted luxury handbag drops and limited silhouettes.
+            </p>
             <Link
               href="/shop"
               onClick={onClose}
-              className="btn-primary text-[10px] uppercase tracking-luxury px-6 py-3 min-h-[44px] inline-flex items-center justify-center"
+              className="inline-flex items-center gap-2 bg-[#4A4D52] hover:bg-navy text-white rounded-full px-8 py-3.5 text-xs font-semibold uppercase tracking-wider transition-all duration-300 shadow-sm"
             >
-              Shop Handbags
+              <span>Explore Collection</span>
+              <ArrowRight size={14} />
             </Link>
           </div>
         ) : (
           <div className="flex-1 flex flex-col min-h-0">
-            <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4 divide-y divide-line/60">
+            {/* Scrollable Items */}
+            <div className="flex-1 overflow-y-auto px-6 py-4 space-y-3">
               {items.map((item) => (
-                <div key={item.productId + (item.color || '')} className="flex gap-3.5 pt-4 first:pt-0">
+                <div
+                  key={item.productId + (item.color || '')}
+                  className="rounded-[24px] bg-[#F6F6F8] border border-gray-200/70 p-3.5 flex gap-3.5 items-center transition-all hover:border-gray-300/80"
+                >
                   {/* Thumbnail */}
-                  <div className="h-20 w-16 flex-shrink-0 bg-cream border border-line overflow-hidden relative">
-                    <img src={item.image} alt={item.name} className="h-full w-full object-cover" />
-                  </div>
+                  <Link
+                    href={`/product/${item.slug}`}
+                    onClick={onClose}
+                    className="w-16 h-20 sm:w-20 sm:h-24 rounded-[18px] overflow-hidden bg-[#ECECEE] border border-gray-100 shrink-0 block group"
+                  >
+                    <img
+                      src={item.image || '/images/hero-home.jpg'}
+                      alt={item.name}
+                      className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
+                  </Link>
 
                   {/* Details */}
-                  <div className="flex-1 min-w-0 flex flex-col justify-between">
+                  <div className="flex-1 min-w-0 flex flex-col justify-between self-stretch py-0.5">
                     <div>
                       <div className="flex justify-between items-start gap-1">
-                        <p className="text-xs font-serif font-medium text-navy truncate leading-snug">{item.name}</p>
+                        <Link
+                          href={`/product/${item.slug}`}
+                          onClick={onClose}
+                          className="font-sans font-bold text-xs sm:text-sm text-navy hover:text-gold transition-colors truncate block"
+                        >
+                          {item.name}
+                        </Link>
                         <button
                           onClick={() => removeItem(item.productId, item.color)}
-                          className="text-[10px] text-navy/40 hover:text-red-500 transition-colors p-0.5"
+                          className="w-7 h-7 rounded-full bg-white hover:bg-red-50 text-navy/40 hover:text-red-500 transition-colors flex items-center justify-center shrink-0 cursor-pointer shadow-2xs"
                           title="Remove item"
+                          aria-label="Remove item"
                         >
-                          ✕
+                          <Trash2 size={13} strokeWidth={1.8} />
                         </button>
                       </div>
                       {item.color && (
-                        <p className="text-[10px] text-navy/50 uppercase tracking-luxury mt-0.5">{item.color}</p>
+                        <p className="text-[10px] font-semibold text-navy/50 uppercase tracking-wider mt-0.5">
+                          {item.color}
+                        </p>
                       )}
                     </div>
 
-                    <div className="flex items-center justify-between mt-2.5">
-                      {/* Qty controls */}
-                      <div className="flex items-center border border-line bg-white">
+                    <div className="flex items-center justify-between mt-2 pt-1 border-t border-gray-200/50">
+                      {/* Qty Pill Stepper */}
+                      <div className="inline-flex items-center rounded-full bg-white border border-gray-200/80 px-2 py-0.5 shadow-2xs">
                         <button
                           onClick={() => updateQuantity(item.productId, item.quantity - 1, item.color)}
-                          className="h-8 w-8 flex items-center justify-center text-navy/60 hover:text-navy text-xs hover:bg-cream transition-colors"
+                          className="w-6 h-6 rounded-full flex items-center justify-center text-navy/60 hover:text-navy hover:bg-gray-100 transition-colors cursor-pointer text-xs"
                           aria-label="Decrease quantity"
                         >
-                          −
+                          <Minus size={11} strokeWidth={2.5} />
                         </button>
-                        <span className="h-8 w-8 flex items-center justify-center text-[11px] font-medium text-navy border-x border-line">
+                        <span className="w-6 text-center text-xs font-bold font-sans text-navy">
                           {item.quantity}
                         </span>
                         <button
                           onClick={() => updateQuantity(item.productId, item.quantity + 1, item.color)}
-                          className="h-8 w-8 flex items-center justify-center text-navy/60 hover:text-navy text-xs hover:bg-cream transition-colors"
+                          className="w-6 h-6 rounded-full flex items-center justify-center text-navy/60 hover:text-navy hover:bg-gray-100 transition-colors cursor-pointer text-xs"
                           aria-label="Increase quantity"
                         >
-                          +
+                          <Plus size={11} strokeWidth={2.5} />
                         </button>
                       </div>
 
                       {/* Line Price */}
-                      <span className="text-xs font-semibold text-navy tracking-wide">
+                      <span className="font-sans font-bold text-xs sm:text-sm text-navy">
                         {formatPrice(item.price * item.quantity)}
                       </span>
                     </div>
@@ -199,35 +212,41 @@ export function MiniCartDrawer({ open: propOpen, onClose: propOnClose }: MiniCar
               ))}
             </div>
 
-            {/* Footer */}
-            <div className="border-t border-line px-5 py-4 space-y-3 bg-white flex-shrink-0">
+            {/* ── Footer Bar ── */}
+            <div className="border-t border-gray-100 px-6 py-5 space-y-3.5 bg-white shrink-0 shadow-[0_-8px_24px_rgba(0,0,0,0.03)]">
               <div className="flex justify-between items-baseline">
-                <span className="text-xs uppercase tracking-luxury text-navy/60">Estimated Total</span>
-                <span className="text-base font-serif font-semibold text-navy">{formatPrice(currentSubtotal)}</span>
+                <span className="text-xs uppercase tracking-wider font-semibold text-navy/60">
+                  Estimated Subtotal
+                </span>
+                <span className="font-sans font-bold text-lg text-navy">
+                  {formatPrice(currentSubtotal)}
+                </span>
               </div>
-              <p className="text-[10px] text-navy/50">Taxes, pre-order reserves, and shipping calculated at checkout.</p>
+              <p className="text-[10px] text-navy/45 leading-relaxed font-sans">
+                Taxes, atelier pre-order allocations, and express shipping calculated at checkout.
+              </p>
 
+              {/* Primary Checkout CTA */}
               <Link
                 href="/checkout"
                 onClick={onClose}
-                className="w-full btn-primary py-3.5 text-center text-[11px] min-h-[48px] uppercase tracking-luxury flex items-center justify-center"
+                className="w-full inline-flex items-center justify-center gap-2 bg-[#4A4D52] hover:bg-navy text-white rounded-full py-4 text-xs font-semibold uppercase tracking-wider transition-all duration-300 shadow-[0_4px_16px_rgba(0,0,0,0.08)] cursor-pointer"
               >
-                PROCEED TO CHECKOUT
+                <span>Proceed to Checkout</span>
+                <ArrowRight size={14} />
               </Link>
 
+              {/* View Full Bag & Encryption Tag */}
               <div className="flex items-center justify-between pt-1">
                 <Link
                   href="/bag"
                   onClick={onClose}
-                  className="text-[10px] uppercase tracking-luxury text-navy/50 hover:text-navy underline"
+                  className="rounded-full px-3.5 py-1.5 bg-[#F6F6F8] hover:bg-gray-200/80 text-[10px] uppercase tracking-wider font-semibold text-navy/70 hover:text-navy transition-colors"
                 >
-                  View Full Bag
+                  View Full Bag →
                 </Link>
-                <div className="flex items-center gap-1 text-[10px] text-navy/50">
-                  <svg className="w-3 h-3 text-gold" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                    <path d="M7 11V7a5 5 0 0110 0v4" />
-                  </svg>
+                <div className="flex items-center gap-1.5 text-[10px] font-medium text-navy/50 uppercase tracking-wider">
+                  <ShieldCheck size={13} className="text-gold" />
                   <span>Encrypted Checkout</span>
                 </div>
               </div>
@@ -236,6 +255,6 @@ export function MiniCartDrawer({ open: propOpen, onClose: propOnClose }: MiniCar
         )}
       </div>
     </>,
-    document.body
+    document.body,
   )
 }
