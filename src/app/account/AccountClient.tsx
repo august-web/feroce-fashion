@@ -627,7 +627,7 @@ export function AccountClient({
                               </div>
                               <div>
                                 <div className="font-bold text-sm text-navy">
-                                  FÉROCE Atelier Handbag Silhouette
+                                  FÉROCE Fashion Handbag Silhouette
                                 </div>
                                 <div className="text-xs text-navy/50 mt-0.5">
                                   Handcrafted atelier order record · Dallas, TX
