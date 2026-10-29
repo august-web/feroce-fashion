@@ -27,6 +27,8 @@ export async function GET(request: NextRequest) {
       status: session.status,
       orderId: order?.id || null,
       customerEmail: session.customer_details?.email || null,
+      splitPreorder: session.metadata?.split_preorder === 'true',
+      preorderBalanceDue: Number(session.metadata?.preorder_balance_cents || 0) / 100,
     })
   } catch (error) {
     console.error('Session status error:', error)
