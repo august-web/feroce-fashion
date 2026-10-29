@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { ChevronDown, Loader2 } from 'lucide-react'
 
 const STATUSES = ['pending', 'paid', 'shipped', 'cancelled'] as const
 
@@ -26,37 +27,46 @@ export function OrderStatusDropdown({ orderId, currentStatus }: OrderStatusDropd
         body: JSON.stringify({ status: newStatus }),
       })
       if (res.ok) {
-        // Re-render server components (dashboard "Ready to Pack" lists, etc.)
         router.refresh()
       }
     } catch {
-      // Silently fail — in production, show error toast
+      // Silently fail
     } finally {
       setSaving(false)
     }
   }
 
+  const statusStyles: Record<string, string> = {
+    paid: 'bg-emerald-50 text-emerald-700 border-emerald-200/80',
+    shipped: 'bg-blue-50 text-blue-700 border-blue-200/80',
+    cancelled: 'bg-rose-50 text-rose-700 border-rose-200/80',
+    pending: 'bg-amber-50 text-amber-700 border-amber-200/80',
+  }
+
+  const currentStyle = statusStyles[status] || 'bg-gray-50 text-gray-700 border-gray-200'
+
   return (
-    <select
-      value={status}
-      onChange={(e) => handleChange(e.target.value)}
-      disabled={saving}
-      className={`appearance-none bg-white border px-2 py-1 text-[10px] font-sans uppercase tracking-wider font-medium cursor-pointer min-h-[32px] focus:outline-none focus:border-navy/30 disabled:opacity-50 ${
-        status === 'paid' ? 'border-green-200 text-green-700' :
-        status === 'shipped' ? 'border-blue-200 text-blue-700' :
-        status === 'cancelled' ? 'border-red-200 text-red-700' :
-        'border-yellow-200 text-yellow-700'
-      }`}
-      style={{
-        backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E")`,
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'right 6px center',
-        paddingRight: '20px',
-      }}
-    >
-      {STATUSES.map((s) => (
-        <option key={s} value={s}>{s}</option>
-      ))}
-    </select>
+    <div className="relative inline-flex items-center">
+      <select
+        value={status}
+        onChange={(e) => handleChange(e.target.value)}
+        disabled={saving}
+        aria-label="Order status"
+        className={`appearance-none rounded-full border px-3 py-1.5 pr-7 text-[10px] font-mono uppercase tracking-[0.15em] font-semibold cursor-pointer focus:outline-none focus:ring-2 focus:ring-gold/30 disabled:opacity-60 transition-all ${currentStyle}`}
+      >
+        {STATUSES.map((s) => (
+          <option key={s} value={s} className="bg-white text-navy font-normal">
+            {s.toUpperCase()}
+          </option>
+        ))}
+      </select>
+      <div className="pointer-events-none absolute right-2.5 flex items-center">
+        {saving ? (
+          <Loader2 className="w-3 h-3 animate-spin text-navy/40" />
+        ) : (
+          <ChevronDown className="w-3 h-3 opacity-60" />
+        )}
+      </div>
+    </div>
   )
 }
