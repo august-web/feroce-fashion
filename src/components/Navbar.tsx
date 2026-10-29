@@ -1,22 +1,51 @@
 'use client'
 
 import Link from 'next/link'
-import Image from 'next/image'
-import { ShoppingBag, Search, User, Menu, X, Heart, ChevronDown, ChevronRight, Sparkles } from 'lucide-react'
+import {
+  ShoppingBag,
+  Search,
+  User,
+  Menu,
+  X,
+  Heart,
+  ChevronDown,
+  ChevronRight,
+  Sparkles,
+  ShieldCheck,
+  ArrowRight,
+  ArrowUpRight
+} from 'lucide-react'
 import { useState, useEffect } from 'react'
 import { useCartStore } from '@/store/cart'
 import { useWishlistStore } from '@/store/wishlist'
 import { createClient } from '@/lib/supabase/client'
 import { SearchModal } from '@/components/SearchModal'
 
+function initialsOf(name: string, email: string) {
+  const source = name.trim() || email
+  const parts = source.split(/[\s@._]+/).filter(Boolean)
+  return ((parts[0]?.[0] || '') + (parts[1]?.[0] || '')).toUpperCase() || 'F'
+}
+
 export function Navbar() {
-  const [menuOpen, setMenuOpen] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return new URLSearchParams(window.location.search).get('menu') === '1'
+    }
+    return false
+  })
   const [searchOpen, setSearchOpen] = useState(false)
   const [hydrated, setHydrated] = useState(false)
   const [accountHref, setAccountHref] = useState('/login')
   const [accountLabel, setAccountLabel] = useState('Sign In')
+  const [accountRole, setAccountRole] = useState<'admin' | 'customer' | 'guest'>('guest')
+  const [accountName, setAccountName] = useState<string | null>(null)
+  const [accountEmail, setAccountEmail] = useState<string | null>(null)
+  const [accountAvatar, setAccountAvatar] = useState<string | null>(null)
   const [collectionsOpen, setCollectionsOpen] = useState(false)
+  const [mobileCollectionsOpen, setMobileCollectionsOpen] = useState(true)
   const [mobileWomenOpen, setMobileWomenOpen] = useState(true)
+  const [mobileMenOpen, setMobileMenOpen] = useState(false)
 
   const totalCount = useCartStore((s) => s.totalCount())
   const openMiniCart = useCartStore((s) => s.openMiniCart)
@@ -25,32 +54,71 @@ export function Navbar() {
   useEffect(() => {
     setHydrated(true)
     const supabase = createClient()
-    async function resolveAccount(userId: string) {
-      const { data: profile } = await supabase.from('profiles').select('role').eq('id', userId).single()
-      const isAdmin = profile && (profile as { role: string }).role === 'admin'
-      setAccountHref(isAdmin ? '/admin' : '/account')
-      setAccountLabel(isAdmin ? 'Admin' : 'Account')
+
+    async function resolveAccount(userId: string, email?: string) {
+      setAccountEmail(email || null)
+      try {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role, full_name, avatar_url')
+          .eq('id', userId)
+          .single()
+
+        const profileData = profile as {
+          role?: string
+          full_name?: string | null
+          avatar_url?: string | null
+        } | null
+
+        const isAdmin = profileData?.role === 'admin'
+        setAccountHref(isAdmin ? '/admin' : '/account')
+        setAccountLabel(isAdmin ? 'Atelier Admin' : 'The Circle')
+        setAccountRole(isAdmin ? 'admin' : 'customer')
+        setAccountName(profileData?.full_name || null)
+        setAccountAvatar(profileData?.avatar_url || null)
+      } catch {
+        setAccountHref('/account')
+        setAccountLabel('Account')
+        setAccountRole('customer')
+      }
     }
+
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) resolveAccount(session.user.id)
-      else {
+      if (session?.user) {
+        resolveAccount(session.user.id, session.user.email)
+      } else {
         setAccountHref('/login')
         setAccountLabel('Sign In')
+        setAccountRole('guest')
+        setAccountName(null)
+        setAccountAvatar(null)
+        setAccountEmail(null)
       }
     })
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (session?.user) resolveAccount(session.user.id)
-      else {
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (session?.user) {
+        resolveAccount(session.user.id, session.user.email)
+      } else {
         setAccountHref('/login')
         setAccountLabel('Sign In')
+        setAccountRole('guest')
+        setAccountName(null)
+        setAccountAvatar(null)
+        setAccountEmail(null)
       }
     })
+
     return () => subscription.unsubscribe()
   }, [])
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? 'hidden' : ''
-    return () => { document.body.style.overflow = '' }
+    return () => {
+      document.body.style.overflow = ''
+    }
   }, [menuOpen])
 
   useEffect(() => {
@@ -70,42 +138,46 @@ export function Navbar() {
       if (params.get('cart') === '1') {
         openMiniCart()
       }
+      if (params.get('menu') === '1') {
+        setMenuOpen(true)
+      }
     }
 
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [])
+  }, [openMiniCart])
 
   const displayCount = hydrated ? totalCount : 0
   const displayWishlist = hydrated ? wishlistCount : 0
 
   return (
     <>
-      {/* ── Modern Minimalist Navbar (With Authentic FÉROCE Monogram Logo) ── */}
-      <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-gray-100 transition-all">
+      {/* ── Modern Luxury Navbar (With Authentic FÉROCE Monogram Logo) ── */}
+      <header className="sticky top-0 z-50 w-full bg-white/95 backdrop-blur-md border-b border-gray-100 transition-all font-sans">
         <nav
           className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10 h-16 sm:h-20 flex items-center justify-between"
           aria-label="Main Navigation"
         >
-          {/* ── LEFT: Authentic FÉROCE Logo + Féroce Fashion Wordmark ── */}
-          <div className="flex items-center gap-3 shrink-0">
+          {/* ── LEFT: Mobile Menu Button + Authentic FÉROCE Logo Wordmark ── */}
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+            {/* Mobile Hamburger Trigger (Elevated Luxury Pill) */}
             <button
               type="button"
-              aria-label="Open menu"
+              aria-label="Open boutique menu"
               onClick={() => setMenuOpen(true)}
-              className="lg:hidden flex h-10 w-10 items-center justify-center text-navy hover:text-gold transition-colors rounded-full hover:bg-cream -ml-2"
+              className="lg:hidden flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center text-navy hover:text-navy rounded-full bg-[#F6F6F8] hover:bg-gray-200/70 border border-gray-200/80 transition-all shadow-2xs cursor-pointer shrink-0"
             >
-              <Menu size={22} strokeWidth={1.5} />
+              <Menu size={18} strokeWidth={1.75} />
             </button>
 
-            <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group">
-              {/* Authentic Gold Circular FÉROCE Monogram Emblem */}
+            {/* Official Circular Gold FÉROCE Monogram Emblem + Wordmark */}
+            <Link href="/" className="flex items-center gap-2 sm:gap-3 group shrink-0">
               <img
                 src="/images/feroce-emblem.png"
                 alt="FÉROCE Monogram"
                 className="w-8 h-8 sm:w-10 sm:h-10 object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-xs"
               />
               <div className="flex flex-col">
-                <span className="font-sans text-lg sm:text-xl font-bold tracking-[0.14em] text-navy group-hover:text-gold transition-colors leading-none">
+                <span className="font-sans text-base sm:text-xl font-bold tracking-[0.14em] text-navy group-hover:text-navy/80 transition-colors leading-none">
                   FÉROCE
                 </span>
                 <span className="text-[7px] sm:text-[8px] font-sans uppercase tracking-[0.34em] text-navy/60 font-semibold mt-1">
@@ -115,7 +187,7 @@ export function Navbar() {
             </Link>
           </div>
 
-          {/* ── CENTER: Home, Collections (with Men & Women Dropdown), Best Sellers, About Us ── */}
+          {/* ── CENTER: Desktop Links (Home, Collections Mega Dropdown, Best Sellers, About Us) ── */}
           <div className="hidden lg:flex items-center gap-8 xl:gap-10">
             {/* 1. Home */}
             <Link
@@ -144,7 +216,7 @@ export function Navbar() {
 
               {/* Collections Mega Dropdown Panel */}
               <div className="absolute left-1/2 -translate-x-1/2 top-full pt-3 opacity-0 translate-y-2 pointer-events-none group-hover:opacity-100 group-hover:translate-y-0 group-hover:pointer-events-auto transition-all duration-200 z-50">
-                <div className="w-[440px] bg-white border border-gray-100 rounded-2xl shadow-[0_16px_40px_rgba(10,17,40,0.1)] p-6">
+                <div className="w-[440px] bg-white border border-gray-100 rounded-3xl shadow-[0_16px_40px_rgba(10,17,40,0.1)] p-6">
                   <div className="grid grid-cols-2 gap-6">
                     {/* Women's Column */}
                     <div>
@@ -252,7 +324,7 @@ export function Navbar() {
                   </div>
 
                   {/* Dropdown Bottom Banner */}
-                  <div className="mt-5 pt-3 border-t border-gray-100 flex items-center justify-between bg-cream/40 -mx-6 -mb-6 px-6 py-3 rounded-b-2xl">
+                  <div className="mt-5 pt-3 border-t border-gray-100 flex items-center justify-between bg-cream/40 -mx-6 -mb-6 px-6 py-3 rounded-b-3xl">
                     <span className="text-[10px] font-sans uppercase tracking-[0.2em] text-navy/50 font-medium">
                       Complimentary US Express Shipping over $200
                     </span>
@@ -285,52 +357,54 @@ export function Navbar() {
           </div>
 
           {/* ── RIGHT: Utility Actions (Search, Sign In, Wishlist, Cart) ── */}
-          <div className="flex items-center gap-1 sm:gap-2 shrink-0">
-            {/* Search */}
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            {/* Search Button */}
             <button
               type="button"
               aria-label="Search archive"
               onClick={() => setSearchOpen(true)}
-              className="flex items-center gap-2 h-9 sm:h-10 px-2.5 sm:px-3 text-navy/80 hover:text-navy transition-colors rounded-full hover:bg-[#F6F6F8] group cursor-pointer"
+              className="flex items-center justify-center h-9 w-9 sm:h-10 sm:w-auto sm:px-3 text-navy/80 hover:text-navy transition-all rounded-full bg-[#F6F6F8] hover:bg-gray-200/70 border border-gray-200/80 group cursor-pointer shadow-2xs shrink-0"
             >
-              <Search size={18} strokeWidth={1.7} className="group-hover:scale-105 transition-transform" />
-              <span className="hidden xl:inline text-xs font-sans text-navy/55 font-medium">Search</span>
-              <kbd className="hidden xl:inline-flex items-center justify-center rounded-full px-2 py-0.5 bg-[#F6F6F8] border border-gray-200/80 text-[10px] text-navy/40 font-mono">⌘K</kbd>
+              <Search size={16} strokeWidth={1.75} className="group-hover:scale-105 transition-transform" />
+              <span className="hidden xl:inline text-xs font-sans text-navy/60 font-medium ml-2">Search</span>
+              <kbd className="hidden xl:inline-flex items-center justify-center rounded-full px-2 py-0.5 bg-white border border-gray-200/80 text-[10px] text-navy/40 font-mono ml-2">
+                ⌘K
+              </kbd>
             </button>
 
-            {/* Sign In / Account Link with Label */}
+            {/* Sign In / Account Link (Desktop) */}
             <Link
               href={accountHref}
-              className="hidden sm:flex items-center gap-1.5 text-xs font-sans font-medium text-navy/80 hover:text-navy transition-colors px-2 py-1.5 rounded-full hover:bg-cream"
+              className="hidden sm:inline-flex items-center gap-2 text-xs font-sans font-semibold text-navy hover:text-navy transition-all px-3.5 py-2 rounded-full bg-[#F6F6F8] hover:bg-gray-200/70 border border-gray-200/80 shadow-2xs shrink-0"
             >
-              <User size={16} strokeWidth={1.5} />
+              <User size={14} strokeWidth={1.75} />
               <span>{accountLabel}</span>
             </Link>
 
-            {/* Wishlist Icon */}
+            {/* Wishlist Icon Button */}
             <Link
               href="/wishlist"
               aria-label="Wishlist"
-              className="relative hidden sm:flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center text-navy/80 hover:text-navy transition-colors rounded-full hover:bg-cream"
+              className="relative flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center text-navy hover:text-navy transition-all rounded-full bg-[#F6F6F8] hover:bg-gray-200/70 border border-gray-200/80 shadow-2xs shrink-0"
             >
-              <Heart size={18} strokeWidth={1.5} />
+              <Heart size={16} strokeWidth={1.75} className="text-navy/75 hover:text-rose-600 transition-colors" />
               {displayWishlist > 0 && (
-                <span className="absolute right-1 top-1 flex h-3.5 min-w-3.5 items-center justify-center rounded-full bg-gold px-1 text-[8px] font-bold text-navy">
+                <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-gold px-1 text-[9px] font-bold text-navy shadow-xs border border-white">
                   {displayWishlist}
                 </span>
               )}
             </Link>
 
-            {/* Cart with Count Pill */}
+            {/* Cart Capsule Button */}
             <button
               type="button"
               aria-label={`Shopping cart, ${displayCount} items`}
               onClick={openMiniCart}
-              className="relative flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center text-navy hover:text-gold transition-colors rounded-full hover:bg-cream"
+              className="relative flex h-9 w-9 sm:h-10 sm:w-10 items-center justify-center text-white bg-[#4A4D52] hover:bg-navy transition-all rounded-full shadow-xs cursor-pointer shrink-0"
             >
-              <ShoppingBag size={18} strokeWidth={1.5} />
+              <ShoppingBag size={16} strokeWidth={1.75} />
               {displayCount > 0 && (
-                <span className="absolute right-0.5 top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-navy text-gold px-1 text-[8px] font-bold shadow-xs">
+                <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-navy text-gold px-1 text-[9px] font-bold shadow-xs border border-white">
                   {displayCount}
                 </span>
               )}
@@ -339,191 +413,376 @@ export function Navbar() {
         </nav>
       </header>
 
-      {/* ── Mobile Slideout Drawer ── */}
+      {/* ── Mobile Slideout Backdrop (Frosted Luxury) ── */}
       <div
-        className={`fixed inset-0 z-[60] bg-navy/40 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0 z-[60] bg-navy/50 backdrop-blur-md transition-opacity duration-300 lg:hidden ${
           menuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
         }`}
         onClick={() => setMenuOpen(false)}
       />
 
+      {/* ── Mobile Slideout Drawer (Elevated Luxury Atelier Experience) ── */}
       <div
-        className={`fixed top-0 left-0 z-[70] h-full w-[85vw] max-w-sm bg-white shadow-2xl transition-transform duration-300 ease-out lg:hidden flex flex-col ${
+        className={`fixed top-0 left-0 z-[70] h-full w-[88vw] max-w-sm bg-white rounded-r-[32px] sm:rounded-r-[40px] shadow-[0_20px_60px_rgba(10,17,40,0.25)] transition-transform duration-300 ease-out lg:hidden flex flex-col font-sans border-r border-gray-100 ${
           menuOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
-        <div className="flex items-center justify-between border-b border-gray-100 px-6 h-16 bg-cream/30">
-          <div className="flex items-center gap-2.5">
+        {/* ── 1. Drawer Header ── */}
+        <div className="flex items-center justify-between border-b border-gray-100 px-6 h-20 bg-white shrink-0">
+          <Link
+            href="/"
+            onClick={() => setMenuOpen(false)}
+            className="flex items-center gap-3 group"
+          >
             <img
               src="/images/feroce-emblem.png"
               alt="FÉROCE"
-              className="w-7 h-7 object-contain"
+              className="w-9 h-9 object-contain"
             />
             <div className="flex flex-col">
               <span className="font-sans text-base font-bold tracking-[0.14em] text-navy leading-none">
                 FÉROCE
               </span>
-              <span className="text-[7px] font-sans uppercase tracking-[0.3em] text-navy/60 font-semibold mt-0.5">
-                Fashion
+              <span className="text-[7px] font-sans uppercase tracking-[0.32em] text-navy/60 font-semibold mt-1">
+                Dallas Atelier
               </span>
             </div>
-          </div>
+          </Link>
+
           <button
             type="button"
             aria-label="Close menu"
             onClick={() => setMenuOpen(false)}
-            className="flex h-9 w-9 items-center justify-center text-navy hover:text-gold rounded-full hover:bg-cream"
+            className="w-9 h-9 rounded-full bg-[#F6F6F8] hover:bg-gray-200/70 border border-gray-200/80 flex items-center justify-center text-navy transition-all shadow-2xs cursor-pointer"
           >
-            <X size={20} strokeWidth={1.5} />
+            <X size={16} strokeWidth={2} />
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-6 py-6 space-y-6">
-          <div>
-            <p className="text-[10px] uppercase font-sans tracking-[0.2em] text-navy/40 mb-3 font-semibold">
-              Menu
-            </p>
-            <ul className="space-y-1">
-              <li>
-                <Link
-                  href="/"
-                  onClick={() => setMenuOpen(false)}
-                  className="flex h-11 items-center font-sans text-sm font-medium text-navy hover:text-gold border-b border-gray-100"
-                >
-                  Home
-                </Link>
-              </li>
+        {/* ── 2. Scrollable Body ── */}
+        <div className="flex-1 overflow-y-auto px-5 py-5 space-y-5">
+          {/* Atelier Operational Status Pill */}
+          <div className="inline-flex items-center gap-2 rounded-full px-3.5 py-1.5 bg-[#F6F6F8] border border-gray-200/80 text-[10px] font-semibold tracking-wider uppercase text-navy/70 shadow-2xs w-full justify-between">
+            <span className="flex items-center gap-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              Dallas Atelier HQ · Active
+            </span>
+            <span className="text-[9px] text-navy/40 font-mono">TX · US</span>
+          </div>
 
-              {/* Collections with Sub-items */}
-              <li className="border-b border-gray-100 py-2">
-                <span className="font-sans text-xs uppercase tracking-[0.16em] font-bold text-navy/40 block mb-2">
-                  Collections
+          {/* Client Authentication & Status Card (NEST Card) */}
+          <div className="rounded-[28px] bg-[#F6F6F8] border border-gray-200/80 p-4 shadow-2xs">
+            {accountRole === 'customer' ? (
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  {accountAvatar ? (
+                    <img
+                      src={accountAvatar}
+                      alt={accountName || 'Client'}
+                      className="w-11 h-11 rounded-full object-cover ring-2 ring-gold/60 ring-offset-2 ring-offset-white shrink-0"
+                    />
+                  ) : (
+                    <div className="w-11 h-11 rounded-full bg-navy text-cream flex items-center justify-center font-bold text-sm tracking-wider shrink-0 ring-2 ring-gold/60 ring-offset-2 ring-offset-white">
+                      {initialsOf(accountName || '', accountEmail || '')}
+                    </div>
+                  )}
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-xs font-bold text-navy truncate">
+                        {accountName || 'Circle Member'}
+                      </span>
+                      <ShieldCheck size={12} className="text-gold shrink-0" />
+                    </div>
+                    <span className="text-[10px] text-navy/55 block truncate font-sans">
+                      The FÉROCE Circle Patron
+                    </span>
+                  </div>
+                </div>
+
+                <Link
+                  href="/account"
+                  onClick={() => setMenuOpen(false)}
+                  className="px-3 py-1.5 rounded-full bg-[#4A4D52] hover:bg-navy text-white text-[10px] font-semibold uppercase tracking-wider shrink-0 transition-all shadow-xs inline-flex items-center gap-1"
+                >
+                  Dashboard <ArrowRight size={10} />
+                </Link>
+              </div>
+            ) : accountRole === 'admin' ? (
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="w-11 h-11 rounded-full bg-navy text-gold flex items-center justify-center font-bold text-sm shrink-0 ring-2 ring-gold/60 ring-offset-2 ring-offset-white">
+                    <Sparkles size={16} />
+                  </div>
+                  <div className="min-w-0">
+                    <span className="text-xs font-bold text-navy block truncate">
+                      Atelier Director
+                    </span>
+                    <span className="text-[10px] text-navy/55 block truncate font-sans">
+                      Dallas Backoffice Operations
+                    </span>
+                  </div>
+                </div>
+
+                <Link
+                  href="/admin"
+                  onClick={() => setMenuOpen(false)}
+                  className="px-3 py-1.5 rounded-full bg-navy hover:bg-navy-dark text-gold text-[10px] font-semibold uppercase tracking-wider shrink-0 transition-all shadow-xs inline-flex items-center gap-1"
+                >
+                  Backoffice <ArrowRight size={10} />
+                </Link>
+              </div>
+            ) : (
+              /* Guest Client State */
+              <div className="flex items-center justify-between gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-white border border-gray-200/80 flex items-center justify-center text-gold shadow-2xs shrink-0">
+                    <Sparkles size={16} />
+                  </div>
+                  <div>
+                    <span className="text-xs font-bold text-navy block">
+                      The FÉROCE Circle
+                    </span>
+                    <span className="text-[10px] text-navy/50 block font-sans">
+                      Client access &amp; pre-orders
+                    </span>
+                  </div>
+                </div>
+
+                <Link
+                  href="/login"
+                  onClick={() => setMenuOpen(false)}
+                  className="px-3.5 py-1.5 rounded-full bg-[#4A4D52] hover:bg-navy text-white text-[10px] font-semibold uppercase tracking-wider transition-all shadow-xs cursor-pointer shrink-0 inline-flex items-center gap-1"
+                >
+                  Sign In <ArrowRight size={10} />
+                </Link>
+              </div>
+            )}
+          </div>
+
+          {/* Quick Search Capsule Button */}
+          <button
+            type="button"
+            onClick={() => {
+              setMenuOpen(false)
+              setSearchOpen(true)
+            }}
+            className="w-full px-4 py-2.5 rounded-full bg-[#F6F6F8] hover:bg-gray-200/70 border border-gray-200/80 flex items-center justify-between text-xs text-navy/60 transition-all shadow-2xs cursor-pointer group"
+          >
+            <span className="flex items-center gap-2.5">
+              <Search size={14} className="text-navy/60 group-hover:text-navy transition-colors" />
+              <span>Search silhouettes &amp; archive...</span>
+            </span>
+            <kbd className="px-2 py-0.5 rounded-full bg-white border border-gray-200/80 text-[9px] font-mono text-navy/40">
+              ⌘K
+            </kbd>
+          </button>
+
+          {/* ── Main Navigation Links ── */}
+          <div className="space-y-2">
+            <span className="text-[10px] uppercase font-sans tracking-[0.2em] text-navy/40 font-bold block px-2">
+              Atelier Archive
+            </span>
+
+            {/* 1. Home Link Card */}
+            <Link
+              href="/"
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center justify-between p-3.5 rounded-2xl bg-[#F6F6F8] hover:bg-gray-200/60 border border-gray-200/70 text-xs font-bold text-navy transition-all shadow-2xs"
+            >
+              <span>Home</span>
+              <ChevronRight size={14} className="text-navy/40" />
+            </Link>
+
+            {/* 2. Collections Card with Expandable Subsections */}
+            <div className="rounded-2xl bg-[#F6F6F8] border border-gray-200/70 overflow-hidden shadow-2xs">
+              <button
+                type="button"
+                onClick={() => setMobileCollectionsOpen((prev) => !prev)}
+                className="w-full flex items-center justify-between p-3.5 text-xs font-bold text-navy hover:text-navy transition-colors cursor-pointer"
+              >
+                <span className="flex items-center gap-2">
+                  <span>Collections &amp; Silhouettes</span>
+                  <span className="text-[9px] font-semibold px-2 py-0.5 bg-gold/15 text-gold border border-gold/30 rounded-full">
+                    A/W 2026
+                  </span>
                 </span>
-                <div className="space-y-2 pl-2">
-                  {/* Women */}
-                  <div className="space-y-1">
-                    <Link
-                      href="/shop/womens"
-                      onClick={() => setMenuOpen(false)}
-                      className="flex items-center justify-between font-sans text-sm font-semibold text-navy hover:text-gold"
-                    >
-                      <span>Women</span>
-                      <ChevronRight size={13} className="text-navy/30" />
-                    </Link>
-                    <div className="pl-3 space-y-1 text-xs text-navy/70">
+                <ChevronDown
+                  size={14}
+                  className={`text-navy/50 transition-transform duration-200 ${
+                    mobileCollectionsOpen ? 'rotate-180' : ''
+                  }`}
+                />
+              </button>
+
+              {mobileCollectionsOpen && (
+                <div className="px-3 pb-3 pt-1 space-y-2.5 border-t border-gray-200/60 bg-white/60">
+                  {/* Women's Handbags */}
+                  <div className="p-3 rounded-xl bg-white border border-gray-200/60 shadow-2xs">
+                    <div className="flex items-center justify-between mb-2">
                       <Link
                         href="/shop/womens"
                         onClick={() => setMenuOpen(false)}
-                        className="flex items-center justify-between py-1 hover:text-gold"
+                        className="text-xs font-bold uppercase tracking-wider text-navy hover:text-gold flex items-center gap-1"
                       >
-                        <span>Naji Collection</span>
-                        <span className="text-[8px] font-semibold px-1.5 py-0.2 bg-gold/15 text-gold border border-gold/30 rounded-xs">
-                          New
+                        Women&apos;s Atelier <ArrowUpRight size={11} className="text-navy/40" />
+                      </Link>
+                    </div>
+
+                    <div className="space-y-1.5 pl-1 text-xs">
+                      <Link
+                        href="/shop/womens"
+                        onClick={() => setMenuOpen(false)}
+                        className="flex items-center justify-between py-1 text-navy/70 hover:text-navy font-medium"
+                      >
+                        <span className="flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-gold inline-block" />
+                          Naji Evening Collection
+                        </span>
+                        <span className="text-[8px] font-bold px-1.5 py-0.5 bg-gold/15 text-gold border border-gold/30 rounded-full">
+                          NEW
                         </span>
                       </Link>
                       <Link
                         href="/shop/womens"
                         onClick={() => setMenuOpen(false)}
-                        className="flex items-center justify-between py-1 hover:text-gold"
+                        className="flex items-center justify-between py-1 text-navy/70 hover:text-navy font-medium"
                       >
-                        <span>Denim De Ville</span>
-                        <span className="text-[8px] font-semibold px-1.5 py-0.2 bg-gold/15 text-gold border border-gold/30 rounded-xs">
-                          Pre-Order
+                        <span className="flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-gold inline-block" />
+                          Denim De Ville Edit
+                        </span>
+                        <span className="text-[8px] font-bold px-1.5 py-0.5 bg-amber-50 text-amber-800 border border-amber-200/70 rounded-full">
+                          ✦ PRE-ORDER
                         </span>
                       </Link>
                     </div>
                   </div>
 
-                  {/* Men */}
-                  <div className="pt-2">
-                    <Link
-                      href="/shop/mens"
-                      onClick={() => setMenuOpen(false)}
-                      className="flex items-center justify-between font-sans text-sm font-semibold text-navy hover:text-gold"
-                    >
-                      <span>Men</span>
-                      <ChevronRight size={13} className="text-navy/30" />
-                    </Link>
+                  {/* Men's Accessories */}
+                  <div className="p-3 rounded-xl bg-white border border-gray-200/60 shadow-2xs">
+                    <div className="flex items-center justify-between mb-2">
+                      <Link
+                        href="/shop/mens"
+                        onClick={() => setMenuOpen(false)}
+                        className="text-xs font-bold uppercase tracking-wider text-navy hover:text-gold flex items-center gap-1"
+                      >
+                        Men&apos;s Atelier <ArrowUpRight size={11} className="text-navy/40" />
+                      </Link>
+                    </div>
+
+                    <div className="space-y-1.5 pl-1 text-xs">
+                      <Link
+                        href="/shop/mens"
+                        onClick={() => setMenuOpen(false)}
+                        className="flex items-center justify-between py-1 text-navy/70 hover:text-navy font-medium"
+                      >
+                        <span className="flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-navy/40 inline-block" />
+                          Luxury Fanny Packs
+                        </span>
+                        <span className="text-[9px] text-navy/40">Leather &amp; Fur</span>
+                      </Link>
+                      <Link
+                        href="/shop/mens"
+                        onClick={() => setMenuOpen(false)}
+                        className="flex items-center justify-between py-1 text-navy/70 hover:text-navy font-medium"
+                      >
+                        <span className="flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-navy/40 inline-block" />
+                          Signature Satchels
+                        </span>
+                        <span className="text-[9px] text-navy/40">Structured Brief</span>
+                      </Link>
+                    </div>
                   </div>
                 </div>
-              </li>
+              )}
+            </div>
 
-              <li>
-                <Link
-                  href="/shop"
-                  onClick={() => setMenuOpen(false)}
-                  className="flex h-11 items-center font-sans text-sm font-medium text-navy hover:text-gold border-b border-gray-100"
-                >
-                  Best Sellers
-                </Link>
-              </li>
+            {/* 3. Best Sellers */}
+            <Link
+              href="/shop"
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center justify-between p-3.5 rounded-2xl bg-[#F6F6F8] hover:bg-gray-200/60 border border-gray-200/70 text-xs font-bold text-navy transition-all shadow-2xs"
+            >
+              <span>Best Sellers &amp; Vault</span>
+              <ChevronRight size={14} className="text-navy/40" />
+            </Link>
 
-              <li>
-                <Link
-                  href="/about"
-                  onClick={() => setMenuOpen(false)}
-                  className="flex h-11 items-center font-sans text-sm font-medium text-navy hover:text-gold border-b border-gray-100"
-                >
-                  About Us
-                </Link>
-              </li>
-            </ul>
+            {/* 4. About Us */}
+            <Link
+              href="/about"
+              onClick={() => setMenuOpen(false)}
+              className="flex items-center justify-between p-3.5 rounded-2xl bg-[#F6F6F8] hover:bg-gray-200/60 border border-gray-200/70 text-xs font-bold text-navy transition-all shadow-2xs"
+            >
+              <span>About FÉROCE Atelier</span>
+              <ChevronRight size={14} className="text-navy/40" />
+            </Link>
           </div>
 
-          <div className="border-t border-gray-100 pt-5">
-            <p className="text-[10px] uppercase font-sans tracking-[0.2em] text-navy/40 mb-3 font-semibold">
-              Account & Bag
-            </p>
-            <ul className="space-y-2">
-              <li>
-                <button
-                  type="button"
-                  onClick={() => { setMenuOpen(false); openMiniCart() }}
-                  className="flex h-10 items-center justify-between font-sans text-xs font-medium text-navy hover:text-gold w-full"
-                >
-                  <span className="flex items-center gap-2.5">
-                    <ShoppingBag size={16} />
-                    Shopping Bag
+          {/* ── 3. Quick Action Tiles (Bag & Wishlist) ── */}
+          <div className="grid grid-cols-2 gap-2.5 pt-1">
+            {/* Bag Tile */}
+            <button
+              type="button"
+              onClick={() => {
+                setMenuOpen(false)
+                openMiniCart()
+              }}
+              className="p-3.5 rounded-2xl bg-[#F6F6F8] hover:bg-gray-200/70 border border-gray-200/80 flex flex-col justify-between text-left transition-all shadow-2xs cursor-pointer"
+            >
+              <div className="flex items-center justify-between w-full mb-2">
+                <div className="w-8 h-8 rounded-xl bg-white border border-gray-200/80 flex items-center justify-center text-navy shadow-2xs">
+                  <ShoppingBag size={15} />
+                </div>
+                {displayCount > 0 ? (
+                  <span className="px-2 py-0.5 rounded-full bg-navy text-gold text-[9px] font-bold">
+                    {displayCount}
                   </span>
-                  {displayCount > 0 && (
-                    <span className="px-2 py-0.5 bg-navy text-gold text-[9px] font-bold rounded-full">
-                      {displayCount}
-                    </span>
-                  )}
-                </button>
-              </li>
-              <li>
-                <Link
-                  href="/wishlist"
-                  onClick={() => setMenuOpen(false)}
-                  className="flex h-10 items-center justify-between font-sans text-xs font-medium text-navy hover:text-gold"
-                >
-                  <span className="flex items-center gap-2.5">
-                    <Heart size={16} />
-                    Wishlist
+                ) : (
+                  <span className="text-[10px] text-navy/40 font-mono">0</span>
+                )}
+              </div>
+              <span className="text-xs font-bold text-navy">Shopping Bag</span>
+              <span className="text-[10px] text-navy/50 font-sans mt-0.5">
+                Review &amp; Checkout
+              </span>
+            </button>
+
+            {/* Wishlist Tile */}
+            <Link
+              href="/wishlist"
+              onClick={() => setMenuOpen(false)}
+              className="p-3.5 rounded-2xl bg-[#F6F6F8] hover:bg-gray-200/70 border border-gray-200/80 flex flex-col justify-between text-left transition-all shadow-2xs"
+            >
+              <div className="flex items-center justify-between w-full mb-2">
+                <div className="w-8 h-8 rounded-xl bg-white border border-gray-200/80 flex items-center justify-center text-rose-500 shadow-2xs">
+                  <Heart size={15} />
+                </div>
+                {displayWishlist > 0 ? (
+                  <span className="px-2 py-0.5 rounded-full bg-gold text-navy text-[9px] font-bold">
+                    {displayWishlist}
                   </span>
-                  {displayWishlist > 0 && (
-                    <span className="text-gold font-bold text-xs">({displayWishlist})</span>
-                  )}
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={accountHref}
-                  onClick={() => setMenuOpen(false)}
-                  className="flex h-10 items-center gap-2.5 font-sans text-xs font-medium text-navy hover:text-gold"
-                >
-                  <User size={16} />
-                  {accountLabel}
-                </Link>
-              </li>
-            </ul>
+                ) : (
+                  <span className="text-[10px] text-navy/40 font-mono">0</span>
+                )}
+              </div>
+              <span className="text-xs font-bold text-navy">Saved Pieces</span>
+              <span className="text-[10px] text-navy/50 font-sans mt-0.5">
+                Client Wishlist
+              </span>
+            </Link>
           </div>
         </div>
 
-        <div className="p-5 border-t border-gray-100 bg-cream/30 text-center">
-          <p className="text-[9px] uppercase tracking-[0.2em] text-navy/40 font-medium">
-            FÉROCE Fashion • Authentic Luxury
+        {/* ── 4. Drawer Footer ── */}
+        <div className="p-4 border-t border-gray-100 bg-[#F6F6F8] text-center shrink-0 rounded-br-[32px] sm:rounded-br-[40px]">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white border border-gray-200/70 text-[9px] font-semibold uppercase tracking-wider text-navy/70 shadow-2xs mb-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-gold inline-block" />
+            Free US Express Shipping over $200
+          </div>
+          <p className="text-[9px] uppercase tracking-[0.24em] text-navy/45 font-semibold">
+            Dallas, TX • Handcrafted Luxury
           </p>
         </div>
       </div>
