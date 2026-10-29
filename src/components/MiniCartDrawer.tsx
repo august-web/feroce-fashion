@@ -40,6 +40,8 @@ export function MiniCartDrawer({ open: propOpen, onClose: propOnClose }: MiniCar
   const currentSubtotal = subtotal()
   const freeShippingDelta = FREE_SHIPPING_THRESHOLD - currentSubtotal
   const shippingProgress = Math.min(100, Math.max(0, (currentSubtotal / FREE_SHIPPING_THRESHOLD) * 100))
+  const hasPreorders = items.some((i) => i.preorder)
+  const allPreorders = items.length > 0 && items.every((i) => i.preorder)
 
   if (typeof window === 'undefined') return null
 
@@ -178,6 +180,16 @@ export function MiniCartDrawer({ open: propOpen, onClose: propOnClose }: MiniCar
                           {item.color}
                         </p>
                       )}
+                      {item.preorder ? (
+                        <span className="inline-flex items-center gap-1 text-[9px] font-semibold uppercase tracking-wider text-amber-800 bg-amber-50 border border-amber-200/70 rounded-full px-2 py-0.5 mt-1">
+                          <Sparkles size={9} className="text-amber-600" />
+                          Pre-Order · Est. 3–4 Wks
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 text-[9px] font-semibold uppercase tracking-wider text-emerald-800 bg-emerald-50 border border-emerald-200/70 rounded-full px-2 py-0.5 mt-1">
+                          In Stock · Ships 24–48h
+                        </span>
+                      )}
                     </div>
 
                     <div className="flex items-center justify-between mt-2 pt-1 border-t border-gray-200/50">
@@ -214,6 +226,15 @@ export function MiniCartDrawer({ open: propOpen, onClose: propOnClose }: MiniCar
 
             {/* ── Footer Bar ── */}
             <div className="border-t border-gray-100 px-6 py-5 space-y-3.5 bg-white shrink-0 shadow-[0_-8px_24px_rgba(0,0,0,0.03)]">
+              {hasPreorders && (
+                <div className="rounded-[18px] bg-amber-50/80 border border-amber-200/70 p-3 flex items-start gap-2 text-[10px] text-amber-900 leading-relaxed">
+                  <Sparkles size={13} className="text-amber-600 shrink-0 mt-0.5" />
+                  <span>
+                    <strong>Atelier Pre-Order:</strong> Includes bespoke made-to-order piece(s). You can reserve your allocation with <strong>$0 due today</strong> at checkout.
+                  </span>
+                </div>
+              )}
+
               <div className="flex justify-between items-baseline">
                 <span className="text-xs uppercase tracking-wider font-semibold text-navy/60">
                   Estimated Subtotal
@@ -232,7 +253,13 @@ export function MiniCartDrawer({ open: propOpen, onClose: propOnClose }: MiniCar
                 onClick={onClose}
                 className="w-full inline-flex items-center justify-center gap-2 bg-[#4A4D52] hover:bg-navy text-white rounded-full py-4 text-xs font-semibold uppercase tracking-wider transition-all duration-300 shadow-[0_4px_16px_rgba(0,0,0,0.08)] cursor-pointer"
               >
-                <span>Proceed to Checkout</span>
+                <span>
+                  {allPreorders
+                    ? 'Reserve Pre-Order Allocation'
+                    : hasPreorders
+                    ? 'Review Order & Pre-Orders'
+                    : 'Proceed to Checkout'}
+                </span>
                 <ArrowRight size={14} />
               </Link>
 
