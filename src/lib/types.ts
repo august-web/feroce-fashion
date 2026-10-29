@@ -34,6 +34,8 @@ export interface CartItem {
   image: string
   color: string
   quantity: number
+  preorder?: boolean
+  estimated_shipping?: string
   stripe_checkout_url?: string
 }
 
