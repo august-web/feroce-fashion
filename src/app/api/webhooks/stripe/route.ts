@@ -85,10 +85,21 @@ export async function POST(request: NextRequest) {
           return NextResponse.json({ received: true, unpaid: true });
         }
 
-        const hasAddress = (() => {
-          const current = existingOrder?.shipping_address as Record<string, string> | null | undefined;
-          return !!(current && Object.keys(current).length > 0);
-        })();
+        const currentShippingAddress = existingOrder?.shipping_address as Record<string, unknown> | null | undefined;
+        const splitPreorder = session.metadata?.split_preorder === 'true';
+        const preorderBalance = Number(session.metadata?.preorder_balance_cents || 0) / 100;
+        const mergedShippingAddress = {
+          ...(currentShippingAddress || {}),
+          ...shippingAddress,
+          ...(splitPreorder
+            ? {
+                preorder_reservation: true,
+                reservation_type: 'split_pay_instock',
+                preorder_balance_due: preorderBalance,
+                estimated_dispatch: '3–4 Weeks from Dallas Atelier',
+              }
+            : {}),
+        };
 
         // Stripe's charge is authoritative for money — record the real
         // amount (cents → dollars) plus the payment intent id.
@@ -98,19 +109,22 @@ export async function POST(request: NextRequest) {
             status: 'paid',
             total: (session.amount_total ?? 0) / 100,
             ...(session.payment_intent ? { stripe_payment_intent_id: session.payment_intent as string } : {}),
-            ...(hasAddress ? {} : { shipping_address: shippingAddress }),
+            shipping_address: mergedShippingAddress,
           })
           .eq('id', orderId);
 
-        // Atomically decrement stock for every line item. Runs only on the
+        // Atomically decrement stock for in-stock line items (pre-orders are made-to-order). Runs only on the
         // pending → paid transition (guarded by the idempotency check above).
         const { data: items } = await supabase
           .from('order_items')
-          .select('product_id, quantity')
+          .select('product_id, quantity, products(preorder)')
           .eq('order_id', orderId);
 
         for (const item of items || []) {
           if (!item.product_id) continue;
+          // Pre-order pieces are bespoke made-to-order in the Dallas atelier and do not draw down warehouse stock
+          // @ts-ignore
+          if (item.products?.preorder) continue;
           const { error: stockError } = await supabase.rpc('decrement_stock', {
             p_product_id: item.product_id,
             p_quantity: item.quantity,
@@ -151,6 +165,7 @@ export async function POST(request: NextRequest) {
             shipping: 0,
             tax: Math.round(order.total * 0.0825),
             total: order.total,
+            preorderBalanceDue: splitPreorder ? preorderBalance : undefined,
             shippingAddress: {
               name: shippingAddr?.name || '',
               address: shippingAddr?.address || '',
@@ -160,7 +175,7 @@ export async function POST(request: NextRequest) {
               zip: shippingAddr?.zip || '',
               country: shippingAddr?.country || 'US',
             },
-            shippingMethod: 'standard',
+            shippingMethod: session.metadata?.shipping_method === 'white_glove' ? 'white-glove' : 'standard',
           }).catch((err) => console.error('Failed to send confirmation email:', err));
         }
 
