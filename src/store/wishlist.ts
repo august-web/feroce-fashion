@@ -8,6 +8,7 @@ export interface WishlistItem {
   price: number
   image: string
   color: string
+  preorder?: boolean
 }
 
 interface WishlistState {
