@@ -61,25 +61,25 @@ export function HeroSection() {
   }
 
   return (
-    <section className="bg-white w-full pt-8 sm:pt-14 pb-16 sm:pb-24">
+    <section className="bg-white w-full max-w-full overflow-hidden pt-8 sm:pt-14 pb-16 sm:pb-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-10">
         {/* ── TOP SECTION: Asymmetric Editorial Header (Matching Reference Image) ── */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end">
           {/* Left Column: Bold Modern Sans-serif Headline with Inline CTA Capsule */}
           <div className="lg:col-span-8">
-            <h1 className="font-sans text-4xl sm:text-6xl lg:text-[72px] font-bold tracking-[-0.03em] leading-[1.08] text-navy">
+            <h1 className="font-sans text-3xl sm:text-6xl lg:text-[72px] font-bold tracking-tight leading-[1.1] sm:leading-[1.08] text-navy">
               <span>Elevated</span>
               <br />
               <span>Style. Luxury with</span>
               <br />
-              <span className="inline-flex items-center flex-wrap gap-3.5 sm:gap-5 mt-2">
+              <span className="inline-flex items-center flex-wrap gap-3 sm:gap-5 mt-2">
                 <span>FÉROCE</span>
                 <Link
                   href="/shop"
-                  className="group inline-flex items-center gap-2 bg-[#4A4D52] hover:bg-navy text-white px-5 sm:px-6 py-2.5 sm:py-3.5 rounded-full text-xs sm:text-sm font-medium tracking-normal transition-all duration-300 shadow-sm"
+                  className="group inline-flex items-center gap-2 bg-[#4A4D52] hover:bg-navy text-white px-4 sm:px-6 py-2 sm:py-3.5 rounded-full text-xs sm:text-sm font-medium tracking-normal transition-all duration-300 shadow-sm"
                 >
                   <span>Explore Products</span>
-                  <ArrowUpRight size={15} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </Link>
               </span>
             </h1>
