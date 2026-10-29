@@ -24,6 +24,7 @@ export interface EmailParams {
   orderId?: string;
   items?: Array<{ name: string; quantity: number; price: number }>;
   total?: number;
+  preorderBalanceDue?: number;
   shippingAddress?: Record<string, string>;
   paymentMethod?: string;
   trackingNumber?: string;
@@ -71,6 +72,7 @@ export async function sendOrderConfirmation(params: {
   shipping: number;
   tax: number;
   total: number;
+  preorderBalanceDue?: number;
   shippingAddress: Record<string, string>;
   shippingMethod: string;
 }) {
@@ -88,6 +90,7 @@ export async function sendOrderConfirmation(params: {
     orderId: params.orderId,
     items: emailItems,
     total: params.total,
+    preorderBalanceDue: params.preorderBalanceDue,
     shippingAddress: params.shippingAddress,
     paymentMethod: params.shippingMethod,
   });
@@ -100,6 +103,7 @@ export async function sendOrderConfirmation(params: {
     customerEmail: params.email,
     items: emailItems,
     total: params.total,
+    preorderBalanceDue: params.preorderBalanceDue,
     paymentMethod: params.shippingMethod,
   });
 }
