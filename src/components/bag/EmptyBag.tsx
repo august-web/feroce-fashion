@@ -1,24 +1,63 @@
 import Link from 'next/link'
+import { ShoppingBag, ArrowRight, Heart } from 'lucide-react'
 
 export function EmptyBag() {
   return (
-    <div className="flex flex-col items-center justify-center py-20 sm:py-28 text-center">
-      <div className="mb-6 flex h-24 w-24 items-center justify-center rounded-full border border-line bg-white">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" className="w-10 h-10 text-navy/30">
-          <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
-          <line x1="3" y1="6" x2="21" y2="6" />
-          <path d="M16 10a4 4 0 01-8 0" />
-        </svg>
+    <div className="rounded-[32px] sm:rounded-[44px] bg-[#F6F6F8] border border-gray-200/80 p-10 sm:p-20 text-center max-w-3xl mx-auto shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+      <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-white border border-gray-200/80 flex items-center justify-center shadow-xs">
+        <ShoppingBag className="w-9 h-9 text-gold" strokeWidth={1.5} />
       </div>
-      <h2 className="font-serif text-2xl font-semibold text-navy mb-2">
-        Your bag is empty
+
+      <h2 className="font-sans font-bold text-2xl sm:text-3xl text-navy tracking-[-0.03em] mb-3">
+        Your Bag is Currently Empty
       </h2>
-      <p className="text-sm text-navy/50 max-w-sm mb-8">
-        Looks like you haven&apos;t added anything yet. Explore our collection of handcrafted bags.
+      <p className="text-sm sm:text-base text-navy/60 max-w-md mx-auto mb-8 font-sans leading-relaxed">
+        You haven&apos;t added any bespoke leathercraft pieces yet. Explore our handcrafted silhouettes, limited edition drops, and signature collections.
       </p>
-      <Link href="/shop" className="btn-primary min-h-[48px]">
-        Start Shopping
-      </Link>
+
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+        <Link
+          href="/shop"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#4A4D52] hover:bg-navy text-white rounded-full px-8 py-4 text-xs font-semibold uppercase tracking-wider transition-all duration-300 shadow-sm"
+        >
+          <span>Explore The Archive</span>
+          <ArrowRight size={14} />
+        </Link>
+        <Link
+          href="/wishlist"
+          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-full px-8 py-4 text-xs font-semibold uppercase tracking-wider text-navy bg-white border border-gray-200 hover:border-navy transition-all duration-300"
+        >
+          <Heart size={14} className="text-gold" />
+          <span>Saved Creations</span>
+        </Link>
+      </div>
+
+      {/* Recommended Quick Navigation */}
+      <div className="mt-12 pt-10 border-t border-gray-200/70">
+        <p className="text-xs uppercase tracking-widest font-semibold text-navy/40 mb-4">
+          Signature Silhouettes
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          <Link
+            href="/product/naji-gold-fur-xl"
+            className="rounded-full px-4 py-2 bg-white border border-gray-200 text-xs font-medium text-navy/80 hover:text-navy hover:border-navy transition-colors"
+          >
+            Naji Gold Fur Bag · $443.00
+          </Link>
+          <Link
+            href="/product/feroce-satchel-bag"
+            className="rounded-full px-4 py-2 bg-white border border-gray-200 text-xs font-medium text-navy/80 hover:text-navy hover:border-navy transition-colors"
+          >
+            FÉROCE Satchel Bag · $300.00
+          </Link>
+          <Link
+            href="/shop/womens"
+            className="rounded-full px-4 py-2 bg-white border border-gray-200 text-xs font-medium text-navy/80 hover:text-navy hover:border-navy transition-colors"
+          >
+            Denim De Ville Archive
+          </Link>
+        </div>
+      </div>
     </div>
   )
 }
