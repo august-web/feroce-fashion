@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, MouseEvent } from 'react'
+import { Maximize2, X, ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface ImageGalleryProps {
   images: string[]
@@ -45,15 +46,15 @@ export function ImageGallery({ images, modelImages, productName, activeVariant }
 
   return (
     <>
-      <div className="space-y-3">
-        {/* Main image with 2.2x hover loupe zoom */}
+      <div className="space-y-4">
+        {/* Main image with 2.2x hover loupe zoom inside modern rounded container */}
         <div
           ref={mainImageRef}
           onMouseEnter={() => setIsZooming(true)}
           onMouseLeave={() => setIsZooming(false)}
           onMouseMove={handleMouseMove}
           onClick={() => setLightboxOpen(true)}
-          className="relative aspect-[4/5] overflow-hidden border border-line bg-white cursor-zoom-in group"
+          className="relative aspect-[4/5] overflow-hidden rounded-[32px] sm:rounded-[40px] bg-[#F6F6F8] border border-gray-100 shadow-[0_15px_45px_rgba(0,0,0,0.03)] cursor-zoom-in group select-none"
         >
           <img
             src={currentImage}
@@ -66,30 +67,32 @@ export function ImageGallery({ images, modelImages, productName, activeVariant }
             }}
           />
 
-          {/* Zoom hint badge */}
-          <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-2.5 py-1 text-[9px] uppercase tracking-luxury text-navy/70 border border-line opacity-0 group-hover:opacity-100 transition-opacity">
-            Click to expand
+          {/* Floating frosted zoom hint badge */}
+          <div className="absolute top-4 right-4 backdrop-blur-md bg-white/80 border border-white/70 rounded-full px-4 py-2 text-[10px] font-bold uppercase tracking-wider text-navy shadow-sm opacity-0 group-hover:opacity-100 transition-opacity flex items-center gap-1.5 pointer-events-none">
+            <Maximize2 className="w-3 h-3" />
+            <span>Expand</span>
           </div>
 
-          {/* Image counter */}
-          <div className="absolute bottom-4 left-4 bg-navy/80 backdrop-blur-sm px-3 py-1 text-[10px] font-sans uppercase tracking-wider text-white">
+          {/* Floating frosted image counter */}
+          <div className="absolute bottom-5 left-5 backdrop-blur-md bg-white/80 border border-white/70 rounded-full px-4 py-1.5 text-xs font-bold text-navy shadow-sm pointer-events-none">
             {activeIdx + 1} / {allImages.length}
           </div>
         </div>
 
-        {/* Thumbnails */}
+        {/* Modern Rounded Thumbnails */}
         {allImages.length > 1 && (
-          <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+          <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-hide pt-1">
             {allImages.map((img, idx) => (
               <button
                 key={idx}
                 type="button"
                 onClick={() => setActiveIdx(idx)}
-                className={`flex-shrink-0 h-16 w-16 sm:h-20 sm:w-20 border overflow-hidden transition-all duration-200 ${
+                className={`flex-shrink-0 h-16 w-16 sm:h-20 sm:w-20 rounded-[18px] sm:rounded-[22px] overflow-hidden transition-all duration-300 relative ${
                   idx === activeIdx
-                    ? 'border-navy ring-1 ring-navy/20'
-                    : 'border-line hover:border-navy/40 opacity-70 hover:opacity-100'
+                    ? 'ring-2 ring-navy ring-offset-2 ring-offset-white shadow-md'
+                    : 'opacity-65 hover:opacity-100 border border-gray-200'
                 }`}
+                aria-label={`View photo ${idx + 1}`}
               >
                 <img
                   src={img}
@@ -105,29 +108,32 @@ export function ImageGallery({ images, modelImages, productName, activeVariant }
       {/* Full-screen Lightbox Modal */}
       {lightboxOpen && (
         <div
-          className="fixed inset-0 z-[9999] bg-navy/95 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
+          className="fixed inset-0 z-[9999] bg-navy/90 backdrop-blur-md flex items-center justify-center p-4 sm:p-8"
           onClick={() => setLightboxOpen(false)}
         >
           <button
             onClick={() => setLightboxOpen(false)}
-            className="absolute top-6 right-6 text-white/70 hover:text-white p-2"
+            className="absolute top-6 right-6 w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors"
             aria-label="Close fullscreen view"
           >
-            ✕
+            <X className="w-5 h-5" />
           </button>
-          <div className="relative max-w-4xl max-h-[90vh] flex flex-col items-center" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="relative max-w-4xl max-h-[90vh] flex flex-col items-center"
+            onClick={(e) => e.stopPropagation()}
+          >
             <img
               src={currentImage}
               alt={productName}
-              className="max-h-[82vh] w-auto object-contain border border-white/10"
+              className="max-h-[78vh] w-auto object-contain rounded-[28px] shadow-2xl"
             />
-            <div className="mt-3 flex gap-2">
+            <div className="mt-4 flex gap-2 overflow-x-auto max-w-md p-1 scrollbar-hide">
               {allImages.map((img, idx) => (
                 <button
                   key={idx}
                   onClick={() => setActiveIdx(idx)}
-                  className={`w-12 h-12 border overflow-hidden ${
-                    idx === activeIdx ? 'border-gold' : 'border-white/30 opacity-60'
+                  className={`w-12 h-12 rounded-[14px] overflow-hidden transition-all ${
+                    idx === activeIdx ? 'ring-2 ring-gold' : 'opacity-50 hover:opacity-100'
                   }`}
                 >
                   <img src={img} alt="" className="w-full h-full object-cover" />
