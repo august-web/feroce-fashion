@@ -177,7 +177,7 @@ export function SearchModal({ open, onClose }: { open: boolean; onClose: () => v
                   >
                     <div>
                       <p className="font-sans font-bold text-xs uppercase tracking-wider text-navy">
-                        Women&apos;s Atelier
+                        Women&apos;s Collection
                       </p>
                       <p className="text-[11px] text-navy/55 mt-0.5">
                         Statement runway & fur bags
@@ -266,7 +266,7 @@ export function SearchModal({ open, onClose }: { open: boolean; onClose: () => v
                   ✦ {results.length} {results.length === 1 ? 'Masterpiece' : 'Masterpieces'} Found
                 </span>
                 <span className="text-[10px] font-sans text-navy/40">
-                  Dallas Atelier Archive
+                  FÉROCE Fashion Archive
                 </span>
               </div>
 
@@ -325,7 +325,7 @@ export function SearchModal({ open, onClose }: { open: boolean; onClose: () => v
 
         {/* ── Bottom Modal Footer Bar ── */}
         <div className="px-6 py-3.5 bg-[#F6F6F8] border-t border-gray-100 flex items-center justify-between text-[11px] text-navy/50 font-sans shrink-0">
-          <span>Dallas Atelier Vault · Dallas, TX</span>
+          <span>FÉROCE Fashion · Dallas, TX</span>
           <span>Press ESC to dismiss</span>
         </div>
       </div>
