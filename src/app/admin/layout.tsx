@@ -13,19 +13,19 @@ import {
   Settings,
   ArrowLeft,
   LogOut,
-  Sparkles,
   Menu,
   X,
-  ShieldCheck,
+  Sparkles,
+  ExternalLink,
 } from 'lucide-react'
 
 const NAV_ITEMS = [
   { label: 'Dashboard', href: '/admin', icon: LayoutDashboard },
   { label: 'Products & Inventory', href: '/admin/products', icon: Package },
   { label: 'Orders & Pre-Orders', href: '/admin/orders', icon: ShoppingBag },
-  { label: 'Customers', href: '/admin/customers', icon: Users },
+  { label: 'The Circle Clients', href: '/admin/customers', icon: Users },
   { label: 'Atelier Emails', href: '/admin/emails', icon: Mail },
-  { label: 'Settings', href: '/admin/settings', icon: Settings, tab: false },
+  { label: 'Key Access & Settings', href: '/admin/settings', icon: Settings, tab: false },
 ]
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -41,28 +41,39 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }
 
   return (
-    <div className="flex min-h-screen bg-[#FBFBFC] text-navy antialiased">
+    <div className="flex min-h-screen bg-[#FBFBFC] text-navy antialiased font-sans">
       {/* ── Desktop Sidebar ── */}
       <aside className="hidden md:flex w-64 lg:w-72 flex-col border-r border-gray-200/80 bg-white fixed inset-y-0 left-0 z-40 shadow-[4px_0_24px_rgba(0,0,0,0.02)]">
-        {/* Brand Header */}
-        <div className="px-6 py-6 border-b border-gray-100 flex items-center justify-between">
+        {/* Brand Header with Authentic FÉROCE Monogram Emblem */}
+        <div className="px-6 py-6 border-b border-gray-100">
           <Link href="/admin" className="flex items-center gap-3 group">
-            <div className="w-9 h-9 rounded-full bg-[#F6F6F8] border border-gray-200 flex items-center justify-center text-navy font-bold shadow-2xs group-hover:scale-105 transition-transform">
-              <span className="font-serif text-base text-gold">F</span>
-            </div>
-            <div>
-              <p className="font-sans font-bold text-sm tracking-tight text-navy">FÉROCE ATELIER</p>
-              <div className="flex items-center gap-1.5 text-[9px] uppercase tracking-wider font-semibold text-navy/50">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                Dallas Backoffice
-              </div>
+            <img
+              src="/images/feroce-emblem.png"
+              alt="FÉROCE Monogram"
+              className="w-10 h-10 object-contain group-hover:scale-105 transition-transform duration-300 drop-shadow-xs"
+            />
+            <div className="flex flex-col">
+              <span className="font-sans text-lg font-bold tracking-[0.14em] text-navy group-hover:text-gold transition-colors leading-none">
+                FÉROCE
+              </span>
+              <span className="text-[8px] font-sans uppercase tracking-[0.32em] text-navy/60 font-semibold mt-1">
+                Atelier Admin
+              </span>
             </div>
           </Link>
+
+          {/* Active Status Pill */}
+          <div className="flex items-center gap-2 mt-4 px-3 py-1.5 rounded-full bg-[#F6F6F8] border border-gray-200/70 w-fit">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="text-[9px] font-sans uppercase tracking-wider font-semibold text-navy/70">
+              Dallas Atelier HQ · Active
+            </span>
+          </div>
         </div>
 
         {/* Navigation Items */}
         <nav className="flex-1 px-4 py-6 space-y-1.5 overflow-y-auto">
-          <div className="px-3 pb-2 text-[10px] font-bold uppercase tracking-wider text-navy/40">
+          <div className="px-3 pb-2 text-[10px] font-bold uppercase tracking-[0.16em] text-navy/40">
             Management & Operations
           </div>
           {NAV_ITEMS.map((item) => {
@@ -93,45 +104,62 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="p-4 border-t border-gray-100 space-y-2 bg-white">
           <Link
             href="/"
-            className="flex items-center gap-2.5 px-4 py-2.5 rounded-full text-xs font-semibold text-navy/60 hover:text-navy hover:bg-[#F6F6F8] transition-colors"
+            className="flex items-center justify-between px-4 py-2.5 rounded-full text-xs font-semibold text-navy/70 hover:text-navy hover:bg-[#F6F6F8] border border-gray-200/60 transition-colors"
           >
-            <ArrowLeft size={14} />
-            <span>Return to Boutique</span>
+            <div className="flex items-center gap-2">
+              <ArrowLeft size={14} />
+              <span>Return to Boutique</span>
+            </div>
+            <ExternalLink size={12} className="text-navy/40" />
           </Link>
+
           <button
             onClick={handleSignOut}
             className="flex items-center gap-2.5 px-4 py-2.5 rounded-full text-xs font-semibold text-navy/60 hover:text-red-600 hover:bg-red-50 transition-colors w-full cursor-pointer"
           >
             <LogOut size={14} />
-            <span>Sign Out</span>
+            <span>Director Sign Out</span>
           </button>
         </div>
       </aside>
 
       {/* ── Mobile Top Header ── */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200/80 px-4 h-14 flex items-center justify-between">
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-200/80 px-4 h-16 flex items-center justify-between">
         <Link href="/admin" className="flex items-center gap-2.5">
-          <div className="w-7 h-7 rounded-full bg-[#F6F6F8] border border-gray-200 flex items-center justify-center text-xs font-bold font-serif text-gold">
-            F
+          <img
+            src="/images/feroce-emblem.png"
+            alt="FÉROCE Emblem"
+            className="w-8 h-8 object-contain drop-shadow-xs"
+          />
+          <div className="flex flex-col">
+            <span className="font-sans font-bold text-sm tracking-[0.14em] text-navy leading-none">
+              FÉROCE
+            </span>
+            <span className="text-[7px] font-sans uppercase tracking-[0.28em] text-navy/60 font-semibold mt-0.5">
+              Atelier Admin
+            </span>
           </div>
-          <span className="font-sans font-bold text-sm text-navy">FÉROCE HQ</span>
-          <span className="rounded-full px-2 py-0.5 bg-[#F6F6F8] text-[9px] font-semibold text-navy/60 uppercase">
-            Admin
-          </span>
         </Link>
 
-        <button
-          onClick={() => setMenuOpen(!menuOpen)}
-          className="w-9 h-9 rounded-full bg-[#F6F6F8] flex items-center justify-center text-navy cursor-pointer"
-          aria-label="Toggle navigation menu"
-        >
-          {menuOpen ? <X size={18} /> : <Menu size={18} />}
-        </button>
+        <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-[#F6F6F8] border border-gray-200/70">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            <span className="text-[9px] font-semibold text-navy/70 uppercase">Dallas</span>
+          </div>
+
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            className="w-10 h-10 rounded-full bg-[#F6F6F8] hover:bg-gray-200/70 flex items-center justify-center text-navy transition-colors cursor-pointer"
+            aria-label="Toggle navigation menu"
+          >
+            {menuOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
+        </div>
       </div>
 
       {/* ── Mobile Dropdown Menu ── */}
       {menuOpen && (
-        <div className="md:hidden fixed inset-x-0 top-14 z-40 bg-white border-b border-gray-200 p-4 space-y-1 shadow-lg">
+        <div className="md:hidden fixed inset-x-0 top-16 z-40 bg-white border-b border-gray-200 p-4 space-y-1.5 shadow-lg animate-in slide-in-from-top-2">
           {NAV_ITEMS.map((item) => {
             const Icon = item.icon
             const isActive =
@@ -152,21 +180,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               </Link>
             )
           })}
-          <div className="pt-2 border-t border-gray-100 flex items-center justify-between px-2">
+          <div className="pt-3 border-t border-gray-100 flex items-center justify-between px-2">
             <Link
               href="/"
               onClick={() => setMenuOpen(false)}
-              className="text-xs font-semibold text-navy/60 flex items-center gap-1.5"
+              className="text-xs font-semibold text-navy/70 hover:text-navy flex items-center gap-1.5 py-1"
             >
               <ArrowLeft size={13} />
               <span>Boutique</span>
             </Link>
             <button
               onClick={handleSignOut}
-              className="text-xs font-semibold text-red-600 flex items-center gap-1.5"
+              className="text-xs font-semibold text-red-600 flex items-center gap-1.5 py-1 cursor-pointer"
             >
               <LogOut size={13} />
-              <span>Sign Out</span>
+              <span>Director Sign Out</span>
             </button>
           </div>
         </div>
@@ -188,11 +216,11 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               key={item.href}
               href={item.href}
               className={`flex-1 flex flex-col items-center justify-center gap-1 py-2 min-h-[56px] transition-colors ${
-                isActive ? 'text-navy' : 'text-navy/40'
+                isActive ? 'text-navy font-bold' : 'text-navy/40 font-medium'
               }`}
             >
               <Icon size={16} />
-              <span className="text-[9px] font-sans font-semibold uppercase tracking-wider">
+              <span className="text-[9px] font-sans uppercase tracking-wider">
                 {item.label.split(' ')[0]}
               </span>
             </Link>
@@ -201,7 +229,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       </div>
 
       {/* ── Main Content Container ── */}
-      <main className="flex-1 min-w-0 md:ml-64 lg:ml-72 md:pt-0 pt-14 pb-20 md:pb-8">
+      <main className="flex-1 min-w-0 md:ml-64 lg:ml-72 md:pt-0 pt-16 pb-20 md:pb-10">
         {children}
       </main>
     </div>
