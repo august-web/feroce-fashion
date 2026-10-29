@@ -64,9 +64,9 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
   const modelFileInputRef = useRef<HTMLInputElement>(null)
 
   const inputClass =
-    'w-full rounded-2xl border border-gray-200/90 bg-[#FBFBFC] px-4 py-2.5 text-sm text-navy placeholder:text-gray-400 focus:bg-white focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all font-sans'
+    'w-full rounded-2xl border border-gray-200/90 bg-[#FBFBFC] px-4 py-3 text-sm text-navy placeholder:text-gray-400 focus:bg-white focus:outline-none focus:border-gold focus:ring-2 focus:ring-gold/20 transition-all font-sans'
   const labelClass =
-    'block text-[10px] font-mono uppercase tracking-[0.15em] text-navy/60 font-semibold mb-1.5'
+    'block text-[11px] font-sans uppercase tracking-[0.14em] text-navy/60 font-semibold mb-2'
 
   const handleImageUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -145,7 +145,7 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
     const supabase = createClient()
     const { error } = await supabase.from('products').delete().eq('id', product.id)
     if (error) {
-      alert('Failed to delete product: ' + error.message)
+      alert('Failed to delete piece: ' + error.message)
       setDeleting(false)
       return
     }
@@ -155,17 +155,15 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
   }
 
   const ImgUploadBtn = ({
-    target,
     inputRef,
   }: {
-    target: 'catalog' | 'model'
     inputRef: React.RefObject<HTMLInputElement | null>
   }) => (
     <button
       type="button"
       onClick={() => inputRef.current?.click()}
       disabled={uploading}
-      className="h-20 w-20 rounded-2xl border-2 border-dashed border-gray-200 hover:border-gold bg-[#FBFBFC] hover:bg-gold/5 flex flex-col items-center justify-center text-navy/40 hover:text-gold transition-all disabled:opacity-50 group"
+      className="h-20 w-20 rounded-2xl border-2 border-dashed border-gray-200 hover:border-gold bg-[#FBFBFC] hover:bg-gold/5 flex flex-col items-center justify-center text-navy/40 hover:text-gold transition-all disabled:opacity-50 group cursor-pointer"
     >
       {uploading ? (
         <svg className="w-5 h-5 animate-spin" viewBox="0 0 24 24">
@@ -187,7 +185,7 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
       ) : (
         <>
           <Upload className="w-5 h-5 transition-transform group-hover:-translate-y-0.5" />
-          <span className="text-[9px] font-mono uppercase tracking-wider mt-1">Upload</span>
+          <span className="text-[9px] font-sans uppercase tracking-wider font-semibold mt-1">Upload</span>
         </>
       )}
     </button>
@@ -204,13 +202,13 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
             setHasSale(false)
             setIsPreorder(false)
           }}
-          className="bg-[#4A4D52] hover:bg-navy text-white text-[11px] font-mono uppercase tracking-[0.16em] px-5 py-2.5 rounded-full shadow-sm flex items-center gap-2 transition-all hover:shadow hover:scale-[1.01]"
+          className="inline-flex items-center gap-2 bg-[#4A4D52] hover:bg-navy text-white text-xs font-semibold uppercase tracking-wider rounded-full px-6 py-2.5 transition-all duration-300 shadow-sm hover:shadow-md hover:scale-[1.01] cursor-pointer"
         >
-          <Plus className="w-3.5 h-3.5" />
+          <Plus size={14} className="text-gold" />
           <span>Add Piece</span>
         </button>
       ) : (
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center justify-end gap-1.5">
           <button
             onClick={() => {
               setOpen(true)
@@ -219,16 +217,16 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
               setHasSale(!!product?.compare_at_price)
               setIsPreorder(!!product?.preorder)
             }}
-            className="px-3 py-1.5 rounded-full text-[11px] font-mono uppercase tracking-wider text-navy/70 hover:text-navy bg-gray-100 hover:bg-gray-200 transition-all flex items-center gap-1.5"
+            className="px-3 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider text-navy/70 hover:text-navy bg-[#F6F6F8] hover:bg-gray-200 transition-all flex items-center gap-1.5 cursor-pointer"
           >
-            <Pencil className="w-3 h-3" />
+            <Pencil size={12} />
             <span>Edit</span>
           </button>
           <button
             onClick={() => setShowDeleteConfirm(true)}
-            className="px-3 py-1.5 rounded-full text-[11px] font-mono uppercase tracking-wider text-red-600 hover:text-white bg-red-50 hover:bg-red-600 transition-all flex items-center gap-1.5"
+            className="px-3 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider text-red-600 hover:text-white bg-red-50 hover:bg-red-600 transition-all flex items-center gap-1.5 cursor-pointer"
           >
-            <Trash2 className="w-3 h-3" />
+            <Trash2 size={12} />
             <span>Delete</span>
           </button>
         </div>
@@ -238,19 +236,19 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
       {showDeleteConfirm && (
         <div className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-navy/40 backdrop-blur-md animate-in fade-in">
           <div className="bg-white rounded-[32px] p-6 sm:p-8 max-w-sm w-full text-center shadow-2xl border border-gray-100 animate-in zoom-in-95">
-            <div className="w-14 h-14 rounded-full bg-red-50 text-red-600 mx-auto flex items-center justify-center mb-4">
-              <AlertTriangle className="w-6 h-6" />
+            <div className="w-14 h-14 rounded-full bg-red-50 text-red-600 mx-auto flex items-center justify-center mb-4 border border-red-100">
+              <AlertTriangle size={24} />
             </div>
-            <h3 className="font-serif text-lg font-semibold text-navy">Decommission Piece?</h3>
-            <p className="text-xs text-navy/60 mt-2 leading-relaxed">
+            <h3 className="font-sans font-bold text-lg text-navy tracking-tight">Decommission Silhouette?</h3>
+            <p className="text-xs text-navy/60 mt-2 leading-relaxed font-sans">
               Are you sure you want to permanently remove <strong>{product?.name}</strong> from the
-              active atelier catalog?
+              FÉROCE Dallas atelier catalog?
             </p>
             <div className="flex gap-2.5 mt-6">
               <button
                 type="button"
                 onClick={() => setShowDeleteConfirm(false)}
-                className="flex-1 py-2.5 rounded-full text-xs font-mono uppercase tracking-wider bg-gray-100 hover:bg-gray-200 text-navy font-medium transition-all"
+                className="flex-1 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-[#F6F6F8] hover:bg-gray-200 text-navy transition-all cursor-pointer"
               >
                 Cancel
               </button>
@@ -258,7 +256,7 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
                 type="button"
                 onClick={handleDelete}
                 disabled={deleting}
-                className="flex-1 py-2.5 rounded-full text-xs font-mono uppercase tracking-wider bg-red-600 hover:bg-red-700 text-white font-medium transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+                className="flex-1 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider bg-red-600 hover:bg-red-700 text-white transition-all disabled:opacity-50 flex items-center justify-center gap-2 cursor-pointer"
               >
                 {deleting && (
                   <svg className="w-3.5 h-3.5 animate-spin" viewBox="0 0 24 24">
@@ -289,48 +287,55 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
       {open && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-3 sm:p-6 bg-navy/40 backdrop-blur-md animate-in fade-in">
           <div className="bg-white rounded-[32px] sm:rounded-[36px] border border-gray-100 w-full max-w-2xl max-h-[92vh] overflow-hidden flex flex-col shadow-2xl animate-in zoom-in-95">
-            {/* Header */}
+            {/* Header with Authentic Emblem */}
             <div className="px-6 py-5 border-b border-gray-100 flex items-center justify-between bg-white shrink-0">
-              <div>
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold/10 text-gold-dark text-[10px] font-mono uppercase tracking-[0.18em] font-semibold">
-                  <Sparkles className="w-3 h-3 text-gold" />
-                  <span>Atelier Specification</span>
-                </span>
-                <h2 className="font-serif text-xl font-semibold text-navy mt-1">
-                  {mode === 'create' ? 'Create New Atelier Piece' : `Edit: ${product?.name}`}
-                </h2>
+              <div className="flex items-center gap-3">
+                <img
+                  src="/images/feroce-emblem.png"
+                  alt="FÉROCE Emblem"
+                  className="w-9 h-9 object-contain drop-shadow-xs"
+                />
+                <div>
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-gold/10 text-gold-dark text-[10px] font-semibold uppercase tracking-wider font-sans">
+                    <Sparkles size={11} className="text-gold" />
+                    <span>Atelier Silhouette Specification</span>
+                  </div>
+                  <h2 className="font-sans font-bold text-lg sm:text-xl text-navy mt-0.5">
+                    {mode === 'create' ? 'Create New Atelier Silhouette' : `Edit: ${product?.name}`}
+                  </h2>
+                </div>
               </div>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-navy/60 hover:text-navy flex items-center justify-center transition-all"
+                className="w-9 h-9 rounded-full bg-[#F6F6F8] hover:bg-gray-200 text-navy/60 hover:text-navy flex items-center justify-center transition-all cursor-pointer"
               >
-                <X className="w-4 h-4" />
+                <X size={16} />
               </button>
             </div>
 
             {/* Form */}
             <form onSubmit={handleSave} className="overflow-y-auto p-6 sm:p-8 space-y-6 flex-1">
               {/* Product Images (Catalog) */}
-              <div className="bg-[#F6F6F8] rounded-[24px] p-5">
-                <label className={labelClass}>Catalog Photography (Front & Details)</label>
+              <div className="bg-[#F6F6F8] rounded-[24px] p-5 border border-gray-200/60">
+                <label className={labelClass}>Catalog Photography (Studio Front & Hardware)</label>
                 <div className="flex flex-wrap gap-2.5 mt-2">
                   {imageUrls.map((url, i) => (
                     <div
                       key={i}
-                      className="relative h-20 w-20 rounded-2xl bg-white border border-gray-200 overflow-hidden group shadow-sm"
+                      className="relative h-20 w-20 rounded-2xl bg-white border border-gray-200 overflow-hidden group shadow-xs"
                     >
                       <img src={url} alt="" className="h-full w-full object-cover" />
                       <button
                         type="button"
                         onClick={() => removeImage(i, 'catalog')}
-                        className="absolute inset-0 bg-navy/70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white"
+                        className="absolute inset-0 bg-navy/70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white cursor-pointer"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 size={16} />
                       </button>
                     </div>
                   ))}
-                  <ImgUploadBtn target="catalog" inputRef={fileInputRef} />
+                  <ImgUploadBtn inputRef={fileInputRef} />
                 </div>
                 <input
                   ref={fileInputRef}
@@ -340,31 +345,31 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
                   onChange={(e) => handleImageUpload(e, 'catalog')}
                   className="hidden"
                 />
-                <p className="text-[10px] text-navy/40 mt-2 font-mono">
-                  Primary studio piece images shown on the shop canvas.
+                <p className="text-[11px] text-navy/40 mt-2 font-sans">
+                  Primary studio piece images shown on the shop catalog canvas.
                 </p>
               </div>
 
               {/* Model Images (Lifestyle) */}
-              <div className="bg-[#F6F6F8] rounded-[24px] p-5">
-                <label className={labelClass}>Lifestyle & Model Photography</label>
+              <div className="bg-[#F6F6F8] rounded-[24px] p-5 border border-gray-200/60">
+                <label className={labelClass}>Lifestyle & Editorial Photography</label>
                 <div className="flex flex-wrap gap-2.5 mt-2">
                   {modelImageUrls.map((url, i) => (
                     <div
                       key={i}
-                      className="relative h-20 w-20 rounded-2xl bg-white border border-gray-200 overflow-hidden group shadow-sm"
+                      className="relative h-20 w-20 rounded-2xl bg-white border border-gray-200 overflow-hidden group shadow-xs"
                     >
                       <img src={url} alt="" className="h-full w-full object-cover" />
                       <button
                         type="button"
                         onClick={() => removeImage(i, 'model')}
-                        className="absolute inset-0 bg-navy/70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white"
+                        className="absolute inset-0 bg-navy/70 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white cursor-pointer"
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Trash2 size={16} />
                       </button>
                     </div>
                   ))}
-                  <ImgUploadBtn target="model" inputRef={modelFileInputRef} />
+                  <ImgUploadBtn inputRef={modelFileInputRef} />
                 </div>
                 <input
                   ref={modelFileInputRef}
@@ -374,19 +379,19 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
                   onChange={(e) => handleImageUpload(e, 'model')}
                   className="hidden"
                 />
-                <p className="text-[10px] text-navy/40 mt-2 font-mono">
-                  Editorial model shots and contextual styling views.
+                <p className="text-[11px] text-navy/40 mt-2 font-sans">
+                  Dallas lookbook shots and model styling angles.
                 </p>
               </div>
 
               {/* Title & Collection */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className={labelClass}>Piece Name</label>
+                  <label className={labelClass}>Silhouette Name</label>
                   <input
                     name="name"
                     defaultValue={product?.name}
-                    placeholder="e.g. Feroce Fanny Pack"
+                    placeholder="e.g. FÉROCE Fanny Pack"
                     className={inputClass}
                     required
                   />
@@ -396,7 +401,7 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
                   <input
                     name="collection"
                     defaultValue={product?.collection || ''}
-                    placeholder="e.g. Dallas Atelier, Noir Series"
+                    placeholder="e.g. Naji Collection, Denim De Ville"
                     className={inputClass}
                   />
                 </div>
@@ -425,7 +430,7 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
                   <input
                     name="color"
                     defaultValue={product?.color}
-                    placeholder="e.g. Midnight Black"
+                    placeholder="e.g. Obsidian Black, Gold Fur"
                     className={inputClass}
                   />
                 </div>
@@ -436,9 +441,9 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
                       name="color_hex"
                       type="color"
                       defaultValue={product?.color_hex || '#0A1128'}
-                      className="h-10 w-14 rounded-xl border border-gray-200 cursor-pointer p-0.5 bg-white"
+                      className="h-11 w-14 rounded-xl border border-gray-200 cursor-pointer p-0.5 bg-white"
                     />
-                    <span className="text-[11px] font-mono text-navy/50">Hex Swatch</span>
+                    <span className="text-xs text-navy/55 font-mono">Hex Swatch</span>
                   </div>
                 </div>
               </div>
@@ -459,7 +464,7 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
                   />
                 </div>
                 <div>
-                  <label className={labelClass}>Workshop Stock / Max Allocation</label>
+                  <label className={labelClass}>Workshop Stock / Max Allocation Units</label>
                   <input
                     name="stock"
                     type="number"
@@ -470,11 +475,11 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
                 </div>
               </div>
 
-              {/* Pre-Order Toggle Card */}
+              {/* Pre-Order Allocation Card */}
               <div
                 className={`rounded-[24px] p-5 border transition-all ${
                   isPreorder
-                    ? 'bg-amber-500/5 border-amber-300/80'
+                    ? 'bg-amber-500/5 border-amber-300'
                     : 'bg-[#F6F6F8] border-gray-200/80'
                 }`}
               >
@@ -487,18 +492,17 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
                       className="h-4 w-4 rounded-full accent-[#D4AF37] cursor-pointer"
                     />
                     <div>
-                      <div className="text-xs font-mono uppercase tracking-wider font-semibold text-navy">
+                      <div className="text-xs font-sans uppercase tracking-wider font-bold text-navy">
                         ✦ Made-to-Order Pre-Order Fulfillment
                       </div>
-                      <div className="text-[11px] text-navy/60 mt-0.5">
-                        Item is crafted upon order allocation. Checkout skips physical inventory
-                        barriers.
+                      <div className="text-[11px] text-navy/60 mt-0.5 font-sans">
+                        Piece is crafted upon order allocation. Checkout skips physical inventory barriers.
                       </div>
                     </div>
                   </div>
                   <span
-                    className={`text-[10px] font-mono uppercase tracking-wider px-3 py-1 rounded-full font-medium ${
-                      isPreorder ? 'bg-amber-100 text-amber-800' : 'bg-gray-200/60 text-navy/50'
+                    className={`text-[10px] font-sans uppercase tracking-wider px-3 py-1 rounded-full font-bold ${
+                      isPreorder ? 'bg-amber-100 text-amber-900' : 'bg-gray-200/70 text-navy/60'
                     }`}
                   >
                     {isPreorder ? 'Pre-Order Active' : 'Standard Stock'}
@@ -506,7 +510,7 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
                 </label>
               </div>
 
-              {/* Sale / Compare at Price */}
+              {/* Sale Strikethrough Card */}
               <div className="rounded-[24px] p-5 bg-[#F6F6F8] border border-gray-200/80 space-y-3">
                 <label className="flex items-center justify-between cursor-pointer">
                   <div className="flex items-center gap-3">
@@ -516,8 +520,8 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
                       onChange={(e) => setHasSale(e.target.checked)}
                       className="h-4 w-4 rounded-full accent-[#D4AF37] cursor-pointer"
                     />
-                    <span className="text-xs font-mono uppercase tracking-wider font-semibold text-navy">
-                      Enable Promotional / Sale Strikethrough
+                    <span className="text-xs font-sans uppercase tracking-wider font-bold text-navy">
+                      Enable Promotional Strikethrough Price
                     </span>
                   </div>
                 </label>
@@ -533,9 +537,6 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
                       placeholder="478"
                       className={inputClass}
                     />
-                    <p className="text-[10px] text-navy/40 mt-1.5 font-mono">
-                      Shown with strikethrough in product view and shop cards.
-                    </p>
                   </div>
                 )}
               </div>
@@ -543,12 +544,12 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
               {/* Description & Materials */}
               <div className="space-y-4">
                 <div>
-                  <label className={labelClass}>Piece Description</label>
+                  <label className={labelClass}>Silhouette Description</label>
                   <textarea
                     name="description"
                     defaultValue={product?.description}
                     rows={3}
-                    placeholder="Artisanal craftsmanship, tailored silhouette..."
+                    placeholder="Artisanal Dallas craftsmanship, architectural silhouette..."
                     className={`${inputClass} resize-none`}
                   />
                 </div>
@@ -559,7 +560,7 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
                       name="materials"
                       defaultValue={product?.materials || ''}
                       rows={2}
-                      placeholder="e.g. Italian calf leather, custom brass hardware"
+                      placeholder="e.g. Italian calf leather, custom gold brass hardware"
                       className={`${inputClass} resize-none`}
                     />
                   </div>
@@ -569,7 +570,7 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
                       name="care_instructions"
                       defaultValue={product?.care_instructions || ''}
                       rows={2}
-                      placeholder="e.g. Store in dedicated atelier dust bag"
+                      placeholder="e.g. Store in signature dust bag when not in rotation"
                       className={`${inputClass} resize-none`}
                     />
                   </div>
@@ -596,7 +597,7 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
                     defaultChecked={product?.active ?? true}
                     className="h-4 w-4 rounded accent-navy"
                   />
-                  <span className="text-xs font-mono uppercase tracking-wider font-semibold text-navy">
+                  <span className="text-xs font-sans uppercase tracking-wider font-semibold text-navy">
                     Active in Catalog
                   </span>
                 </label>
@@ -607,7 +608,7 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
                     defaultChecked={product?.is_new ?? false}
                     className="h-4 w-4 rounded accent-navy"
                   />
-                  <span className="text-xs font-mono uppercase tracking-wider font-semibold text-navy">
+                  <span className="text-xs font-sans uppercase tracking-wider font-semibold text-navy">
                     Mark as Atelier New Release
                   </span>
                 </label>
@@ -618,14 +619,14 @@ export function ProductActions({ mode, product, categories }: ProductActionsProp
                 <button
                   type="button"
                   onClick={() => setOpen(false)}
-                  className="px-6 py-3 rounded-full text-xs font-mono uppercase tracking-wider text-navy/60 hover:text-navy hover:bg-gray-100 transition-all font-medium"
+                  className="px-6 py-2.5 rounded-full text-xs font-semibold uppercase tracking-wider text-navy/60 hover:text-navy hover:bg-[#F6F6F8] transition-all cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving || uploading}
-                  className="bg-[#4A4D52] hover:bg-navy text-white text-xs font-mono uppercase tracking-[0.16em] px-8 py-3 rounded-full transition-all shadow-md hover:shadow-lg disabled:opacity-50 flex items-center gap-2 font-medium"
+                  className="bg-[#4A4D52] hover:bg-navy text-white text-xs font-semibold uppercase tracking-wider px-8 py-2.5 rounded-full transition-all duration-300 shadow-sm hover:shadow-md hover:scale-[1.01] disabled:opacity-50 flex items-center gap-2 cursor-pointer"
                 >
                   {saving && (
                     <svg className="w-3.5 h-3.5 animate-spin" viewBox="0 0 24 24">
