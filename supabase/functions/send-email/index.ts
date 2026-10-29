@@ -96,8 +96,10 @@ function passwordReset(name, url) {
 }
 
 // 4. ORDER CONFIRMATION
-function orderConfirmation(name, orderId, items, total, addr, method) {
+function orderConfirmation(name, orderId, items, total, addr, method, preorderBalanceDue) {
   var fmt = function(c) { return "$" + Number(c).toFixed(2); };
+  var balanceDue = Number(preorderBalanceDue) || 0;
+  var hasPreorderBalance = balanceDue > 0;
   var rows = items.map(function(i) {
     return '<tr><td>' + esc(i.name) + '</td><td style="text-align:center;">' + i.quantity + '</td><td style="text-align:right;">' + fmt(i.price * i.quantity) + '</td></tr>';
   }).join('');
@@ -107,13 +109,18 @@ function orderConfirmation(name, orderId, items, total, addr, method) {
     html: wrap('<div class="body">'
       + '<div style="text-align:center;margin-bottom:32px;"><span class="badge badge-paid">ORDER CONFIRMED</span></div>'
       + '<h2>Thank you, ' + esc(name) + '.</h2>'
-      + '<p>Your order has been placed successfully. We\'re preparing it now and you\'ll receive another email when it ships.</p>'
+      + '<p>' + (hasPreorderBalance
+        ? 'Your in-stock pieces are confirmed and your Dallas atelier pre-order allocation is reserved.'
+        : 'Your order has been placed successfully. We\'re preparing it now and you\'ll receive another email when it ships.') + '</p>'
       + '<div class="divider"></div>'
       + '<div class="label">ORDER NUMBER</div>'
       + '<div class="value" style="font-weight:600;font-size:16px;">#' + orderId.slice(0, 8).toUpperCase() + '</div>'
       + '<table class="order-table"><thead><tr><th>Item</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Price</th></tr></thead>'
       + '<tbody>' + rows
-      + '<tr class="total-row"><td colspan="2">Total</td><td style="text-align:right;">' + fmt(total) + '</td></tr>'
+      + '<tr class="total-row"><td colspan="2">' + (hasPreorderBalance ? 'Paid today' : 'Total') + '</td><td style="text-align:right;">' + fmt(total) + '</td></tr>'
+      + (hasPreorderBalance
+        ? '<tr class="total-row"><td colspan="2">Pre-order balance due at dispatch</td><td style="text-align:right;">' + fmt(balanceDue) + '</td></tr>'
+        : '')
       + '</tbody></table>'
       + '<div class="divider"></div>'
       + '<div class="label">SHIPPING TO</div><div class="value">' + shipping + '</div>'
@@ -151,8 +158,9 @@ function orderCancelled(name, orderId) {
 }
 
 // 7. NEW ORDER ADMIN
-function newOrderAdmin(orderId, customerEmail, items, total, method) {
+function newOrderAdmin(orderId, customerEmail, items, total, method, preorderBalanceDue) {
   var fmt = function(c) { return "$" + Number(c).toFixed(2); };
+  var balanceDue = Number(preorderBalanceDue) || 0;
   var rows = items.map(function(i) {
     return '<tr><td>' + esc(i.name) + '</td><td style="text-align:center;">' + i.quantity + '</td><td style="text-align:right;">' + fmt(i.price * i.quantity) + '</td></tr>';
   }).join('');
@@ -167,7 +175,10 @@ function newOrderAdmin(orderId, customerEmail, items, total, method) {
       + '<div class="label">CUSTOMER</div><div class="value">' + esc(customerEmail) + '</div>'
       + '<table class="order-table"><thead><tr><th>Item</th><th style="text-align:center;">Qty</th><th style="text-align:right;">Price</th></tr></thead>'
       + '<tbody>' + rows
-      + '<tr class="total-row"><td colspan="2">Total</td><td style="text-align:right;">' + fmt(total) + '</td></tr>'
+      + '<tr class="total-row"><td colspan="2">' + (balanceDue > 0 ? 'Paid today' : 'Total') + '</td><td style="text-align:right;">' + fmt(total) + '</td></tr>'
+      + (balanceDue > 0
+        ? '<tr class="total-row"><td colspan="2">Pre-order balance due at dispatch</td><td style="text-align:right;">' + fmt(balanceDue) + '</td></tr>'
+        : '')
       + '</tbody></table>'
       + '<div class="label">PAYMENT</div><div class="value">' + (method || 'Card') + '</div>'
       + '<div style="text-align:center;margin:32px 0;"><a href="' + SITE_URL + '/admin/orders" class="btn">VIEW IN DASHBOARD</a></div>'
@@ -258,13 +269,13 @@ serve(async (req) => {
       case "password-reset":
         emailData = passwordReset(params.name || "there", params.resetUrl || SITE_URL + "/reset"); break;
       case "order-confirmation":
-        emailData = orderConfirmation(params.name || "Valued Customer", params.orderId || "unknown", params.items || [], params.total || 0, params.shippingAddress || {}, params.paymentMethod || "Card"); break;
+        emailData = orderConfirmation(params.name || "Valued Customer", params.orderId || "unknown", params.items || [], params.total || 0, params.shippingAddress || {}, params.paymentMethod || "Card", params.preorderBalanceDue); break;
       case "order-shipped":
         emailData = orderShipped(params.name || "Valued Customer", params.orderId || "unknown", params.trackingNumber || null); break;
       case "order-cancelled":
         emailData = orderCancelled(params.name || "Valued Customer", params.orderId || "unknown"); break;
       case "new-order-admin":
-        emailData = newOrderAdmin(params.orderId || "unknown", params.customerEmail || "unknown", params.items || [], params.total || 0, params.paymentMethod || "Card"); break;
+        emailData = newOrderAdmin(params.orderId || "unknown", params.customerEmail || "unknown", params.items || [], params.total || 0, params.paymentMethod || "Card", params.preorderBalanceDue); break;
       case "review-submitted":
         emailData = reviewSubmitted(params.reviewAuthor || "A customer", params.productName || "a product", Number(params.reviewRating) || 5, params.reviewBody || "", params.reviewNeedsApproval !== false); break;
       case "newsletter":
