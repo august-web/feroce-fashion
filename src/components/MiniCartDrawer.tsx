@@ -68,7 +68,7 @@ export function MiniCartDrawer({ open: propOpen, onClose: propOnClose }: MiniCar
           <div>
             <div className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 bg-[#F6F6F8] text-[10px] font-semibold uppercase tracking-wider text-navy/60 mb-1">
               <span className="w-1.5 h-1.5 rounded-full bg-gold" />
-              Dallas Atelier
+              FÉROCE Fashion
             </div>
             <h2 className="font-sans font-bold text-lg text-navy tracking-tight flex items-center gap-2">
               <span>Shopping Bag</span>
