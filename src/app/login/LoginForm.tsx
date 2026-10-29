@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff, ArrowRight } from 'lucide-react'
 import { useState } from 'react'
 import { loginAction } from '@/lib/auth-actions'
 
@@ -20,34 +20,38 @@ export function LoginForm() {
     }
   }
 
-  const labelClass = "block text-[11px] font-sans uppercase tracking-[0.08em] text-navy/60 mb-1.5"
-  const inputBase = "w-full border border-[#d1cec7] bg-white px-4 text-[16px] font-sans text-navy placeholder:text-[#8a857c]/60 min-h-[48px] transition-all duration-150 ease-out outline-none"
-  const inputNormal = `${inputBase} shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)] focus:border-gold focus:ring-2 focus:ring-gold/30`
-  const inputError = `${inputBase} border-red-400 focus:border-red-500 focus:ring-2 focus:ring-red-200`
-
   return (
     <form action={handleSubmit} className="space-y-5" noValidate>
       {/* Heading */}
-      <div className="mb-2">
-        <h1 className="font-serif text-3xl sm:text-4xl font-semibold text-navy mb-2">
-          Sign In
+      <div className="text-center mb-6">
+        <div className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 bg-white border border-gray-200/80 text-[10px] font-semibold tracking-wider uppercase text-navy/70 mb-3 shadow-2xs">
+          <span className="w-1.5 h-1.5 rounded-full bg-gold" />
+          Private Access
+        </div>
+        <h1 className="font-sans font-bold text-2xl sm:text-3xl md:text-4xl text-navy tracking-[-0.035em] leading-tight mb-2">
+          Sign In to The Circle
         </h1>
-        <p className="text-sm font-sans" style={{ color: '#8a857c' }}>
-          Welcome back to Féroce.
+        <p className="text-xs sm:text-sm text-navy/60 font-sans max-w-sm mx-auto leading-relaxed">
+          Access your saved creations, active pre-orders, and exclusive atelier allocations.
         </p>
       </div>
 
       {/* Email */}
       <div>
-        <label htmlFor="email" className={labelClass}>
+        <label
+          htmlFor="email"
+          className="block text-[11px] font-sans font-semibold uppercase tracking-wider text-navy/70 mb-2 pl-2"
+        >
           Email Address
         </label>
         <input
           id="email"
           name="email"
           type="email"
-          placeholder="you@example.com"
-          className={error ? inputError : inputNormal}
+          placeholder="name@example.com"
+          className={`w-full rounded-full bg-white border px-6 py-3.5 text-sm font-sans text-navy placeholder:text-navy/35 focus:outline-none focus:border-navy focus:ring-1 focus:ring-navy shadow-xs transition-all duration-200 min-h-[50px] ${
+            error ? 'border-red-400 focus:border-red-500 focus:ring-red-200' : 'border-gray-200/90'
+          }`}
           required
           autoComplete="email"
         />
@@ -55,67 +59,88 @@ export function LoginForm() {
 
       {/* Password */}
       <div>
-        <label htmlFor="password" className={labelClass}>
-          Password
-        </label>
+        <div className="flex items-center justify-between mb-2 pl-2 pr-1">
+          <label
+            htmlFor="password"
+            className="block text-[11px] font-sans font-semibold uppercase tracking-wider text-navy/70"
+          >
+            Password
+          </label>
+          <Link
+            href="/forgot-password"
+            className="text-[11px] text-navy/50 hover:text-navy transition-colors font-medium hover:underline underline-offset-4"
+          >
+            Forgot Password?
+          </Link>
+        </div>
         <div className="relative">
           <input
             id="password"
             name="password"
             type={showPassword ? 'text' : 'password'}
-            placeholder="Your password"
-            className={`${error ? inputError : inputNormal} pr-12`}
+            placeholder="Enter your password"
+            className={`w-full rounded-full bg-white border pl-6 pr-14 py-3.5 text-sm font-sans text-navy placeholder:text-navy/35 focus:outline-none focus:border-navy focus:ring-1 focus:ring-navy shadow-xs transition-all duration-200 min-h-[50px] ${
+              error ? 'border-red-400 focus:border-red-500 focus:ring-red-200' : 'border-gray-200/90'
+            }`}
             required
             autoComplete="current-password"
           />
           <button
             type="button"
             onClick={() => setShowPassword(!showPassword)}
-            className="absolute right-0 top-0 flex h-[48px] w-12 items-center justify-center text-[#8a857c] hover:text-navy transition-colors"
+            className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full hover:bg-gray-100 flex items-center justify-center text-navy/50 hover:text-navy transition-colors"
             aria-label={showPassword ? 'Hide password' : 'Show password'}
           >
-            {showPassword ? <EyeOff size={18} strokeWidth={1.5} /> : <Eye size={18} strokeWidth={1.5} />}
+            {showPassword ? <EyeOff size={16} strokeWidth={1.8} /> : <Eye size={16} strokeWidth={1.8} />}
           </button>
         </div>
       </div>
 
       {/* Error */}
       {error && (
-        <div className="flex items-start gap-2 bg-red-50 border border-red-200 p-3 text-xs text-red-700 rounded-lg">
-          <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 flex-shrink-0 mt-0.5">
+        <div className="flex items-start gap-3 bg-red-50/90 border border-red-200/90 p-4 text-xs font-sans text-red-700 rounded-2xl">
+          <svg viewBox="0 0 20 20" fill="currentColor" className="w-4 h-4 flex-shrink-0 mt-0.5 text-red-600">
             <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
           </svg>
-          {error}
+          <span className="leading-relaxed">{error}</span>
         </div>
       )}
 
-      {/* Submit */}
-      <button
-        type="submit"
-        disabled={loading}
-        className="w-full bg-navy text-white uppercase font-sans font-medium text-[11px] tracking-[0.2em] rounded-lg px-6 py-3.5 min-h-[48px] transition-all duration-150 hover:bg-[#152240] hover:scale-[1.02] active:scale-[0.98] active:bg-[#080e1f] disabled:opacity-50 disabled:pointer-events-none"
-      >
-        {loading ? (
-          <span className="flex items-center justify-center gap-2">
-            <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
-              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
-              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-            </svg>
-            Signing In…
-          </span>
-        ) : (
-          'Sign In'
-        )}
-      </button>
+      {/* Submit Button */}
+      <div className="pt-2">
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full bg-[#4A4D52] hover:bg-navy text-white rounded-full py-4 text-xs font-semibold uppercase tracking-wider transition-all duration-300 shadow-[0_4px_16px_rgba(0,0,0,0.08)] flex items-center justify-center gap-2 min-h-[50px] disabled:opacity-50 disabled:pointer-events-none cursor-pointer"
+        >
+          {loading ? (
+            <span className="flex items-center justify-center gap-2">
+              <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+              </svg>
+              Authenticating…
+            </span>
+          ) : (
+            <>
+              <span>Sign In</span>
+              <ArrowRight size={14} />
+            </>
+          )}
+        </button>
+      </div>
 
-      {/* Links — Forgot = neutral gray, Create one = gold for conversion */}
-      <div className="flex items-center justify-between pt-1">
-        <a href="/forgot-password" className="text-xs text-[#8a857c] hover:text-navy transition-colors underline underline-offset-2">
-          Forgot your password?
-        </a>
-        <Link href="/register" className="text-xs font-medium text-gold hover:text-navy transition-colors underline underline-offset-2">
-          Create one
-        </Link>
+      {/* Switch to Register */}
+      <div className="text-center pt-3 border-t border-gray-200/70">
+        <p className="text-xs text-navy/60 font-sans">
+          Not yet a member of The Circle?{' '}
+          <Link
+            href="/register"
+            className="font-semibold text-navy hover:text-gold transition-colors underline underline-offset-4"
+          >
+            Create an Account
+          </Link>
+        </p>
       </div>
     </form>
   )
