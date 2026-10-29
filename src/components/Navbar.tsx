@@ -67,6 +67,9 @@ export function Navbar() {
       if (params.get('search') === '1' || params.get('q')) {
         setSearchOpen(true)
       }
+      if (params.get('cart') === '1') {
+        openMiniCart()
+      }
     }
 
     return () => window.removeEventListener('keydown', handleKeyDown)
