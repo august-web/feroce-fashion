@@ -13,6 +13,7 @@ const FEATURED_HERO_PRODUCTS = [
     slug: 'naji-gold-fur-xl',
     image: '/images/products/naji-gold-fur-hero.jpg',
     color: 'Gold Fur',
+    preorder: false,
   },
   {
     id: 'hero-card-2',
@@ -21,6 +22,7 @@ const FEATURED_HERO_PRODUCTS = [
     slug: 'feroce-satchel-bag',
     image: '/images/products/mens-satchel-hero.jpg',
     color: 'Obsidian Black',
+    preorder: true,
   },
   {
     id: 'hero-card-3',
@@ -29,6 +31,7 @@ const FEATURED_HERO_PRODUCTS = [
     slug: 'feroce-fanny-pack-black',
     image: '/images/products/Fanny Pack/Mens -- Fanny Pack 2.jpg',
     color: 'Dallas Midnight',
+    preorder: true,
   },
 ]
 
@@ -52,6 +55,7 @@ export function HeroSection() {
       image: p.image,
       color: p.color,
       slug: p.slug,
+      preorder: p.preorder,
     })
     openMiniCart()
   }
