@@ -40,7 +40,6 @@ export default function BagLoading() {
                   <div className="flex items-center gap-4 sm:gap-5 w-full sm:w-auto">
                     {/* Item Image */}
                     <div className="w-20 h-24 sm:w-24 sm:h-28 rounded-2xl bg-gray-200/80 animate-pulse shrink-0" />
-                    
                     {/* Details */}
                     <div className="space-y-2 flex-1 min-w-0">
                       <div className="h-5 w-40 sm:w-52 rounded-xl bg-gray-200/90 animate-pulse" />
