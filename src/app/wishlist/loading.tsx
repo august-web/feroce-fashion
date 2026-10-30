@@ -1,34 +1,32 @@
+import { ProductGridSkeleton } from '@/components/shop/ProductGridSkeleton'
+
 export default function WishlistLoading() {
   return (
     <div className="bg-white min-h-screen text-navy antialiased">
-      {/* ── Top Header Skeleton ── */}
+      {/* ── Top Atelier Subheader / Breadcrumb (Exact layout of WishlistClient) ── */}
       <section className="pt-28 pb-8 sm:pt-32 sm:pb-10 border-b border-gray-100">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
             <div>
-              <div className="h-6 w-36 rounded-full bg-[#F6F6F8] animate-pulse mb-4" />
-              <div className="h-12 w-64 rounded-2xl bg-[#F6F6F8] animate-pulse" />
+              <div className="h-6 w-44 rounded-full bg-[#F6F6F8] border border-gray-200/80 animate-pulse mb-4" />
+              <div className="h-10 sm:h-12 w-64 sm:w-80 rounded-2xl bg-gray-200/80 animate-pulse" />
             </div>
-            <div className="h-10 w-32 rounded-full bg-[#F6F6F8] animate-pulse" />
+
+            <div className="flex items-center gap-3">
+              <div className="h-9 w-32 rounded-full bg-[#F6F6F8] border border-gray-200/80 animate-pulse" />
+              <div className="h-9 w-36 rounded-full bg-navy/20 animate-pulse" />
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ── Grid Skeleton ── */}
+      {/* ── Main Content Section: Saved Creations Grid ── */}
       <section className="py-12 sm:py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8" aria-hidden="true">
-            {[1, 2, 3, 4].map((i) => (
-              <div
-                key={i}
-                className="relative aspect-[3/4] sm:aspect-[4/5] rounded-[28px] sm:rounded-[36px] overflow-hidden bg-[#F6F6F8] animate-pulse"
-              >
-                <div className="absolute top-4 left-4 h-6 w-16 rounded-full bg-white/60" />
-                <div className="absolute top-4 right-4 h-9 w-9 rounded-full bg-white/60" />
-                <div className="absolute bottom-4 inset-x-4 sm:bottom-5 sm:inset-x-5 h-14 rounded-full bg-white/70" />
-              </div>
-            ))}
-          </div>
+          <ProductGridSkeleton
+            count={4}
+            className="grid grid-cols-2 gap-4 sm:gap-6 lg:gap-8 md:grid-cols-3 lg:grid-cols-4"
+          />
         </div>
       </section>
     </div>
