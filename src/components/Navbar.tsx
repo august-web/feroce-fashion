@@ -255,8 +255,8 @@ export function Navbar() {
                               <span className="font-sans text-xs font-medium text-navy/85 group-hover/item:text-gold">
                                 Denim De Ville
                               </span>
-                              <span className="text-[8px] font-semibold px-1.5 py-0.2 bg-gold/15 text-gold border border-gold/30 rounded-xs">
-                                Pre-Order
+                              <span className="text-[8px] font-semibold px-1.5 py-0.2 bg-emerald-50 text-emerald-700 border border-emerald-200/60 rounded-xs">
+                                In Stock
                               </span>
                             </div>
                             <span className="text-[10px] text-navy/45 font-sans mt-0.5">
@@ -648,11 +648,11 @@ export function Navbar() {
                         className="flex items-center justify-between py-1 text-navy/70 hover:text-navy font-medium"
                       >
                         <span className="flex items-center gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-gold inline-block" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
                           Denim De Ville Edit
                         </span>
-                        <span className="text-[8px] font-bold px-1.5 py-0.5 bg-amber-50 text-amber-800 border border-amber-200/70 rounded-full">
-                          ✦ PRE-ORDER
+                        <span className="text-[8px] font-bold px-1.5 py-0.5 bg-emerald-50 text-emerald-700 border border-emerald-200/70 rounded-full">
+                          ✦ IN STOCK
                         </span>
                       </Link>
                     </div>
