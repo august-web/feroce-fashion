@@ -34,7 +34,7 @@ const DEMO_ITEMS: WishlistItem[] = [
     price: 250.0,
     image: '/images/products/Denim De Ville Collection/Cream & Gold/Preview 1.jpg',
     color: 'Cream & Gold',
-    preorder: true,
+    preorder: false,
   },
 ]
 
