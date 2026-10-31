@@ -17,7 +17,7 @@ const SILHOUETTES: SilhouetteItem[] = [
     subtitle: 'Quilted Indigo & Cream Mini Flap Bags',
     href: '/shop/womens',
     image: '/images/products/Denim De Ville Collection/Cream & Gold/Preview 1.jpg',
-    badge: 'Pre-Order',
+    badge: 'In Stock',
   },
   {
     name: 'The Naji Fur Edit',
