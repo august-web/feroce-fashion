@@ -20,7 +20,7 @@ export default async function HomePage() {
       {/* 2. Glamaholic Silhouette Taxonomy Bar */}
       <SilhouetteSelector />
 
-      {/* 3. Flagship Pre-order Spotlight (Denim De Ville) */}
+      {/* 3. Flagship In-Stock Spotlight (Denim De Ville) */}
       <DropShowcase />
 
       {/* 4. Complete Catalog Showcase with Quick-Add */}
