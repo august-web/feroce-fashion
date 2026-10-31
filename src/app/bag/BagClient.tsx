@@ -78,7 +78,7 @@ const RELATED: Product[] = [
     stock: 4,
     active: true,
     is_new: true,
-    preorder: true,
+    preorder: false,
     created_at: new Date().toISOString(),
   },
   {
