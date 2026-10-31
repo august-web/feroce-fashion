@@ -19,7 +19,7 @@ export function AnnouncementBar() {
         <div className="flex-1 flex items-center justify-center min-w-0">
           <div className="inline-flex items-center gap-2 sm:gap-2.5 rounded-full px-3.5 sm:px-4 py-1 sm:py-1.5 bg-white/10 backdrop-blur-md border border-white/15 text-[10px] tracking-wider uppercase max-w-full shadow-2xs">
             <span className="text-[8px] sm:text-[9px] font-bold px-2 py-0.5 bg-gold text-navy rounded-full shadow-2xs shrink-0 tracking-widest">
-              PRE-ORDER OPEN
+              NOW AVAILABLE
             </span>
             <span className="text-white/90 truncate font-medium text-[9px] sm:text-[10px] tracking-wider">
               Complimentary US Express Shipping over $200
