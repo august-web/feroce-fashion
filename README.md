@@ -119,7 +119,7 @@ supabase/
 ## Notes
 
 - All sales are final: no refunds, returns, or exchanges (per brand policy).
-- Preorders (Denim De Ville collection) ship in 4–8 weeks.
+- Denim De Ville collection is now in stock and ready to ship. Made-to-order bespoke drops ship in 4–8 weeks.
 - Site serves from `www.ferocefashionff.com`; canonical URLs, sitemap, and webhook all use the `www.` host.
 
 ## License
