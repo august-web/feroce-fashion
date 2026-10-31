@@ -44,8 +44,8 @@ export function DropShowcase() {
             {/* Editorial Content & Allocation Column */}
             <div className="lg:col-span-5 space-y-6">
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 bg-white border border-gray-200 rounded-full text-[10px] font-sans font-semibold uppercase tracking-wider text-navy shadow-xs">
-                <span className="w-2 h-2 rounded-full bg-gold animate-pulse" />
-                <span>Flagship Drop • Limited Allocation</span>
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span>Now In Stock • Ready to Ship</span>
               </div>
 
               <h2 className="font-sans text-3xl sm:text-4xl lg:text-5xl font-bold text-navy leading-[1.1] tracking-tight">
@@ -67,8 +67,8 @@ export function DropShowcase() {
                   <span className="font-semibold text-navy">Quilted Jacquard Denim</span>
                 </div>
                 <div className="flex items-center justify-between text-xs border-b border-gray-200 pb-2.5 font-sans">
-                  <span className="text-navy/55">Production Window</span>
-                  <span className="font-semibold text-gold">Limited 4–8 Week Artisan Batch</span>
+                  <span className="text-navy/55">Availability</span>
+                  <span className="font-semibold text-emerald-600">In Stock &amp; Ready to Ship</span>
                 </div>
               </div>
 
@@ -78,7 +78,7 @@ export function DropShowcase() {
                   href="/product/denim-de-ville-cream-gold"
                   className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-navy hover:bg-gold text-white hover:text-navy px-8 py-4 rounded-full text-xs font-sans font-semibold uppercase tracking-wider transition-all duration-300 shadow-sm"
                 >
-                  <span>Pre-Order Allocation ($350.00)</span>
+                  <span>Order Now ($350.00)</span>
                   <ArrowUpRight size={16} />
                 </Link>
                 <Link
